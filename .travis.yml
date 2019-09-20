@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+    - "node_modules"
+services:
+  - postgresql
+env:
+  - DATABASE_URL_TEST="postgres://postgres@localhost:5432/firestar_backend_test"
+before_script:
+  - psql -c 'create database firestar_backend_test;' -U postgres
+after_success:
+  - npm run coveralls
