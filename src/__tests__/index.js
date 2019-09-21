@@ -8,3 +8,4 @@ import './routes/users/signup';
 import './routes/users/userRole';
 import './routes/users/userProfile';
 import './routes/users/login';
+import './services/resetPasswordMail';

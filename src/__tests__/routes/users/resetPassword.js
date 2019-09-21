@@ -5,6 +5,7 @@ import sinonChai from 'sinon-chai';
 import moment from 'moment';
 import app from '../../../index';
 import db from '../../../models';
+import { sendResetMail, sendSignupMail } from '../../../services/mail/resetMail';
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -106,13 +107,15 @@ describe('Forgot and Reset Password Test', () => {
       resetToken: 'theResetToken'
     };
 
-
     it('should send signup mail to the email of a non user', async () => {
+      const signupMailStub = sinon.stub(await sendSignupMail());
       chai
         .request(app)
         .post(`${forgotPasswordURL}`)
         .send({ email: newReset2.email })
         .end(async (err, res) => {
+          expect(await signupMailStub).to.be.equal(true);
+          expect(await signupMailStub.firstCall.args[0]).to.equal(newReset2.email);
           expect(res).to.have.status(200);
           expect(res.body.status).to.be.equal('success');
           expect(res.body.message).to.be.equal(
@@ -129,8 +132,8 @@ describe('Forgot and Reset Password Test', () => {
           .request(app)
           .post(`${resetPasswordURL}/${validId}?token=${resetToken}`)
           .send({
-            password: 'Pas@sword10',
-            confirmPassword: 'Pas@sword10'
+            password: 'password10',
+            confirmPassword: 'password10'
           })
           .end((err, res) => {
             expect(res).to.have.status(400);
@@ -145,8 +148,8 @@ describe('Forgot and Reset Password Test', () => {
           .request(app)
           .post(`${resetPasswordURL}/10?token=${resetToken}`)
           .send({
-            password: 'Pas@sword10',
-            confirmPassword: 'Pas@sword10'
+            password: 'password10',
+            confirmPassword: 'password10'
           })
           .end((err, res) => {
             expect(res).to.have.status(400);

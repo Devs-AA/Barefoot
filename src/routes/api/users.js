@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { SendVerificationToken, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
+import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization } from '../../middlewares/auth/auth';
 import { validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty, EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn } from '../../middlewares/validation/validation';
 import emailController from '../../controllers/emailController';
@@ -16,13 +16,14 @@ const { forgotPassword, resetPassword, loginAUser, getUserProfile, updateUserPro
 
 const router = Router();
 
-router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail, SendVerificationToken, emailController.signUp);
+router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail, SendVerificationEmail, emailController.signUp);
 
-router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty, EmptySignUpBodyPropertyValue,
-  validationForSignUp, SendVerificationToken, userController.addUser
-);
+router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
+
+  EmptySignUpBodyPropertyValue, validationForSignUp, SendVerificationEmail, userController.addUser);
 
 router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
+
 
 // @route POST /api/v1/users/auth/login
 // @desc Logins a verified User / Set JWT Token in cookies

@@ -2,6 +2,7 @@ import moment from 'moment';
 import crypto from 'crypto';
 import Response from '../utils/response';
 import Hash from '../utils/hash';
+import { sendResetMail, sendSignupMail } from '../services/mail/resetMail';
 import db from '../models';
 import userService from '../services/userService';
 import { jwtSignUser } from '../utils/index';
@@ -109,7 +110,7 @@ export default class UserController {
     }
   }
 
-  /**
+   /**
    * @description Generate link to reset a user password
    * @static
    * @param {*} req
@@ -127,35 +128,37 @@ export default class UserController {
 
       // Check for user
       if (!user) {
-        return errorResponse(res, 500, 'Error in sending email');
-      }
-      const newReset = new resets({
-        email: user.email,
-        resetToken: '',
-        expireTime: moment
-          .utc()
-          .add(process.env.TOKENEXPIRY, 'seconds')
-          .toLocaleString()
-      });
+        const mailSent = sendSignupMail(email);
+        if (!mailSent) {
+          return errorResponse(res, 500, 'Error in sending email');
+        }
+      } else {
+        const newReset = new resets({
+          email: user.email,
+          resetToken: '',
+          expireTime: moment
+            .utc()
+            .add(process.env.TOKENEXPIRY, 'seconds')
+            .toLocaleString()
+        });
 
-      // Generate Reset token
-      const resetToken = await crypto.randomBytes(32).toString('hex');
-      newReset.resetToken = await Hash.hash(resetToken);
+        // Generate Reset token
+        const resetToken = await crypto.randomBytes(32).toString('hex');
+        newReset.resetToken = await Hash.hash(resetToken);
 
-      // Remove all reset token for this user if it exists
-      await resets.destroy({
-        where: { email: newReset.dataValues.email }
-      });
-      // console.log('newReset', newReset);
-      await newReset.save();
-      // Send reset link to user email
-      if (!resetToken) {
-        return errorResponse(res, 500, 'Error in generatingtoken');
+        // Remove all reset token for this user if it exists
+        await resets.destroy({
+          where: { email: newReset.dataValues.email }
+        });
+        // console.log('newReset', newReset);
+        await newReset.save();
+        // Send reset link to user email
+        const mailSent = sendResetMail(user, resetToken);
+        if (!mailSent) {
+          return errorResponse(res, 500, 'Error in sending email');
+        }
       }
-      util.setSuccess(201, 'user reset token generate', {
-        resetToken, email: newReset.email, resetid: newReset.id, userId: user.id
-      });
-      return util.send(res);
+      successResponse(res, 200, 'Check your mail for further instruction');
     } catch (error) {
       return errorResponse(res, 500, error);
     }
@@ -204,7 +207,7 @@ export default class UserController {
             {
               token: '',
               password: hashed,
-              lastLogin: new Date(),
+              lastLogin: new Date()
             },
             { where: { email: userRequestReset.email } }
           );
@@ -219,7 +222,6 @@ export default class UserController {
       return errorResponse(res, 500, error);
     }
   }
-
   /**
  * @description Sets the permission for a given role to a particular resource
  * @static
