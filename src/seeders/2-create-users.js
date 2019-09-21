@@ -2,6 +2,7 @@ const faker = require('faker');
 const gender = ['male', 'female'];
 const language = ['English', 'French'];
 
+
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.bulkInsert('users', [
     {
@@ -83,6 +84,14 @@ module.exports = {
       lastName: faker.name.lastName(),
       roleId: 1,
       email: 'barefoot@gmail.com',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      roleId: 1,
+      email: process.env.ADMIN_EMAIL,
       createdAt: new Date(),
       updatedAt: new Date()
     },

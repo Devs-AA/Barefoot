@@ -27,17 +27,16 @@ export default class UserController {
   static async addUser(req, res) {
     const { user } = req;
     const lastLogin = new Date();
-    // user.roleId = 5;
     try {
       const hashpassword = await hashPassword(user.password);
       user.password = hashpassword;
       const {
-        id, email, firstName, lastName
+        id, email, firstName, lastName, roleId, isVerified, username
       } = await userService.addUser(user);
       const newLoggedDetails = { email, password: user.password, lastLogin };
       await userService.addLogin(email, newLoggedDetails);
       const token = await jwtSignUser({
-        id, email, firstName, lastName
+        id, email, firstName, lastName, roleId, isVerified, username
       });
       util.setSuccess(201, 'Successfully signed up', { token });
       return util.send(res);
@@ -95,7 +94,9 @@ export default class UserController {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          lastLogin: loggedUser.lastLogin
+          lastLogin: loggedUser.lastLogin,
+          isVerified: user.isVerified,
+          roleId: user.roleId
         });
 
         await userService.updateLogins(loginData);
@@ -150,7 +151,6 @@ export default class UserController {
         await resets.destroy({
           where: { email: newReset.dataValues.email }
         });
-        // console.log('newReset', newReset);
         await newReset.save();
         // Send reset link to user email
         const mailSent = sendResetMail(user, resetToken);
@@ -261,7 +261,7 @@ export default class UserController {
    * @description get details of registered user
    */
   static async getUserProfile(req, res) {
-    const { id } = req.result.user;
+    const { id } = req.user;
 
     try {
       const user = await findUserById(id);
@@ -287,7 +287,7 @@ export default class UserController {
    * @description get's details of registered user
    */
   static async updateUserProfile(req, res) {
-    const { id } = req.result.user;
+    const { id } = req.user;
     const {
       firstName,
       lastName,
@@ -334,7 +334,7 @@ export default class UserController {
 
       util.setSuccess(
         201,
-        'You ve successfully updated your profile',
+        'You\'ve successfully updated your profile',
         updatedUser,
       );
       return util.send(res);

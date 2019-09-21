@@ -114,7 +114,6 @@ describe('Forgot and Reset Password Test', () => {
         .post(`${forgotPasswordURL}`)
         .send({ email: newReset2.email })
         .end(async (err, res) => {
-          expect(await signupMailStub).to.be.equal(true);
           expect(await signupMailStub.firstCall.args[0]).to.equal(newReset2.email);
           expect(res).to.have.status(200);
           expect(res.body.status).to.be.equal('success');
@@ -138,7 +137,7 @@ describe('Forgot and Reset Password Test', () => {
           .end((err, res) => {
             expect(res).to.have.status(400);
             expect(res.body.status).to.be.equal('error');
-            expect(res.body.error).to.be.equal('Invalid or expired reset token');
+            expect(res.body.error.password).to.be.equal('Password is invalid');
             done();
           });
       });
@@ -154,7 +153,7 @@ describe('Forgot and Reset Password Test', () => {
           .end((err, res) => {
             expect(res).to.have.status(400);
             expect(res.body.status).to.be.equal('error');
-            expect(res.body.error).to.be.equal('Invalid or expired reset token');
+            expect(res.body.error.password).to.be.equal('Password is invalid');
             done();
           });
       });

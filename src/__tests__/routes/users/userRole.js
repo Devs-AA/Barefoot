@@ -108,7 +108,7 @@ describe('User Role Setting', () => {
         .request(server)
         .patch('/api/v1/users/roles')
         .set('authorization', authorizedToken)
-        .send({ email: 'barefoot@gmail.com', roleId: 2 });
+        .send({ email: 'aniefioka@gmail.com', roleId: 2 });
 
       assert.equal(
         res.status,
