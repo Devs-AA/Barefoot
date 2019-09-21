@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-catch */
 import db from '../models/index';
-
-const { users } = db;
+const { users } = db
 /**
  * @param { class } provide response to user signup activity.
  */
@@ -143,7 +142,7 @@ class userService {
       });
       return user;
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 

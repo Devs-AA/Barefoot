@@ -14,11 +14,6 @@ export default class Validation {
     );
   }
 
-  /**
- * @description Checks if an email is valid
- * @param {object} email
- * @returns {boolean} returns true or false
- */
   static isValidEmail(email) {
     const re = /^\S+@\S+[.][0-9a-z]+$/;
     return re.test(email);

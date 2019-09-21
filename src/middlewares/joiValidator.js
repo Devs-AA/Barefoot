@@ -4,7 +4,7 @@ import Joi from '@hapi/joi';
 * @param {Object} data
 * @param {Object} schema
 * @param {Function} next
-* @returns {Function}
+* @returns {array} array
 */
 const joiValidator = (data, schema) => {
   let message;
