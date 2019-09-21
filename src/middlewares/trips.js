@@ -1,7 +1,8 @@
 import models from '../models';
 import { checkIfExistsInDb } from '../utils/searchDb';
 import {
-  validateRequestObj, validateOnewayTrip, validateReturnTrip, validateMuticityTrip, findTripData
+  validateRequestObj, validateOnewayTrip, validateReturnTrip, validateMuticityTrip, findTripData,
+  validateId
 } from '../helpers/validation/tripValidation';
 
 export const validateTripRequest = async (req, res, next) => {
@@ -16,14 +17,6 @@ export const validateTripRequest = async (req, res, next) => {
       tripType
     };
     validateRequestObj(requestObj, errors);
-    if (tripType === 'oneWay') {
-      validateOnewayTrip(req.body.trip, errors);
-    } else if (tripType === 'return') {
-      validateOnewayTrip(req.body.initialTrip, errors);
-      validateReturnTrip(req.body.initialTrip, req.body.returnTrip, errors);
-    } else if (tripType === 'multiCity') {
-      validateMuticityTrip(req.body.trips, errors);
-    }
     if (Object.keys(errors).length) {
       return res.status(400).json({
         success: false,
@@ -39,10 +32,77 @@ export const validateTripRequest = async (req, res, next) => {
   }
 };
 
+export const validateTripInput = async (req, res, next) => {
+  const errors = {};
+  validateId(req.params.requestId, 'Request', errors);
+  if (Object.keys(errors).length) {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid request id'
+    });
+  }
+  try {
+    const foundRequest = await models.requests.findOne({
+      where: {
+        id: req.params.requestId
+      },
+      include: [models.trips]
+    });
+    if (!foundRequest) {
+      return res.status(404).json({
+        success: false,
+        error: 'Request not found'
+      });
+    }
+    if (req.user.id !== foundRequest.dataValues.requesterId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You cannot perform this operation'
+      });
+    }
+    const { tripType, status, trips } = foundRequest.dataValues;
+    if (status === 'open') {
+      throw new Error('Your travel request has not been approved');
+    } else if (status === 'rejected') {
+      throw new Error('Your travel request has been rejected');
+    }
+    if (trips && trips.length) {
+      throw new Error('You cannot perform this operation');
+    }
+    switch (tripType) {
+    case 'oneWay':
+      validateOnewayTrip(req.body.trip, errors);
+      break;
+    case 'return':
+      validateOnewayTrip(req.body.initialTrip, errors);
+      validateReturnTrip(req.body.initialTrip, req.body.returnTrip, errors);
+      break;
+    case 'multiCity':
+      validateMuticityTrip(req.body.trips, errors);
+      break;
+    default:
+      errors.tripType = 'Invalid Trip type';
+    }
+    if (Object.keys(errors).length) {
+      return res.status(400).json({
+        success: false,
+        errors,
+      });
+    }
+    req.request = foundRequest.dataValues;
+    next();
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
 export const validateTripData = async (req, res, next) => {
   const errors = {};
   try {
-    const { tripType } = req.body;
+    const { tripType } = req.request;
     if (tripType === 'oneWay') {
       await findTripData(req.body.trip, tripType, errors, 'The selected accommodation is not available at the choosen destination');
     } else if (tripType === 'return') {
@@ -63,10 +123,6 @@ export const validateTripData = async (req, res, next) => {
         errors
       });
     }
-    const foundDepartment = await checkIfExistsInDb(models.departments, req.body.departmentId, 'Department does not exist');
-    if (foundDepartment) {
-      req.managerId = foundDepartment.managerId;
-    }
     next();
   } catch (error) {
     res.status(errors.status || 404).json({
@@ -76,7 +132,7 @@ export const validateTripData = async (req, res, next) => {
   }
 };
 
-export const checkPreviousRequest = async (req, res, next) => {
+export const checkRequest = async (req, res, next) => {
   try {
     const foundRequest = await models.requests.findOne({
       where: {
@@ -86,6 +142,10 @@ export const checkPreviousRequest = async (req, res, next) => {
     });
     if (foundRequest) {
       throw new Error('You still have a pending request');
+    }
+    const foundDepartment = await checkIfExistsInDb(models.departments, req.body.departmentId, 'Department does not exist');
+    if (foundDepartment) {
+      req.managerId = foundDepartment.managerId;
     }
     return next();
   } catch (error) {

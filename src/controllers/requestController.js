@@ -13,7 +13,7 @@ export default class Requests {
    * @param {*} next next method
    * @returns {object} returns response object
    */
-  static async createTrip(req, res, next) {
+  static async createRequest(req, res, next) {
     const {
       tripType, departmentId, reason
     } = req.body;
@@ -27,20 +27,40 @@ export default class Requests {
         managerId,
         reason
       });
+      response.setSuccess(201, 'Request Created Successfully', newRequest);
+      return response.send(res);
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
+
+  /**
+*
+* @param {*} req request object
+* @param {*} res response object
+* @param {*} next next method
+* @returns {object} returns response object
+*/
+  static async createRequestTrip(req, res, next) {
+    const {
+      tripType, id
+    } = req.request;
+    try {
       if (tripType === 'oneWay') {
         const { trip } = req.body;
-        trip.requestId = newRequest.id;
+        trip.requestId = id;
         await models.trips.create(trip);
       } else if (tripType === 'return') {
         const { initialTrip, returnTrip } = req.body;
-        initialTrip.requestId = newRequest.id;
-        returnTrip.requestId = newRequest.id;
+        initialTrip.requestId = id;
+        returnTrip.requestId = id;
         await models.trips.create(initialTrip);
         await models.trips.create(returnTrip);
       } else {
         const { trips } = req.body;
         const createdTrips = trips.map(async (trip) => {
-          trip.requestId = newRequest.id;
+          trip.requestId = id;
           const createdTrip = await models.trips.create(trip);
           return createdTrip.dataValues;
         });
@@ -55,11 +75,11 @@ export default class Requests {
             }
           ],
           where: {
-            id: newRequest.dataValues.id
+            id
           },
         }
       );
-      response.setSuccess(201, 'Request Created Successfully', request.dataValues);
+      response.setSuccess(201, 'Trips Created Successfully', request);
       return response.send(res);
     } catch (error) {
       error.status = 500;

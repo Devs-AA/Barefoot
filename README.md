@@ -6,7 +6,7 @@
 Make company global travel and accommodation easy and convenient for the strong workforce of savvy members of staff, by leveraging the modern web.
 ---
 
-[![Build Status](https://travis-ci.com/andela/firestar-backend.svg?branch=stage)](https://travis-ci.com/andela/firestar-backend)    [![Coverage Status](https://coveralls.io/repos/github/andela/firestar-backend/badge.svg?branch=coveralls)](https://coveralls.io/github/andela/firestar-backend?branch=coveralls)   [![](https://img.shields.io/badge/Protected_by-Hound-a873d1.svg)](https://houndci.com)
+[![Build Status](https://travis-ci.org/AA-Devs/Barefoot.svg?branch=stage)](https://travis-ci.org/AA-Devs/Barefoot)    [![Coverage Status](https://coveralls.io/repos/github/andela/firestar-backend/badge.svg?branch=coveralls)](https://coveralls.io/github/andela/firestar-backend?branch=coveralls)   [![](https://img.shields.io/badge/Protected_by-Hound-a873d1.svg)](https://houndci.com)
 
 ### API DOCUMENTATION
 

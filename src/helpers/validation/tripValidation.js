@@ -15,7 +15,7 @@ const validateDate = (date, errors) => {
   }
 };
 
-const validateLocationId = (id, idType, errors) => {
+export const validateId = (id, idType, errors) => {
   if (!id) {
     errors[idType] = `No ${idType} location provided`;
   } else if (!Validator.validateInteger(id)) {
@@ -25,9 +25,9 @@ const validateLocationId = (id, idType, errors) => {
 
 const checkOnewayTrip = (trip, errors) => {
   validateDate(trip.departureDate, errors);
-  validateLocationId(trip.departureLocationId, 'Departure', errors);
-  validateLocationId(trip.destinationLocationId, 'Destination', errors);
-  validateLocationId(trip.accommodationId, 'Accommodation', errors);
+  validateId(trip.departureLocationId, 'Departure', errors);
+  validateId(trip.destinationLocationId, 'Destination', errors);
+  validateId(trip.accommodationId, 'Accommodation', errors);
   if (trip.departureLocationId === trip.destinationLocationId) {
     errors.destination = 'You cannot choose your departure location as your destination location';
   }
@@ -46,8 +46,8 @@ export const validateOnewayTrip = (trip, errors) => {
 
 const checkReturnTrip = (trip, errors) => {
   validateDate(trip.departureDate, errors);
-  validateLocationId(trip.departureLocationId, errors);
-  validateLocationId(trip.destinationLocationId, errors);
+  validateId(trip.departureLocationId, errors);
+  validateId(trip.destinationLocationId, errors);
   if (trip.accommodationId) {
     errors.accommodation = 'Return trip should not have accommodation';
   }
@@ -110,7 +110,6 @@ export const validateMuticityTrip = async (trips, errors) => {
     }
   });
 };
-
 
 export const validateRequestObj = (body, errors) => {
   const stringRegex = /^[a-z\s]+$/i;

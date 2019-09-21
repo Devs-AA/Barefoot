@@ -7,86 +7,65 @@ export const token = {
 
 export const requests = {
   noReason: {
-    trip:
-      {
-        destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
-      },
     departmentId: 2,
     tripType: 'oneWay'
   },
   invalidReason: {
-    trips: {
-      destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
-    },
     reason: '23231',
     departmentId: 2,
     tripType: 'oneWay'
   },
-  noTrips: {
-    trips: {},
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay'
-  },
+  // noTrips: {
+  //   reason: 'Business',
+  //   departmentId: 2,
+  //   tripType: 'oneWay'
+  // },
   noTripType: {
-    trips: {
-      destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
-    },
     reason: 'Business',
     departmentId: 2,
     tripType: '',
   },
   invalidTripType: {
-    trip: {
-      destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
-    },
     reason: 'Business',
     departmentId: 2,
     tripType: 'one',
   },
   noDepartment: {
-    trip:
-      {
-        destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
-      },
     reason: 'Business',
     departmentId: null,
     tripType: 'oneWay'
   },
   invalidDepartment: {
-    trip:
-      {
-        destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
-      },
     reason: 'Business',
     departmentId: 'p',
     tripType: 'oneWay'
   },
+  valid: {
+    reason: 'Business',
+    departmentId: 1,
+    tripType: 'oneWay'
+  },
+};
+
+export const trips = {
   noDestination: {
     trip:
       {
         destinationLocationId: null, departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
   },
   invalidDestination: {
     trip:
       {
         destinationLocationId: 'p', departureLocationId: 1, accommodationId: 1, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   nonExistentDestination: {
     trip:
       {
         destinationLocationId: 100, departureLocationId: 1, accommodationId: 100, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
     tripType: 'oneWay',
   },
   noDeparture: {
@@ -94,89 +73,69 @@ export const requests = {
       {
         destinationLocationId: 1, departureLocationId: null, accommodationId: 1, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   invalidDeparture: {
     trip:
       {
         destinationLocationId: 1, departureLocationId: 'k', accommodationId: 1, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   nonExistentDeparture: {
     trip:
       {
         destinationLocationId: 1, departureLocationId: 100, accommodationId: 1, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   noAccommodation: {
     trip: {
       destinationLocationId: 1, departureLocationId: 1, accommodationId: null, departureDate: '2019/10/10 18:00'
     },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   invalidAccommodation: {
     trip:
       {
         destinationLocationId: 1, departureLocationId: 1, accommodationId: 'k', departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   noExistentAccommodation: {
     trip:
       {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 200, departureDate: '2019/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   noDate: {
     trip:
       {
         destinationLocationId: 1, departureLocationId: 1, accommodationId: 1, departureDate: ''
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   invalidDate: {
     trip:
       {
         destinationLocationId: 1, departureLocationId: 1, accommodationId: 1, departureDate: 'dd32dce'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   oneWay: {
     trip:
       {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 2, departureDate: '2020/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   invalidOneWay: {
     trip:
       {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2020/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   return: {
     initialTrip:
@@ -186,9 +145,7 @@ export const requests = {
     returnTrip: {
       destinationLocationId: 1, departureLocationId: 2, departureDate: '2020/10/11 18:00'
     },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'return',
+
   },
   invalidReturn: {
     initialTrip:
@@ -198,9 +155,7 @@ export const requests = {
     returnTrip: {
       destinationLocationId: 2, departureLocationId: 1, accommodationId: 3, departureDate: '2020/10/11 18:00'
     },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'return',
+
   },
   invalidReturn2: {
     initialTrip:
@@ -210,18 +165,14 @@ export const requests = {
     returnTrip: {
       destinationLocationId: 3, departureLocationId: 1, accommodationId: 3, departureDate: '2020/10/11 18:00'
     },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'return',
+
   },
   invalidReturn3: {
     initialTrip:
       {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 1, departureDate: '2020/10/10 18:00'
       },
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'return',
+
   },
   invalidReturn4: {
     trips: [
@@ -235,9 +186,7 @@ export const requests = {
         destinationLocationId: 4, departureLocationId: 4, accommodationId: 4, departureDate: '2020/10/12 18:00'
       }
     ],
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'return',
+
   },
   multiCity: {
     trips: [
@@ -248,9 +197,6 @@ export const requests = {
         destinationLocationId: 3, departureLocationId: 2, accommodationId: 3, departureDate: '2020/10/11 18:00'
       }
     ],
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'multiCity',
   },
   invalidOneWay2: {
     trips: [
@@ -261,9 +207,7 @@ export const requests = {
         destinationLocationId: 3, departureLocationId: 2, accommodationId: 3, departureDate: '2020/10/11 18:00'
       }
     ],
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'oneWay',
+
   },
   invalidRequest: {
     trips: [
@@ -274,9 +218,6 @@ export const requests = {
         destinationLocationId: 3, departureLocationId: 2, accommodationId: 3, departureDate: '2020/10/10 18:00'
       }
     ],
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'multiCity',
   },
   invalidRequest2: {
     trips: [
@@ -287,21 +228,12 @@ export const requests = {
         destinationLocationId: 3, departureLocationId: 2, accommodationId: 3, departureDate: '2020/10/10 18:00'
       }
     ],
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'multiCity',
   },
   invalidRequest3: {
     trips: {},
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'multiCity',
   },
   invalidRequest4: {
     trips: [2, 4],
-    reason: 'Business',
-    departmentId: 2,
-    tripType: 'multiCity',
   },
   invalidMultiCity: {
     trips: [
@@ -309,7 +241,6 @@ export const requests = {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 2, departureDate: '2020/10/10 18:00'
       }
     ],
-    reason: 'Business',
     departmentId: 2,
     tripType: 'multiCity',
   },

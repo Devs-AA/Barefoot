@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { SendVerificationToken, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization } from '../../middlewares/auth/auth';
 import {
-  validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty, EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn
+  validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
+  EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn
 } from '../../middlewares/validation/validation';
 import emailController from '../../controllers/emailController';
 import { validateSetRole, permit, checkRoleConflict } from '../../middlewares/users';
