@@ -15,7 +15,10 @@ import validate from '../../middlewares/validate';
 
 const { forgotPasswordCheck, resetPasswordCheck } = validate;
 
-const { forgotPassword, resetPassword, loginAUser, getUserProfile, updateUserProfile } = userController;
+const {
+  forgotPassword, resetPassword, loginAUser, getUserProfile,
+  updateUserProfile
+} = userController;
 
 const router = Router();
 

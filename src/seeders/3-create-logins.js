@@ -31,7 +31,29 @@ module.exports = {
       lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
-    }],
+    },
+    {
+      email: 'requester1@gmail.com',
+      password: '$2b$10$fEyEC31mVK0NmMuyP290/u2kQmmCR.yfdtWtVYh4QQVVEkeVEo5iC',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'requester2@gmail.com',
+      password: '$2b$10$fEyEC31mVK0NmMuyP290/u2kQmmCR.yfdtWtVYh4QQVVEkeVEo5iC',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'requester3@gmail.com',
+      password: '$2b$10$fEyEC31mVK0NmMuyP290/u2kQmmCR.yfdtWtVYh4QQVVEkeVEo5iC',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ],
   {}),
   down: (queryInterface) => queryInterface.bulkDelete('logins', null, {})
 };

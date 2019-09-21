@@ -1,4 +1,4 @@
-import faker from 'faker';
+const faker = require('faker');
 
 module.exports = {
   up: (queryInterface) => queryInterface.bulkInsert('users', [
@@ -114,7 +114,7 @@ module.exports = {
       email: 'requester1@gmail.com',
       roleId: 5,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       firstName: faker.name.firstName(),
