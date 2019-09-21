@@ -4,7 +4,6 @@ import { authorization } from '../../middlewares/auth/auth';
 import { validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty, EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn } from '../../middlewares/validation/validation';
 import emailController from '../../controllers/emailController';
 import { validateSetRole, permit, checkRoleConflict } from '../../middlewares/users';
-import isLoggedIn from '../../middlewares/login';
 import { roleIds } from '../../helpers/default';
 import userController from '../../controllers/userController';
 import indexController from '../../controllers/indexController';
