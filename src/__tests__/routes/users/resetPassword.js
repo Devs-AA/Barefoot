@@ -4,8 +4,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import moment from 'moment';
 import app from '../../../index';
-import models, { sequelize } from '../../../models';
-import { sendResetMail, sendSignupMail } from '../../../services/sendMail';
+import db from '../../../models';
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -19,33 +18,37 @@ const resetToken = '12ererfbuib23iub328o7rg8hbiuva';
 
 // Create table and seed database
 const seedTestDb = async () => {
-  await models.User.create({
+  await db.users.create({
+    firstName: 'futhermaths',
+    lastName: 'Physics',
     email: 'youremail3@andela.com',
-    role: 'passenger'
+    roleId: 5
   });
 
-  await models.User.create({
+  await db.users.create({
+    firstName: 'futhermaths',
+    lastName: 'Physics',
     email: 'youremail4@andela.com',
-    role: 'passenger'
+    roleId: 5
   });
 
-  await models.Login.create({
+  await db.logins.create({
     email: 'youremail3@andela.com',
     password: 'password'
   });
 
-  await models.Login.create({
+  await db.logins.create({
     email: 'youremail4@andela.com',
     password: 'password'
   });
 
-  await models.Reset.create({
+  await db.resets.create({
     email: 'youremail3@andela.com',
     expireTime: new Date(),
     resetToken: '$2a$10$Yc4fNidn3ih0Z0wRajFhq.AwneQLYR2RWWYQT7PGJdJj4UN1BGJ1K'
-  }),
+  });
 
-  await models.Reset.create({
+  await db.resets.create({
     email: 'youremail4@andela.com',
     expireTime: moment
       .utc()
@@ -58,9 +61,9 @@ const seedTestDb = async () => {
 // Clear tables of seed
 const clearTestDb = async () => {
   try {
-    await models.User.sync({ force: true });
-    await models.Login.sync({ force: true });
-    await models.Reset.sync({ force: true });
+    await db.users.sync({ force: true });
+    await db.logins.sync({ force: true });
+    await db.resets.sync({ force: true });
   } catch (err) {
     throw err;
   }
@@ -69,7 +72,9 @@ const clearTestDb = async () => {
 // clear database and seed data before test
 before(async () => {
   try {
-    await clearTestDb();
+    await db.users.sync({ force: true });
+    await db.logins.sync({ force: true });
+    await db.resets.sync({ force: true });
     await seedTestDb();
   } catch (err) {
     throw err;
@@ -89,46 +94,24 @@ afterEach(() => sinon.restore());
 
 describe('Forgot and Reset Password Test', () => {
   describe('Forgot Password Controller', () => {
-    const newReset = {
-      id: 2,
-      email: 'youremail2@andela.com',
-      resetToken: 'theResetToken'
-    };
-
     const newReset2 = {
       id: 2,
       email: 'youremail34@andela.com',
       resetToken: 'theResetToken'
     };
 
-    it('should send reset mail to the email of an existing user', async () => {
-      // stub send mail functions
-      const resetMailStub = sinon.stub(await sendResetMail());
-      resetMailStub.returns(true);
-      chai
-        .request(app)
-        .post(`${forgotPasswordURL}`)
-        .send({ email: newReset.email })
-        .end(async () => {
-          expect(await resetMailStub).to.be.true;
-        });
-    });
 
     it('should send signup mail to the email of a non user', async () => {
-      const signupMailStub = sinon.stub(await sendSignupMail());
       chai
         .request(app)
         .post(`${forgotPasswordURL}`)
         .send({ email: newReset2.email })
         .end(async (err, res) => {
-          expect(await signupMailStub).to.be.true;
-          expect(await signupMailStub.firstCall.args[0]).to.equal(newReset2.email);
           expect(res).to.have.status(200);
           expect(res.body.status).to.be.equal('success');
           expect(res.body.message).to.be.equal(
             'Check your mail for further instruction'
           );
-          done();
         });
     });
   });
@@ -140,8 +123,8 @@ describe('Forgot and Reset Password Test', () => {
           .request(app)
           .post(`${resetPasswordURL}/${validId}?token=${resetToken}`)
           .send({
-            password: 'password10',
-            confirmPassword: 'password10'
+            password: 'Pas@sword10',
+            confirmPassword: 'Pas@sword10'
           })
           .end((err, res) => {
             expect(res).to.have.status(400);
@@ -156,8 +139,8 @@ describe('Forgot and Reset Password Test', () => {
           .request(app)
           .post(`${resetPasswordURL}/10?token=${resetToken}`)
           .send({
-            password: 'password10',
-            confirmPassword: 'password10'
+            password: 'Pas@sword10',
+            confirmPassword: 'Pas@sword10'
           })
           .end((err, res) => {
             expect(res).to.have.status(400);

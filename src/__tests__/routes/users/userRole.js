@@ -7,8 +7,6 @@ import {
   invalidInfoRole2, invalidInfoRole3, users, roles
 } from '../../../__mocks__/userRoles';
 
-const { User, Role } = models;
-
 chai.use(chaiHttp);
 
 const { assert } = chai;
@@ -18,18 +16,14 @@ describe('User Role Setting', () => {
     const {
       superAdmin, travelAdmin, travelTeamMember, manager, requester
     } = roles;
-    try {
-      await User.sync({ force: true });
-      await Role.sync({ force: true });
-      await User.bulkCreate([users.superAdmin, users.nonadmin]);
-      await Role.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
-    } catch (error) {
-      console.log(error);
-    }
+    await models.users.sync({ force: true });
+    await models.roles.sync({ force: true });
+    await models.users.bulkCreate([users.superAdmin, users.nonadmin]);
+    await models.roles.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
   });
   after(async () => {
-    await models.User.destroy({ where: {} });
-    await models.Role.destroy({ where: {} });
+    await models.users.destroy({ where: {} });
+    await models.roles.destroy({ where: {} });
   });
   describe('Set User Role', () => {
     it('Should return an error for unauthorised users', async () => {

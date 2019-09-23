@@ -3,22 +3,55 @@ module.exports = {
     id: {
       allowNull: false,
       autoIncrement: true,
-      primaryKey: true,
+      unique: true,
       type: Sequelize.INTEGER
     },
+    username: {
+      type: Sequelize.STRING
+    },
     firstName: {
+      allowNull: false,
       type: Sequelize.STRING
     },
     lastName: {
+      allowNull: false,
       type: Sequelize.STRING
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+      primaryKey: true
     },
     phoneNumber: {
       type: Sequelize.STRING
     },
+    isVerified: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    dateOfBirth: {
+      type: Sequelize.DATE
+    },
+    preferredLanguage: {
+      type: Sequelize.STRING
+    },
     gender: {
+      type: Sequelize.STRING,
+    },
+    preferredCurrency: {
+      type: Sequelize.STRING,
+    },
+    residentialLocation: {
+      type: Sequelize.STRING
+    },
+    department: {
+      type: Sequelize.STRING
+    },
+    saveProfile: {
+      type: Sequelize.BOOLEAN
+    },
+    countryCode: {
       type: Sequelize.STRING
     },
     roleId: {
@@ -30,6 +63,12 @@ module.exports = {
         model: 'roles',
         key: 'id',
       }
+    },
+    lineManager: {
+      type: Sequelize.STRING
+    },
+    departmentId: {
+      type: Sequelize.INTEGER
     },
     createdAt: {
       allowNull: false,

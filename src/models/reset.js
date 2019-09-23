@@ -1,6 +1,6 @@
 // define the Reset model with its content
 const resets = (sequelize, DataTypes) => {
-  const Reset = sequelize.define('reset', {
+  const Reset = sequelize.define('resets', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -20,7 +20,7 @@ const resets = (sequelize, DataTypes) => {
   });
 
   Reset.associate = (models) => {
-    Reset.belongsTo(models.User, {
+    Reset.belongsTo(models.users, {
       foreignKey: 'email',
     });
   };

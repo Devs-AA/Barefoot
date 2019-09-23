@@ -18,7 +18,7 @@ export const validateSetRole = async (req, res, next) => {
       });
     }
     req.body.email = req.body.email.trim();
-    req.newRole = await checkIfExistsInDb(models.Role, roleId, 'Role does not exist');
+    req.newRole = await checkIfExistsInDb(models.roles, roleId, 'Role does not exist');
     req.userToUpdate = await findByEmail(email.trim());
     next();
   } catch (error) {

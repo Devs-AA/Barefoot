@@ -1,14 +1,13 @@
 // define the Login model with its content
 const logins = (sequelize, DataTypes) => {
-  const Login = sequelize.define('login', {
+  const Login = sequelize.define('logins', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
     email: {
-      type: DataTypes.STRING,
-      isEmail: true
+      type: DataTypes.STRING
     },
     password: {
       type: DataTypes.STRING,
@@ -24,7 +23,7 @@ const logins = (sequelize, DataTypes) => {
   });
 
   Login.associate = (models) => {
-    Login.belongsTo(models.User, {
+    Login.belongsTo(models.users, {
       foreignKey: 'email',
       onDelete: 'CASCADE'
     });

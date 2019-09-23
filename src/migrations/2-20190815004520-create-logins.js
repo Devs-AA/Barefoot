@@ -8,7 +8,14 @@ module.exports = {
       type: Sequelize.INTEGER
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'users',
+        key: 'email',
+      }
     },
     password: {
       type: Sequelize.STRING
@@ -25,5 +32,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('logins')
+  down: (queryInterface) => queryInterface.dropTable('logins')
 };

@@ -8,7 +8,13 @@ module.exports = {
       type: Sequelize.INTEGER
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      onDelete: 'CASCADE',
+      references: {
+        model: 'users',
+        key: 'email',
+      }
+
     },
     resetToken: {
       type: Sequelize.STRING
@@ -25,5 +31,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('resets')
+  down: (queryInterface) => queryInterface.dropTable('resets')
 };

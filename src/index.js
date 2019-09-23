@@ -6,6 +6,8 @@ import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
 
+// Configure dotEnv
+dotEnv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -16,8 +18,6 @@ const app = express();
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
 
-// Configure dotEnv
-dotEnv.config();
 // Normal express config defaults
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
@@ -32,11 +32,10 @@ if (!isProduction) {
 app.use(routes);
 
 // / catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use('*', (req, res) => {
+  res.status(404).json({ status: 404, message: 'That route is not a known route' });
 });
+
 
 // / error handlers
 

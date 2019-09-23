@@ -17,7 +17,7 @@ export const checkIfExistsInDb = async (Model, id, errorMessage) => {
 
 export const findByEmail = async (email) => {
   try {
-    const foundUser = await models.User.findOne({
+    const foundUser = await models.users.findOne({
       where: {
         email
       }

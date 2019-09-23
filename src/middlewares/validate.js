@@ -1,3 +1,5 @@
+/* eslint-disable require-jsdoc */
+
 import Response from '../utils/response';
 import Validation from '../helpers/validation';
 
