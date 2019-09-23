@@ -17,7 +17,7 @@ router.patch('/requests/:requestId', async (req, res) => {
   const { status } = req.body;
   const { requestId } = req.params;
   const updatedRequest = await updateRequest(status, requestId);
-  res.status(200).send(updatedRequest[1]);
+  res.status(200).send(updatedRequest);
 });
 
 export default router;

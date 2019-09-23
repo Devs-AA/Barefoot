@@ -6,7 +6,6 @@ import app from '../../../index';
 
 import db from '../../../models';
 import { roles } from '../../../__mocks__/userRoles';
-import { invalidUserToken } from '../../../__mocks__/emailVerification';
 
 chai.use(chaiHttp);
 chai.use(sinonChai);
@@ -52,31 +51,30 @@ describe('USER PROFILE', () => {
 
       expect(response.status).to.equal(201);
       expect(response.body).to.be.a('object');
-    }).timeout(0);
+    });
   });
 
   describe('GET USER PROFILE', () => {
     it('should get user profile with a status of 200', async () => {
       const tokenHeader = `Bearer ${token}`;
       const response = await request.get('/api/v1/users/profile')
-        .set('Authorization', tokenHeader);
+        .set('authorization', tokenHeader);
 
       expect(response.status).to.equal(200);
       expect(response.body.success).to.equal(true);
       expect(response.body.message).to.equal('Succesfully found user');
-    }).timeout(0);
+    });
   });
 
   describe('GET USER PROFILE', () => {
     it('should throw user not found error', async () => {
-      const tokenHeader = `Bearer ${invalidUserToken}`;
       const response = await request.get('/api/v1/users/profile')
-        .set('Authorization', tokenHeader);
+        .set('authorization', 'tokenHeader');
 
       expect(response.status).to.equal(401);
       expect(response.body.success).to.equal(false);
-      expect(response.body.message).to.equal('User not found');
-    }).timeout(0);
+      expect(response.body.message).to.equal('Invalid Token Provided');
+    });
   });
 
   describe('PATCH USER PROFILE', () => {
@@ -88,12 +86,12 @@ describe('USER PROFILE', () => {
       };
       const tokenHeader = `Bearer ${token}`;
       const response = await request.patch('/api/v1/users/profile').send(body)
-        .set('Authorization', tokenHeader);
+        .set('authorization', tokenHeader);
 
       expect(response.status).to.equal(201);
       expect(response.body.success).to.equal(true);
       expect(response.body.message).to.equal('You ve successfully updated your profile');
-    }).timeout(0);
+    });
   });
 
   describe('PATCH USER PROFILE', () => {
@@ -104,23 +102,22 @@ describe('USER PROFILE', () => {
       };
       const tokenHeader = `Bearer ${token}`;
       const response = await request.patch('/api/v1/users/profile').send(body)
-        .set('Authorization', tokenHeader);
+        .set('authorization', tokenHeader);
 
       expect(response.status).to.equal(400);
       expect(response.body.success).to.equal(false);
       expect(response.body.message[0]).to.equal('firstName length must be at least 2 characters long');
-    }).timeout(0);
+    });
   });
 
   describe('PATCH USER PROFILE', () => {
     it('should throw user not found error', async () => {
-      const tokenHeader = `Bearer ${invalidUserToken}`;
       const response = await request.patch('/api/v1/users/profile')
-        .set('Authorization', tokenHeader);
+        .set('authorization', 'tokenHeader');
 
       expect(response.status).to.equal(401);
       expect(response.body.success).to.equal(false);
-      expect(response.body.message).to.equal('User not found');
-    }).timeout(0);
+      expect(response.body.message).to.equal('Invalid Token Provided');
+    });
   });
 });

@@ -63,7 +63,7 @@ describe('REQUESTS', () => {
     it('Returns 400 if no reason is provided', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.noReason);
 
       assert.equal(res.status, 400);
@@ -72,7 +72,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid trip request reason ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.invalidReason);
 
       assert.equal(res.status, 400);
@@ -81,7 +81,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no request trip type ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.noTripType);
 
       assert.equal(res.status, 400);
@@ -90,7 +90,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid request trip type ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.invalidTripType);
 
       assert.equal(res.status, 400);
@@ -99,7 +99,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no department', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.noDepartment);
 
       assert.equal(res.status, 400);
@@ -108,7 +108,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid department ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.invalidDepartment);
 
       assert.equal(res.status, 400);
@@ -119,7 +119,7 @@ describe('REQUESTS', () => {
     it('Should createa new request', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(requests.valid);
 
       assert.equal(res.status, 201);

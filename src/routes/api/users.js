@@ -53,7 +53,7 @@ router.post('/users/passwords/forgot', forgotPasswordCheck, forgotPassword);
 // @access Public
 router.post('/users/passwords/reset/:userId', resetPasswordCheck, resetPassword);
 
-router.get('/users/profile', authorization, getUserProfile);
-router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
+router.get('/users/profile', isLoggedIn, getUserProfile);
+router.patch('/users/profile', validateProfileData, isLoggedIn, updateUserProfile);
 
 export default router;

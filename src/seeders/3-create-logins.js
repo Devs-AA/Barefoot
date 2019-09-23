@@ -34,21 +34,35 @@ module.exports = {
     },
     {
       email: 'requester1@gmail.com',
-      password: '$2b$10$fEyEC31mVK0NmMuyP290/u2kQmmCR.yfdtWtVYh4QQVVEkeVEo5iC',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
       lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
       email: 'requester2@gmail.com',
-      password: '$2b$10$fEyEC31mVK0NmMuyP290/u2kQmmCR.yfdtWtVYh4QQVVEkeVEo5iC',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
       lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
       email: 'requester3@gmail.com',
-      password: '$2b$10$fEyEC31mVK0NmMuyP290/u2kQmmCR.yfdtWtVYh4QQVVEkeVEo5iC',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'barefoot1@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'barefoot@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
       lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()

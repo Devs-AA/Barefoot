@@ -27,7 +27,7 @@ describe('REQUESTS', () => {
       await models.departments.bulkCreate(departments);
       await models.requests.create({
         ...requests.valid,
-        requesterId: 8,
+        requesterId: 15,
         managerId: 2
       });
     } catch (error) {
@@ -78,7 +78,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no trips ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noTrips);
 
       assert.equal(res.status, 400);
@@ -87,7 +87,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no destination ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noDestination);
 
       assert.equal(res.status, 400);
@@ -97,7 +97,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid request Id', async () => {
       const res = await chai.request(server)
         .post('/api/v1/requests/h/trips')
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noDestination);
 
       assert.equal(res.status, 400);
@@ -107,7 +107,7 @@ describe('REQUESTS', () => {
     it('Returns 404 for invalid request Id', async () => {
       const res = await chai.request(server)
         .post('/api/v1/requests/10000/trips')
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noDestination);
 
       assert.equal(res.status, 404);
@@ -117,7 +117,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid destination ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidDestination);
 
       assert.equal(res.status, 400);
@@ -126,7 +126,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no departure ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noDeparture);
 
       assert.equal(res.status, 400);
@@ -135,7 +135,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid departure ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidDeparture);
 
       assert.equal(res.status, 400);
@@ -144,7 +144,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no accommodation Id', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noAccommodation);
 
       assert.equal(res.status, 400);
@@ -153,7 +153,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid accommodation Id ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidAccommodation);
 
       assert.equal(res.status, 400);
@@ -162,7 +162,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no departure date', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.noDate);
 
       assert.equal(res.status, 400);
@@ -171,7 +171,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid departure date', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidDate);
 
       assert.equal(res.status, 400);
@@ -180,7 +180,7 @@ describe('REQUESTS', () => {
     it('Returns 400 if destination is the same as present location', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidReturn);
 
       assert.equal(res.status, 400);
@@ -189,7 +189,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a return trip if user is not returning from travelled location', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidReturn2);
 
       assert.equal(res.status, 400);
@@ -198,7 +198,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a return trip if no return trip was given', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidReturn3);
 
       assert.equal(res.status, 400);
@@ -207,7 +207,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a trip with past date', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidRequest);
 
       assert.equal(res.status, 400);
@@ -216,7 +216,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a trip with past date', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidRequest);
 
       assert.equal(res.status, 400);
@@ -225,7 +225,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a muti-city/return trip where all trips have the same date', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidRequest2);
 
       assert.equal(res.status, 400);
@@ -234,7 +234,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a muti-city/return trip where a trip is missing', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidRequest2);
 
       assert.equal(res.status, 400);
@@ -243,7 +243,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a trip with accommodation destination not corresponding to trip destination', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidOneWay);
 
       assert.equal(res.status, 422);
@@ -252,7 +252,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a one way trip having more than on trip', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidOneWay2);
 
       assert.equal(res.status, 400);
@@ -261,7 +261,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a request without trips array', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidRequest3);
 
       assert.equal(res.status, 400);
@@ -270,7 +270,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for a request without a trip object', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidRequest4);
 
       assert.equal(res.status, 400);
@@ -279,7 +279,7 @@ describe('REQUESTS', () => {
     it('Returns 400 if return trip has more than two trips', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidReturn4);
 
       assert.equal(res.status, 400);
@@ -288,7 +288,7 @@ describe('REQUESTS', () => {
     it('Returns 400 if multi-city trip has less than two trips', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.invalidMultiCity);
 
       assert.equal(res.status, 400);
@@ -303,7 +303,7 @@ describe('REQUESTS', () => {
         tripType: 'oneWay',
         departmentId: 2,
         managerId: 2,
-        requesterId: 8
+        requesterId: 15
       };
       try {
         await models.requests.create(request1);
@@ -326,8 +326,9 @@ describe('REQUESTS', () => {
     it('should create a one-way trip request', async () => {
       const res = await chai.request(server)
         .post('/api/v1/requests/2/trips')
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.oneWay);
+
       assert.equal(res.status, 201);
       assert.equal(res.body.success, true);
       assert.equal(res.body.data.tripType, 'oneWay');
@@ -344,7 +345,7 @@ describe('REQUESTS', () => {
         tripType: 'return',
         departmentId: 2,
         managerId: 2,
-        requesterId: 8
+        requesterId: 15
       };
       try {
         await models.requests.create(request2);
@@ -367,7 +368,7 @@ describe('REQUESTS', () => {
     it('should create a return trip request', async () => {
       const res = await chai.request(server)
         .post('/api/v1/requests/3/trips')
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.return);
 
       assert.equal(res.status, 201);
@@ -383,7 +384,7 @@ describe('REQUESTS', () => {
       const request3 = {
         reason: 'Training',
         tripType: 'multiCity',
-        requesterId: 8,
+        requesterId: 15,
         departmentId: 2,
         managerId: 2
       };
@@ -408,7 +409,7 @@ describe('REQUESTS', () => {
     it('should create a multi city trip request', async () => {
       const res = await chai.request(server)
         .post('/api/v1/requests/4/trips')
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.multiCity);
 
       assert.equal(res.status, 201);
@@ -423,7 +424,7 @@ describe('REQUESTS', () => {
     it('should return 404 id departure does not exist', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester)
+        .set('authorization', token.requester2)
         .send(trips.nonExistentDeparture);
 
       assert.equal(res.status, 404);
@@ -432,7 +433,7 @@ describe('REQUESTS', () => {
     it('should return 404 id destination does not exist', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester1)
+        .set('authorization', token.requester2)
         .send(trips.nonExistentDestination);
 
       assert.equal(res.status, 404);
@@ -441,18 +442,18 @@ describe('REQUESTS', () => {
     it('should return 404 if accommodation does not exist', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester1)
+        .set('authorization', token.requester2)
         .send(trips.noExistentAccommodation);
       assert.equal(res.status, 404);
       assert.equal(res.body.success, false);
     });
   });
 
-  describe('Should Return 404 for missing trip data', () => {
-    it('should return 404 id departure does not exist', async () => {
+  describe('Should Return 403 if  user does not own request', () => {
+    it('should return 403 error', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', token.requester)
         .send(trips.oneWay);
 
       assert.equal(res.status, 403);

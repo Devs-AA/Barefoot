@@ -1,8 +1,8 @@
 export const token = {
-  requester: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZUlkIjo1LCJlbWFpbCI6InJlcXVlc3RlcjFAZ21haWwuY29tIiwiaWF0IjoxNTY4MzMxNTQyfQ.n5efuOIE5t8aK7JSZrgjZGJ6lrrSfETwPZ_GnrQffBA',
-  requester1: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwicm9sZUlkIjo1LCJlbWFpbCI6InJlcXVlc3RlcjFAZ21haWwuY29tIiwiaWF0IjoxNTY4MzQyODcyfQ.wiRocCxN9GS4s_X_30WkIth3pWawZbFM5Wafa_Q53b0',
-  requester2: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwicm9sZUlkIjo1LCJlbWFpbCI6InJlcXVlc3RlcjJAZ21haWwuY29tIiwiaWF0IjoxNTY4MzQyOTM2fQ.jW00RRbqCPqMza2KxMmYM6UdQW1Ieeyp-IWNnbccRDE',
-  nonRequester: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZUlkIjoyLCJlbWFpbCI6ImFiYzEyM0BnbWFpbC5jb20iLCJpYXQiOjE1NjgzMzIxNzB9.Id4DGJnFef9huOnOw_zYsyYVOLWzLwBmqIU9cQtJjho'
+  requester: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInVzZXJuYW1lIjpudWxsLCJlbWFpbCI6InJlcXVlc3RlcjFAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiQW50b25ldHRlIiwibGFzdE5hbWUiOiJNdXJyYXkiLCJsYXN0TG9naW4iOiIyMDE5LTA5LTIzVDEzOjEzOjI4LjEyMFoiLCJyb2xlSWQiOjUsImlhdCI6MTU2OTI0NDQ4N30.ke_EOhCkEITlMadVL0VycCt4cQOyv2zVsgusjv86644',
+  requester1: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjpudWxsLCJlbWFpbCI6InJlcXVlc3RlcjJAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiTmV0dGllIiwibGFzdE5hbWUiOiJDcm9uYSIsImxhc3RMb2dpbiI6IjIwMTktMDktMjNUMTM6MTM6MjguMTIwWiIsInJvbGVJZCI6NSwiaWF0IjoxNTY5MjQ0NTIxfQ.3HZLls6lSk1ZxaAPXi4bCtUduqMSyXAeqfv7UtlVhLo',
+  requester2: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjpudWxsLCJlbWFpbCI6InJlcXVlc3RlcjNAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiTG9ubmllIiwibGFzdE5hbWUiOiJCb2RlIiwibGFzdExvZ2luIjoiMjAxOS0wOS0yM1QxMzoxMzoyOC4xMjBaIiwicm9sZUlkIjo1LCJpYXQiOjE1NjkyNDQ1MTd9.BC2VKXTNy3_ANLVNG4Jwa5ttfNbFVwKBZ6AiTB8nWNc',
+  nonRequester: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInVzZXJuYW1lIjpudWxsLCJlbWFpbCI6ImJhcmVmb290MUBnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJBcnZpZCIsImxhc3ROYW1lIjoiTGVkbmVyIiwibGFzdExvZ2luIjoiMjAxOS0wOS0yM1QxMzoxMzoyOC4xMjBaIiwicm9sZUlkIjo0LCJpYXQiOjE1NjkyNDQ2MTN9.-OrvAnq4cTvEeKyP7BEQ8kSJZ9OJleKPzU1btlfTT4Q'
 };
 
 export const requests = {
@@ -15,11 +15,6 @@ export const requests = {
     departmentId: 2,
     tripType: 'oneWay'
   },
-  // noTrips: {
-  //   reason: 'Business',
-  //   departmentId: 2,
-  //   tripType: 'oneWay'
-  // },
   noTripType: {
     reason: 'Business',
     departmentId: 2,
@@ -127,8 +122,7 @@ export const trips = {
     trip:
       {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 2, departureDate: '2020/10/10 18:00'
-      },
-
+      }
   },
   invalidOneWay: {
     trip:

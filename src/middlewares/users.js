@@ -32,8 +32,8 @@ export const validateSetRole = async (req, res, next) => {
 export const permit = (roles = []) => (req, res, next) => {
   const { roleId } = req.user;
   try {
-    // Find resource by name in the db if it exists
-    if (roles.length > 0 && !roles.includes(roleId)) {
+    // Check if role is permitted
+    if (roles.length && !roles.includes(roleId)) {
       throw new Error('You are not authorized to perform this operation');
     }
     next();
