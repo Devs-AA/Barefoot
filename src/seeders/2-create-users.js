@@ -88,7 +88,7 @@ module.exports = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: 'abc123@gmail.com',
-      roleId: 2,
+      roleId: 4,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -104,6 +104,14 @@ module.exports = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: 'barefoot2@gmail.com',
+      roleId: 4,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: 'barefoot3@gmail.com',
       roleId: 4,
       createdAt: new Date(),
       updatedAt: new Date()

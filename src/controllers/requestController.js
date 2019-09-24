@@ -1,5 +1,6 @@
 import models from '../models';
 import Response from '../utils/response';
+import Request from '../services/requestService';
 
 const response = new Response();
 /**
@@ -80,6 +81,26 @@ export default class Requests {
         }
       );
       response.setSuccess(201, 'Trips Created Successfully', request);
+      return response.send(res);
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
+
+  /**
+   *
+   * @param {*} req request object
+   * @param {*} res response object
+   * @param {*} next next method
+   * @returns {object} returns response object
+   */
+  static async updateStatus(req, res, next) {
+    const { status } = req.body;
+    const id = parseInt(req.params.requestId, 10);
+    try {
+      const updatedRequest = await Request.updateStatus(id, status);
+      response.setSuccess(200, 'Request Updated Successfully', updatedRequest);
       return response.send(res);
     } catch (error) {
       error.status = 500;
