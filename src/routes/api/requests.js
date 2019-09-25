@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import requestController from '../../controllers/requestController';
 import {
-  validateTripRequest, checkRequest, validateTripData, validateTripInput
+  validateTripRequest, checkRequest, validateTripData, validateTripInput,
 } from '../../middlewares/trips';
 import isLoggedIn from '../../middlewares/login';
 import { permit } from '../../middlewares/users';
