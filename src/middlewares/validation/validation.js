@@ -47,20 +47,20 @@ export const EmptySignUpBodyPropertyValue = async (req, res, next) => {
   const response = await isMissingBodyPropertyValue(req.body);
   let missingDetails;
   switch (response.length) {
-    case 2:
-      missingDetails = [`${response[0]} field cannot be Empty`, `${response[1]} field cannot be Empty`];
-      break;
-    case 3:
-      missingDetails = [`${response[0]} field cannot be Empty`, `${response[1]} field cannot be Empty`, `${response[2]} field cannot be Empty`];
-      break;
-    case 4:
-      missingDetails = [`${response[0]} field cannot be Empty`,
+  case 2:
+    missingDetails = [`${response[0]} field cannot be Empty`, `${response[1]} field cannot be Empty`];
+    break;
+  case 3:
+    missingDetails = [`${response[0]} field cannot be Empty`, `${response[1]} field cannot be Empty`, `${response[2]} field cannot be Empty`];
+    break;
+  case 4:
+    missingDetails = [`${response[0]} field cannot be Empty`,
       `${response[1]} field cannot be Empty`, `${response[2]} field cannot be Empty`,
       `${response[3]} field cannot be Empty`];
-      break;
-    default:
-      missingDetails = [`${response[0]} field cannot be Empty`];
-      break;
+    break;
+  default:
+    missingDetails = [`${response[0]} field cannot be Empty`];
+    break;
   }
 
   if (response.length > 0) {
@@ -75,19 +75,19 @@ export const ValidateEmptySignUpBodyProperty = async (req, res, next) => {
 
   let missingDetails;
   switch (response.length) {
-    case 2:
-      missingDetails = [`${response[0]} field is missing`, `${response[1]} field is missing`];
-      break;
-    case 3:
-      missingDetails = [`${response[0]} field is missing`, `${response[1]} field is missing`, `${response[2]} field is missing`];
-      break;
-    case 4:
-      missingDetails = [`${response[0]} field is missing`,
+  case 2:
+    missingDetails = [`${response[0]} field is missing`, `${response[1]} field is missing`];
+    break;
+  case 3:
+    missingDetails = [`${response[0]} field is missing`, `${response[1]} field is missing`, `${response[2]} field is missing`];
+    break;
+  case 4:
+    missingDetails = [`${response[0]} field is missing`,
       `${response[1]} field is missing`, `${response[2]} field is missing`, `${response[3]} field is missing`];
-      break;
-    default:
-      missingDetails = `${response[0]} field is missing`;
-      break;
+    break;
+  default:
+    missingDetails = `${response[0]} field is missing`;
+    break;
   }
   if (response.length > 0) {
     util.setError(400, missingDetails);

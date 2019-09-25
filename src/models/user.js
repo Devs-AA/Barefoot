@@ -6,11 +6,6 @@ const users = (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
-      unique: true,
-      type: DataTypes.INTEGER
-    },
-    username: {
-      type: DataTypes.STRING
     },
     username: {
       type: DataTypes.STRING,

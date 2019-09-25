@@ -3,7 +3,6 @@ import models from '../models';
 export const checkIfExistsInDb = async (Model, id, errorMessage) => {
   try {
     const exists = await Model.findOne({
-      attributes: ['id', 'name'],
       where: {
         id
       }

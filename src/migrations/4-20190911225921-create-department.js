@@ -1,25 +1,22 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('resets', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('departments', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    email: {
-      type: Sequelize.STRING,
-      onDelete: 'CASCADE',
-      references: {
-        model: 'users',
-        key: 'email',
-      }
-
-    },
-    resetToken: {
+    name: {
       type: Sequelize.STRING
     },
-    expireTime: {
-      type: Sequelize.DATE
+    managerId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+        as: 'manager'
+      }
     },
     createdAt: {
       allowNull: false,
@@ -30,5 +27,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface) => queryInterface.dropTable('resets')
+  down: (queryInterface) => queryInterface.dropTable('departments')
 };

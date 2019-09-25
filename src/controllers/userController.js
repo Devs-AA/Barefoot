@@ -6,6 +6,7 @@ import db from '../models';
 import userService from '../services/userService';
 import { jwtSignUser } from '../utils/index';
 import { hashPassword } from '../helpers/hashpassword';
+
 const { findUserById, updateUser, findUserInUsersDb } = userService;
 
 const util = new Response();
@@ -26,7 +27,7 @@ export default class UserController {
   static async addUser(req, res) {
     const { user } = req;
     const lastLogin = new Date();
-    // user.roleId = 5;
+
     try {
       const hashpassword = await hashPassword(user.password);
       user.password = hashpassword;
@@ -94,7 +95,8 @@ export default class UserController {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          lastLogin: loggedUser.lastLogin
+          lastLogin: loggedUser.lastLogin,
+          roleId: user.roleId
         });
 
         await userService.updateLogins(loginData);
@@ -259,7 +261,7 @@ export default class UserController {
    * @description get details of registered user
    */
   static async getUserProfile(req, res) {
-    const { id } = req.result.user;
+    const { id } = req.user;
 
     try {
       const user = await findUserById(id);
@@ -285,7 +287,7 @@ export default class UserController {
    * @description get's details of registered user
    */
   static async updateUserProfile(req, res) {
-    const { id } = req.result.user;
+    const { id } = req.user;
     const {
       firstName,
       lastName,

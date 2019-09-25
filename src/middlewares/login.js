@@ -4,7 +4,7 @@ const isLoggedIn = async (req, res, next) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({
-      status: 'error',
+      success: false,
       message: 'Token required'
     });
   }
@@ -18,8 +18,8 @@ const isLoggedIn = async (req, res, next) => {
     }
     throw new Error('Invalid Token Provided');
   } catch (error) {
-    return res.status(400).json({
-      status: 'error',
+    return res.status(401).json({
+      success: false,
       message: error.message
     });
   }
