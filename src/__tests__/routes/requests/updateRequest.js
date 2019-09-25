@@ -149,7 +149,7 @@ describe('Update Request status', () => {
 
       assert.equal(res.status, 403);
       assert.equal(res.body.success, false);
-      assert.equal(res.body.message, 'You are not allowed to perform this operation');
+      assert.equal(res.body.message, 'Request already approved');
     });
   });
 });
