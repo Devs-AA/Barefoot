@@ -5,7 +5,7 @@ import models from '../../../models';
 import {
   requests, users, token, departments, destinations, accommodations, trips
 } from '../../../__mocks__/createRequest';
-import updatedRequest from '../../../helpers/tripRequest';
+import Request from '../../../services/requestService';
 
 chai.use(chaiHttp);
 
@@ -307,7 +307,7 @@ describe('REQUESTS', () => {
       };
       try {
         await models.requests.create(request1);
-        await updatedRequest('approved', 2);
+        await Request.updateStatus(2, 'approved');
       } catch (error) {
         console.log(error);
       }
@@ -349,7 +349,7 @@ describe('REQUESTS', () => {
       };
       try {
         await models.requests.create(request2);
-        await updatedRequest('approved', 2);
+        await Request.updateStatus(2, 'approved');
       } catch (error) {
         console.log(error);
       }
@@ -390,7 +390,7 @@ describe('REQUESTS', () => {
       };
       try {
         await models.requests.create(request3);
-        await updatedRequest('approved', 2);
+        await Request.updateStatus(2, 'approved');
       } catch (error) {
         console.log(error);
       }

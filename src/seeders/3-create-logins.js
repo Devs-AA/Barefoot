@@ -61,6 +61,27 @@ module.exports = {
       updatedAt: new Date()
     },
     {
+      email: 'barefoot2@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'barefoot3@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: 'abc123@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
       email: 'barefoot@gmail.com',
       password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
       lastLogin: new Date(),
