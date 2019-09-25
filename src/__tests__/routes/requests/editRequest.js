@@ -4,6 +4,7 @@ import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
 import body from '../../../__mocks__/editRequest';
+import Request from '../../../services/requestService';
 import {
   users, departments, login
 } from '../../../__mocks__/createRequest';
@@ -92,7 +93,7 @@ describe('Edit Requests with Open Status', () => {
         .put('/api/v1/requests/e')
         .send(body.valid)
         .set('authorization', `Bearer ${permittedToken}`);
-      console.log(res.body);
+
       assert.equal(400, res.status);
       assert.equal(false, res.body.success);
     });
@@ -155,6 +156,16 @@ describe('Edit Requests with Open Status', () => {
       assert.equal(res.body.success, true);
       assert.equal(res.body.data.requesterId, user.id);
       assert.hasAnyKeys(res.body.data, Object.keys(body.valid));
+    });
+    it('It should return 403 if request status is not open', async () => {
+      await Request.updateStatus(1, 'approved');
+      const res = await chai.request(server)
+        .put(route)
+        .send(body.valid)
+        .set('authorization', `Bearer ${permittedToken}`);
+
+      assert.equal(403, res.status);
+      assert.equal(res.body.success, false);
     });
   });
 });

@@ -87,6 +87,12 @@ export const checkRequestOwnerAndConflict = async (req, res, next) => {
   const { reason, tripType } = req.body;
   try {
     const request = await checkIfExistsInDb(models.requests, req.params.requestId, 'Request not found');
+    if (request.status !== 'open') {
+      return res.status(403).json({
+        success: false,
+        message: 'You cannot update a treated Request'
+      });
+    }
     if (req.user.id !== request.requesterId) {
       return res.status(401).json({
         success: false,
