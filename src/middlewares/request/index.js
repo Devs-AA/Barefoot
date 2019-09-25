@@ -30,10 +30,16 @@ export const checkRequestManager = async (req, res, next) => {
   const id = parseInt(req.params.requestId, 10);
   try {
     const request = await checkIfExistsInDb(models.requests, id, 'Request not found');
-    if (req.user.id !== request.managerId || request.status !== 'open') {
+    if (req.user.id !== request.managerId) {
       return res.status(403).json({
         success: false,
         message: 'You are not allowed to perform this operation',
+      });
+    }
+    if (request.status !== 'open') {
+      return res.status(403).json({
+        success: false,
+        message: `Request already ${request.status}`,
       });
     }
     return next();
