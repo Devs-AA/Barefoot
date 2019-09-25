@@ -48,21 +48,32 @@ export const checkRequestManager = async (req, res, next) => {
 
 export const validateEditRequest = (req, res, next) => {
   const errors = {};
-  const tripType = req.body.tripType ? req.body.tripType.trim() : null;
-  const reason = req.body.reason ? req.body.reason.trim() : null;
-  const requestObj = {
-    tripType,
-    reason
-  };
-  validateRequestObj(requestObj, errors);
-  delete errors.department;
-  if (Object.keys(errors).length) {
+  try {
+    const tripType = req.body.tripType ? req.body.tripType.trim() : null;
+    const reason = req.body.reason ? req.body.reason.trim() : null;
+    const isValidReqParam = Validation.validateInteger(req.params.requestId, errors);
+    if (!isValidReqParam) {
+      throw new Error('Invalid Request Id');
+    }
+    const requestObj = {
+      tripType,
+      reason
+    };
+    validateRequestObj(requestObj, errors);
+    delete errors.department;
+    if (Object.keys(errors).length) {
+      return res.status(400).json({
+        success: false,
+        errors
+      });
+    }
+    next();
+  } catch (error) {
     return res.status(400).json({
       success: false,
-      errors
+      message: error.message
     });
   }
-  next();
 };
 
 export const checkRequestOwnerAndConflict = async (req, res, next) => {

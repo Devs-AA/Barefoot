@@ -92,9 +92,9 @@ describe('Edit Requests with Open Status', () => {
         .put('/api/v1/requests/e')
         .send(body.valid)
         .set('authorization', `Bearer ${permittedToken}`);
-
+      console.log(res.body);
       assert.equal(400, res.status);
-      assert.equal(res.body.success, false);
+      assert.equal(false, res.body.success);
     });
     it('It should return 400 if no data in the req object', async () => {
       const res = await chai.request(server)
