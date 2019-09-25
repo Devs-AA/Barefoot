@@ -393,6 +393,20 @@ export const login = [
     updatedAt: new Date()
   },
   {
+    email: 'requester1@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'requester2@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
     email: 'abc123@gmail.com',
     password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
     lastLogin: new Date(),
