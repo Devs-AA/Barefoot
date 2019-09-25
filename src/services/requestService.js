@@ -9,7 +9,17 @@ export default class Request {
         id
       }
     });
-    console.log(updatedRequest);
     return updatedRequest[1].dataValues;
+  }
+
+  static async editRequest(id, body) {
+    const requestEdited = await models.requests.update(body, {
+      returning: true,
+      plain: true,
+      where: {
+        id
+      }
+    });
+    return requestEdited[1].dataValues
   }
 }

@@ -107,4 +107,25 @@ export default class Requests {
       next(error);
     }
   }
+
+
+  /**
+   *
+   * @param {*} req request object
+   * @param {*} res response object
+   * @param {*} next next method
+   * @returns {object} returns response object
+   */
+  static async editRequest(req, res, next) {
+    const { tripType, reason } = req.body;
+    const id = parseInt(req.params.requestId, 10);
+    try {
+      const updatedRequest = await Request.editRequest(id, { tripType, reason });
+      response.setSuccess(204, 'Request Updated Successfully', updatedRequest);
+      return response.send(res);
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
 }
