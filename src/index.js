@@ -1,4 +1,5 @@
 import dotEnv from 'dotenv';
+import cors from 'cors';
 import express from 'express';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
@@ -17,7 +18,7 @@ const app = express();
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
-
+app.use(cors());
 // Normal express config defaults
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
@@ -56,7 +57,7 @@ if (!isProduction) {
 // eslint-disable-next-line no-unused-vars
 
 // finally, let's start our server...
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${server.address().port}`);
 });
 

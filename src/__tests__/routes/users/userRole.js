@@ -47,7 +47,7 @@ describe('User Role Setting', () => {
       assert.equal(
         res.status,
         400,
-        'Should return 401 for invalid Role Id input'
+        'Should return 400 for invalid Role Id input'
       );
       assert.equal(res.body.success, false, 'Should equal error');
     });

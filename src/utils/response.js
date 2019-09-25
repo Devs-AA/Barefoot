@@ -12,13 +12,13 @@ export default class Response {
     this.statusCode = statusCode;
     this.message = message;
     this.data = data;
-    this.success = true;
+    this.type = true;
   }
 
   setError(statusCode, message) {
     this.statusCode = statusCode;
     this.message = message;
-    this.success = false;
+    this.type = false;
   }
 
   static errorResponse(res, statusCode, err) {
@@ -37,16 +37,16 @@ export default class Response {
 
   send(res) {
     const result = {
-      status: this.type,
+      success: this.type,
       message: this.message,
       data: this.data,
     };
 
-    if (this.success === true) {
+    if (this.type === true) {
       return res.status(this.statusCode).json(result);
     }
     return res.status(this.statusCode).json({
-      status: this.type,
+      success: this.type,
       message: this.message,
     });
   }

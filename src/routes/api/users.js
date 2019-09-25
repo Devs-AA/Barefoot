@@ -2,9 +2,8 @@ import { Router } from 'express';
 import { SendVerificationToken, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization } from '../../middlewares/auth/auth';
 import {
-  validationForSignUp, ValidationForEmptySignUpBody,
-  ValidateEmptySignUpBodyProperty, EmptySignUpBodyPropertyValue,
-  validateProfileData, validationForSignIn
+  validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
+  EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn
 } from '../../middlewares/validation/validation';
 import emailController from '../../controllers/emailController';
 import { validateSetRole, permit, checkRoleConflict } from '../../middlewares/users';
@@ -54,7 +53,7 @@ router.post('/users/passwords/forgot', forgotPasswordCheck, forgotPassword);
 // @access Public
 router.post('/users/passwords/reset/:userId', resetPasswordCheck, resetPassword);
 
-router.get('/users/profile', authorization, getUserProfile);
-router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
+router.get('/users/profile', isLoggedIn, getUserProfile);
+router.patch('/users/profile', validateProfileData, isLoggedIn, updateUserProfile);
 
 export default router;

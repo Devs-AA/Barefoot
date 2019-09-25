@@ -6,13 +6,13 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Test for getting undefined routes', () => {
-  it('should return 404 for unknown route', () => {
+  it('should return 404 for the default route', () => {
     chai
       .request(app)
       .post('/')
       .end((err, res) => {
         expect(res.status).to.equal(404);
-        expect(res.body.message).to.equal('That route is not a known route');
+        expect(res.body.message).to.equal('That routes is not a known route');
       });
   });
 });

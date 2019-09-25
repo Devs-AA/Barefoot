@@ -20,7 +20,7 @@ describe('Email and Password validations', () => {
         .send({})
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal('error');
+          expect(res.body.success).to.be.equal(false);
           expect(res.body.error.email).to.be.equal('Email is required');
           done();
         });
@@ -33,7 +33,7 @@ describe('Email and Password validations', () => {
         .send({ email: '123xyz' })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal('error');
+          expect(res.body.success).to.be.equal(false);
           expect(res.body.error.email).to.be.equal('Email is invalid');
           done();
         });
@@ -48,7 +48,7 @@ describe('Email and Password validations', () => {
         .send({ confirmPassword: '' })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal('error');
+          expect(res.body.success).to.be.equal(false);
           expect(res.body.error.password).to.be.equal('Password and Confirm password is required');
           done();
         });
@@ -64,7 +64,7 @@ describe('Email and Password validations', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal('error');
+          expect(res.body.success).to.be.equal(false);
           expect(res.body.error.password).to.be.equal('Password is invalid');
           done();
         });
@@ -79,7 +79,7 @@ describe('Email and Password validations', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal('error');
+          expect(res.body.success).to.be.equal(false);
           expect(res.body.error.password).to.be.equal('Password and Confirm password is required');
           done();
         });
@@ -95,7 +95,7 @@ describe('Email and Password validations', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal('error');
+          expect(res.body.success).to.be.equal(false);
           expect(res.body.error.password).to.be.equal('Passwords must match');
           done();
         });
