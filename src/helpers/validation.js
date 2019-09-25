@@ -1,5 +1,10 @@
 /* eslint-disable require-jsdoc */
 export default class Validation {
+  /**
+   * @description Checks if an object is empty
+   * @param {object} value
+   * @returns {boolean} returns true or false
+   */
   static isEmpty(value) {
     return (
       value === null
@@ -10,7 +15,7 @@ export default class Validation {
   }
 
   static isValidEmail(email) {
-    const re = /^\S+@\S+[\.][0-9a-z]+$/;
+    const re = /^\S+@\S+[.][0-9a-z]+$/;
     return re.test(email);
   }
 
@@ -51,5 +56,17 @@ export default class Validation {
       errors,
       isValid: this.isEmpty(errors)
     };
+  }
+
+  /**
+ * @description A method to validate integers
+ * @param {*} id Integer to be validated
+ * @returns {boolean} Returns true or false
+ */
+  static validateInteger(id) {
+    if (typeof id !== 'number' && !parseInt(id, 10)) {
+      return false;
+    }
+    return true;
   }
 }

@@ -6,6 +6,8 @@ import './validations/resetPassword';
 import './routes/users/emailverification';
 import './routes/users/signup';
 import './routes/users/userRole';
+import './routes/requests.js/createRequest';
+import './routes/requests.js/createTrip';
 import './routes/users/userProfile';
 import './routes/users/login';
 import './services/resetPasswordMail';

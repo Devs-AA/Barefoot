@@ -95,12 +95,6 @@ afterEach(() => sinon.restore());
 
 describe('Forgot and Reset Password Test', () => {
   describe('Forgot Password Controller', () => {
-    const newReset = {
-      id: 2,
-      email: 'youremail2@andela.com',
-      resetToken: 'theResetToken'
-    };
-
     const newReset2 = {
       id: 2,
       email: 'youremail34@andela.com',
@@ -116,7 +110,7 @@ describe('Forgot and Reset Password Test', () => {
         .end(async (err, res) => {
           expect(await signupMailStub.firstCall.args[0]).to.equal(newReset2.email);
           expect(res).to.have.status(200);
-          expect(res.body.status).to.be.equal('success');
+          expect(res.body.success).to.be.equal(true);
           expect(res.body.message).to.be.equal(
             'Check your mail for further instruction'
           );

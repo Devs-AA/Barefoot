@@ -61,7 +61,7 @@ describe('USER PROFILE', () => {
       const response = await request.get('/api/v1/users/profile')
         .set('Authorization', tokenHeader);
       expect(response.status).to.equal(200);
-      expect(response.body.status).to.equal('success');
+      expect(response.body.success).to.equal(true);
       expect(response.body.message).to.equal('Succesfully found user');
     }).timeout(0);
   });
@@ -103,7 +103,7 @@ describe('USER PROFILE', () => {
       const response = await request.patch('/api/v1/users/profile').send(body)
         .set('Authorization', tokenHeader);
       expect(response.status).to.equal(400);
-      expect(response.body.status).to.equal('error');
+      expect(response.body.success).to.equal(false);
       expect(response.body.message[0]).to.equal('firstName length must be at least 2 characters long');
     }).timeout(0);
   });

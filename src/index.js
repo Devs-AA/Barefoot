@@ -1,4 +1,5 @@
 import dotEnv from 'dotenv';
+import cors from 'cors';
 import express from 'express';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
@@ -17,7 +18,7 @@ const app = express();
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
-
+app.use(cors());
 // Normal express config defaults
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));

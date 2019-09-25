@@ -7,6 +7,7 @@ import db from '../models';
 import userService from '../services/userService';
 import { jwtSignUser } from '../utils/index';
 import { hashPassword } from '../helpers/hashpassword';
+
 const { findUserById, updateUser, findUserInUsersDb } = userService;
 
 const util = new Response();
@@ -96,7 +97,7 @@ export default class UserController {
           lastName: user.lastName,
           lastLogin: loggedUser.lastLogin,
           isVerified: user.isVerified,
-          roleId: user.roleId
+          roleId: user.roleId,
         });
 
         await userService.updateLogins(loginData);
@@ -111,7 +112,7 @@ export default class UserController {
     }
   }
 
-   /**
+  /**
    * @description Generate link to reset a user password
    * @static
    * @param {*} req
@@ -222,6 +223,7 @@ export default class UserController {
       return errorResponse(res, 500, error);
     }
   }
+
   /**
  * @description Sets the permission for a given role to a particular resource
  * @static

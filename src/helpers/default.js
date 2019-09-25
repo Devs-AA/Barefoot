@@ -7,5 +7,5 @@ export const roleIds = {
   travelAdmin: 2,
   traveTeamMember: 3,
   manager: 4,
-  requster: 5
+  requester: 5
 };

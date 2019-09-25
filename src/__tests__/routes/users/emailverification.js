@@ -35,19 +35,19 @@ describe('EMAIL ROUTE', () => {
       };
       const response = await request.post('/api/v1/users/email/test').send(body);
       tokenEmail = response.body.data.token;
-      expect(response.body.status).to.equal(200);
+      expect(response.status).to.equal(200);
       expect(response.body).to.be.a('object');
     }).timeout(0);
 
     it('should have a status of 403 email is not present before sending', async () => {
       const response = await request.post('/api/v1/users/email/test');
-      expect(response.body.status).to.equal(403);
+      expect(response.status).to.equal(403);
       expect(response.body).to.be.a('object');
     }).timeout(0);
 
     it('should have a status of 403 when BODY is not present', async () => {
       const response = await request.post('/api/v1/users/email/test');
-      expect(response.body.status).to.equal(403);
+      expect(response.status).to.equal(403);
       expect(response.body).to.be.a('object');
     }).timeout(0);
 
@@ -59,7 +59,7 @@ describe('EMAIL ROUTE', () => {
       };
       const response = await request.post('/api/v1/users/email/test').send(body);
       expect(response.body.error).to.equal('Email, firstName and lastName is required');
-      expect(response.body.status).to.equal(403);
+      expect(response.status).to.equal(403);
       expect(response.body).to.be.a('object');
     }).timeout(0);
 
@@ -71,7 +71,7 @@ describe('EMAIL ROUTE', () => {
       };
       const response = await request.post('/api/v1/users/email/test').send(body);
       expect(response.body.error).to.equal('Please provide a valid email');
-      expect(response.body.status).to.equal(403);
+      expect(response.status).to.equal(403);
       expect(response.body).to.be.a('object');
     }).timeout(0);
   });

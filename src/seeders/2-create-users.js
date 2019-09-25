@@ -1,10 +1,8 @@
 const faker = require('faker');
-const gender = ['male', 'female'];
-const language = ['English', 'French'];
 
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.bulkInsert('users', [
+  up: (queryInterface) => queryInterface.bulkInsert('users', [
     {
       username: 'iammarusoft',
       firstName: 'alimi',
@@ -106,16 +104,40 @@ module.exports = {
     {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      roleId: 3,
+      email: 'barefoot1@gmail.com',
+      roleId: 4,
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: faker.internet.email(),
+      email: 'barefoot2@gmail.com',
       roleId: 4,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: 'requester1@gmail.com',
+      roleId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: 'requester2@gmail.com',
+      roleId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: 'requester3@gmail.com',
+      roleId: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {}),
