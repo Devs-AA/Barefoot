@@ -114,13 +114,31 @@ describe('Edit Requests with Open Status', () => {
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
-    it('It should update ', async () => {
+    it('It should return 401 if use des not own the request ', async () => {
       const res = await chai.request(server)
         .put(route)
         .send(body.valid)
         .set('authorization', `Bearer ${notOwner}`);
 
       assert.equal(401, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should return 422 error if reason is the same', async () => {
+      const res = await chai.request(server)
+        .put(route)
+        .send(body.sameReason)
+        .set('authorization', `Bearer ${permittedToken}`);
+
+      assert.equal(422, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should return 422 error if trip type is the same', async () => {
+      const res = await chai.request(server)
+        .put(route)
+        .send(body.sameTripType)
+        .set('authorization', `Bearer ${permittedToken}`);
+
+      assert.equal(422, res.status);
       assert.equal(res.body.success, false);
     });
   });
