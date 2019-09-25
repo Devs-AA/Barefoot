@@ -32,12 +32,12 @@ export default class UserController {
       const hashpassword = await hashPassword(user.password);
       user.password = hashpassword;
       const {
-        id, email, firstName, lastName, roleId, isVerified, username
+        id, email, firstName, lastName, roleId, username,
       } = await userService.addUser(user);
       const newLoggedDetails = { email, password: user.password, lastLogin };
       await userService.addLogin(email, newLoggedDetails);
       const token = await jwtSignUser({
-        id, email, firstName, lastName, roleId, isVerified, username
+        id, email, firstName, lastName, roleId, username
       });
       util.setSuccess(201, 'Successfully signed up', { token });
       return util.send(res);

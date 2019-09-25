@@ -26,7 +26,7 @@ describe('User Role Setting', () => {
     await models.users.destroy({ where: {} });
     await models.roles.destroy({ where: {} });
   });
-  
+
   describe('Set User Role', () => {
     it('Should return an error for unauthorised users', async () => {
       const res = await chai
