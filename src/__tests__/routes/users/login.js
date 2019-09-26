@@ -168,7 +168,7 @@ describe('Login Users', () => {
 
         jwtVerifyUserToken(res.body.token)
           .then((payload) => {
-            payload.should.property('id');
+            payload.should.property('user');
             done();
           })
           .catch((e) => done(e));
@@ -188,7 +188,7 @@ describe('Login Users', () => {
 
         jwtVerifyUserToken(res.body.token)
           .then((payload) => {
-            payload.should.property('id');
+            payload.should.property('user');
             done();
           })
           .catch((e) => done(e));

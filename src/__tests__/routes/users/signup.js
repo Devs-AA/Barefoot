@@ -361,7 +361,7 @@ describe('SIGNUP ROUTE', () => {
     it('should say proctected route when token is not present', async () => {
       const response = await request.get('/api/v1/users/myaccount')
         .set('Authorization', tokenEmail);
-      expect(response.status).to.equal(400);
+      expect(response.status).to.equal(401);
       expect(response.body).to.be.a('object');
     }).timeout(0);
   });

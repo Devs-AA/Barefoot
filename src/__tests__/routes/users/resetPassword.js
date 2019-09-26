@@ -130,7 +130,7 @@ describe('Forgot and Reset Password Test', () => {
           })
           .end((err, res) => {
             expect(res).to.have.status(400);
-            expect(res.body.status).to.be.equal('error');
+            expect(res.body.success).to.be.equal(false);
             expect(res.body.error.password).to.be.equal('Password is invalid');
             done();
           });
@@ -146,7 +146,7 @@ describe('Forgot and Reset Password Test', () => {
           })
           .end((err, res) => {
             expect(res).to.have.status(400);
-            expect(res.body.status).to.be.equal('error');
+            expect(res.body.success).to.be.equal(false);
             expect(res.body.error.password).to.be.equal('Password is invalid');
             done();
           });

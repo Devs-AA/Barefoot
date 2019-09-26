@@ -72,7 +72,7 @@ describe('USER PROFILE', () => {
       const response = await request.get('/api/v1/users/profile')
         .set('Authorization', tokenHeader);
       expect(response.status).to.equal(401);
-      expect(response.body.status).to.equal('error');
+      expect(response.body.success).to.equal(false);
       expect(response.body.message).to.equal('User not found');
     }).timeout(0);
   });
@@ -88,7 +88,7 @@ describe('USER PROFILE', () => {
       const response = await request.patch('/api/v1/users/profile').send(body)
         .set('Authorization', tokenHeader);
       expect(response.status).to.equal(201);
-      expect(response.body.status).to.equal('success');
+      expect(response.body.success).to.equal(true);
       expect(response.body.message).to.equal('You\'ve successfully updated your profile');
     }).timeout(0);
   });
@@ -114,7 +114,7 @@ describe('USER PROFILE', () => {
       const response = await request.patch('/api/v1/users/profile')
         .set('Authorization', tokenHeader);
       expect(response.status).to.equal(401);
-      expect(response.body.status).to.equal('error');
+      expect(response.body.success).to.equal(false);
       expect(response.body.message).to.equal('User not found');
     }).timeout(0);
   });
