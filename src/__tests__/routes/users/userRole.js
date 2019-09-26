@@ -25,6 +25,7 @@ describe('User Role Setting', () => {
     await models.users.destroy({ where: {} });
     await models.roles.destroy({ where: {} });
   });
+
   describe('Set User Role', () => {
     it('Should return an error for unauthorised users', async () => {
       const res = await chai
@@ -107,7 +108,7 @@ describe('User Role Setting', () => {
         .request(server)
         .patch('/api/v1/users/roles')
         .set('authorization', authorizedToken)
-        .send({ email: 'barefoot@gmail.com', roleId: 2 });
+        .send({ email: 'aniefioka@gmail.com', roleId: 2 });
 
       assert.equal(
         res.status,

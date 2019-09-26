@@ -18,12 +18,12 @@ export const emailVerifyToken = (id) => new Promise((resolve) => {
  * @return {string} generated token that is a string data type.
  */
 export const jwtSignUser = (user) => new Promise((resolve) => {
-  const token = jwt.sign(user, process.env.JWT_SECRET);
+  const token = jwt.sign({ user }, process.env.SECRET_KEY_SIGN_UP);
   if (token) return resolve(token);
 });
 
 export const jwtVerifyUserToken = (token) => new Promise((resolve, reject) => {
-  const result = jwt.verify(token, process.env.JWT_SECRET);
+  const result = jwt.verify(token, process.env.SECRET_KEY_SIGN_UP);
   const ERROR = 'Token cannot be VERIFIED because your secret key is has an issue';
   if (result) return resolve(result);
   if (!result) return reject(ERROR);
