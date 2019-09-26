@@ -70,7 +70,7 @@ describe('USER PROFILE', () => {
     it('should throw user not found error', async () => {
       const tokenHeader = `Bearer ${invalidUserToken}`;
       const response = await request.get('/api/v1/users/profile')
-        .set('Authorization', tokenHeader);
+        .set('authorization', tokenHeader);
       expect(response.status).to.equal(401);
       expect(response.body.success).to.equal(false);
       expect(response.body.message).to.equal('User not found');
@@ -112,7 +112,7 @@ describe('USER PROFILE', () => {
     it('should throw user not found error', async () => {
       const tokenHeader = `Bearer ${invalidUserToken}`;
       const response = await request.patch('/api/v1/users/profile')
-        .set('Authorization', tokenHeader);
+        .set('authorization', tokenHeader);
       expect(response.status).to.equal(401);
       expect(response.body.success).to.equal(false);
       expect(response.body.message).to.equal('User not found');

@@ -146,7 +146,7 @@ describe('Edit Requests with Open Status', () => {
 
   describe('Should Update request', async () => {
     it('It should update ', async () => {
-      const user = await jwt.decode(permittedToken, process.env.JWT_SECRET);
+      const user = await jwt.decode(permittedToken, process.env.SECRET_KEY_SIGNUP);
       const res = await chai.request(server)
         .put(route)
         .send(body.valid)
@@ -154,7 +154,7 @@ describe('Edit Requests with Open Status', () => {
 
       assert.equal(200, res.status);
       assert.equal(res.body.success, true);
-      assert.equal(res.body.data.requesterId, user.id);
+      assert.equal(res.body.data.requesterId, user.user.id);
       assert.hasAnyKeys(res.body.data, Object.keys(body.valid));
     });
     it('It should return 403 if request status is not open', async () => {
