@@ -34,7 +34,6 @@ describe('REQUESTS', () => {
         .post(route)
         .set('authorization', '')
         .send(requests.oneWay);
-
       assert.equal(res.status, 401);
       assert.equal(res.body.success, false);
     });

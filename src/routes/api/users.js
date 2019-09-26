@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { SendVerificationToken, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
+import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization } from '../../middlewares/auth/auth';
 import {
   validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
-  EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn
+  EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn,
 } from '../../middlewares/validation/validation';
 import emailController from '../../controllers/emailController';
 import { validateSetRole, permit, checkRoleConflict } from '../../middlewares/users';
-import isLoggedIn from '../../middlewares/login';
 import { roleIds } from '../../helpers/default';
 import userController from '../../controllers/userController';
 import indexController from '../../controllers/indexController';
@@ -22,12 +21,14 @@ const {
 
 const router = Router();
 
-router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail, SendVerificationToken, emailController.signUp);
+router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail, SendVerificationEmail, emailController.signUp);
 
-router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty, EmptySignUpBodyPropertyValue,
-  validationForSignUp, SendVerificationToken, userController.addUser);
+router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
+
+  EmptySignUpBodyPropertyValue, validationForSignUp, SendVerificationEmail, userController.addUser);
 
 router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
+
 
 // @route POST /api/v1/users/auth/login
 // @desc Logins a verified User / Set JWT Token in cookies
@@ -41,7 +42,7 @@ router.post('/users/auth/login', validationForSignIn, loginAUser);
  */
 router.get('/users/myaccount', authorization, indexController.Welcome);
 
-router.patch('/users/roles', [isLoggedIn, validateSetRole, permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
+router.patch('/users/roles', [authorization, validateSetRole, permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
 
 // @route POST /api/v1/users/passwords/forgot
 // @desc Generate User Password Reset / Returning JWT Token
@@ -53,7 +54,7 @@ router.post('/users/passwords/forgot', forgotPasswordCheck, forgotPassword);
 // @access Public
 router.post('/users/passwords/reset/:userId', resetPasswordCheck, resetPassword);
 
-router.get('/users/profile', isLoggedIn, getUserProfile);
-router.patch('/users/profile', validateProfileData, isLoggedIn, updateUserProfile);
+router.get('/users/profile', authorization, getUserProfile);
+router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
 
 export default router;

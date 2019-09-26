@@ -136,7 +136,6 @@ describe('Update Request status', () => {
         .patch(route)
         .send(status.approved)
         .set('authorization', `Bearer ${token1}`);
-
       assert.equal(res.status, 200);
       assert.equal(res.body.success, true);
       assert.equal(res.body.data.status, 'approved');
