@@ -368,16 +368,42 @@ export const departments = [{
   managerId: 2,
   createdAt: new Date(),
   updatedAt: new Date()
-},
-{
-  name: 'ADMINISTARTION',
-  managerId: 3,
-  createdAt: new Date(),
-  updatedAt: new Date()
-},
-{
-  name: 'HUMAN RESOURCES',
-  managerId: 4,
-  createdAt: new Date(),
-  updatedAt: new Date()
 }];
+
+export const login = [
+  {
+    email: 'barefoot1@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'barefoot2@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'barefoot3@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'abc123@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'barefoot@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+];

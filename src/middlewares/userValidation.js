@@ -1,6 +1,7 @@
-import joiValidator from './joiValidator';
 import Joi from '@hapi/joi';
+import joiValidator from './joiValidator';
 import Util from '../utils/response';
+
 const util = new Util();
 
 /**
@@ -29,10 +30,10 @@ export const validateProfileData = async (req, res, next) => {
     if (!error) {
       return next();
     }
-    util.setError(400, error)
-    return util.send(res)
+    util.setError(400, error);
+    return util.send(res);
   } catch (error) {
-    util.setError(500, 'Error processing data')
-    return util.send(res)
+    util.setError(500, 'Error processing data');
+    return util.send(res);
   }
 };
