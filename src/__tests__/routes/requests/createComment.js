@@ -47,7 +47,7 @@ describe('COMMENTS', () => {
         .send({ email: 'requester1@gmail.com', password: 'Password1$' })));
       (({ body: { token: managerToken } } = await chai.request(server)
         .post('/api/v1/users/auth/login')
-        .send({ email: 'abc123@gmail.com', password: 'Password1$' })));
+        .send({ email: 'barefoot1@gmail.com', password: 'Password1$' })));
       (({ body: { token: randomToken } } = await chai.request(server)
         .post('/api/v1/users/auth/login')
         .send({ email: 'requester2@gmail.com', password: 'Password1$' })));
@@ -134,6 +134,7 @@ describe('COMMENTS', () => {
         .post('/api/v1/requests/10/comments')
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.valid);
+
       assert.equal(404, res.status);
       assert.equal(res.body.success, false);
     });
@@ -143,6 +144,7 @@ describe('COMMENTS', () => {
         .post('/api/v1/requests/2/comments')
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.valid);
+
       assert.equal(403, res.status);
       assert.equal(res.body.success, false);
     });
@@ -154,6 +156,7 @@ describe('COMMENTS', () => {
         .post(route)
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.valid);
+
       assert.equal(201, res.status);
       assert.equal(res.body.success, true);
     });
@@ -166,7 +169,7 @@ describe('COMMENTS', () => {
 
       assert.equal(201, res.status);
       assert.equal(res.body.success, true);
-      assert.isNumber(res.body.quotedCommentId);
+      assert.isNumber(res.body.data.quotedCommentId);
     });
   });
 });
