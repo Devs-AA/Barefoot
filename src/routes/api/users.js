@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from '../../config/passport';
 import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
-import { authorization } from '../../middlewares/auth/auth';
+import { authorization, NoUserFromPassport } from '../../middlewares/auth/auth';
 import {
   validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
   EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn,
@@ -17,12 +17,14 @@ const { forgotPasswordCheck, resetPasswordCheck } = validate;
 
 const {
   forgotPassword, resetPassword, loginAUser, getUserProfile,
-  updateUserProfile
+  updateUserProfile, googleLogin, facebookLogin
 } = userController;
 
 const router = Router();
 
-router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail, SendVerificationEmail, emailController.signUp);
+router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail,
+
+  SendVerificationEmail, emailController.signUp);
 
 router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
 
@@ -36,23 +38,29 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
-router.get('/users/auth/google', passport.authenticate('google', { scope: ['profile','email'], session: false }));
+// @Route POST /api/v1/users/auth/google
+// @desc prompt user to select an account from google to be used in login user and send
+// the user to the callback route
+router.get('/users/auth/google', passport.authenticate('google',
+  { scope: ['profile', 'email'], session: false }));
 
-router.get('/users/auth/callback', passport.authenticate('google'),
 
-  (req, res, next) => {
-    console.log(req.user)
-    if (!req.user) {
-      return res.send(401, 'User Not Authenticated');
-    }
+// @Route POST /api/v1/users/auth/callback
+// @desc redirect user to the where middleware and controller get user details
+//  and generate a token to be used for other routes
+router.get('/users/auth/google/callback', passport.authenticate('google'), NoUserFromPassport, googleLogin);
 
-    // prepare token for API
-    req.auth = {
-      id: req.user.id
-    };
+// @Route POST /api/v1/users/auth/google
+// @desc prompt user to select an account from google to be used in login user and send
+// the user to the callback route
+router.get('/users/auth/facebook', passport.authenticate('facebook',
+  { scope: ['public_profile', 'email'], session: false }));
 
-    res.end()
-  });
+
+// @Route POST /api/v1/users/auth/callback
+// @desc redirect user to the where middleware and controller get user details
+//  and generate a token to be used for other routes
+router.get('/users/auth/facebook/callback', passport.authenticate('facebook'), NoUserFromPassport, facebookLogin);
 
 /**
  * Example of how to make use of a protected route
@@ -61,7 +69,8 @@ router.get('/users/auth/callback', passport.authenticate('google'),
  */
 router.get('/users/myaccount', authorization, indexController.Welcome);
 
-router.patch('/users/roles', [authorization, validateSetRole, permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
+router.patch('/users/roles', [authorization, validateSetRole,
+  permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
 
 // @route POST /api/v1/users/passwords/forgot
 // @desc Generate User Password Reset / Returning JWT Token

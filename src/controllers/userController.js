@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-underscore-dangle */
 import moment from 'moment';
 import crypto from 'crypto';
 import Response from '../utils/response';
@@ -107,6 +109,94 @@ export default class UserController {
         });
       }
       return errorResponse(res, 401, 'Email or password incorrect');
+    } catch (error) {
+      return errorResponse(res, 500, error);
+    }
+  }
+
+  /** Log on User with google
+   * @description Logins a user to barefoot with google details
+   * @static
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {string} loginUsers
+   */
+  static async googleLogin(req, res) {
+    const {
+      email: em, given_name, family_name, email_verified
+    } = req.user.profile._json;
+    const userProfile = {
+      email: em,
+      firstName: given_name,
+      lastName: family_name,
+      isVerified: email_verified
+    };
+    try {
+      const userInDatabase = await findUserInUsersDb(em);
+      if (!userInDatabase) {
+        const {
+          id, email, firstName, lastName, roleId,
+        } = await userService.addUser(userProfile);
+        const user = {
+          id, email, firstName, lastName, roleId
+        };
+        const token = await jwtSignUser(user);
+        util.setSuccess(201, 'Successfully signed up', { token });
+        return util.send(res);
+      }
+      const {
+        id, email, firstName, lastName, roleId
+      } = userInDatabase;
+      const user = {
+        id, email, firstName, lastName, roleId
+      };
+      const token = await jwtSignUser(user);
+      util.setSuccess(201, 'Successfully signed up', { token });
+      return util.send(res);
+    } catch (error) {
+      return errorResponse(res, 500, error);
+    }
+  }
+
+  /** Log on User with facebook
+   * @description Logs a user to barefoot with facebook details
+   * @static
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {string} loginUsers
+   */
+  static async facebookLogin(req, res) {
+    const {
+      email: em, first_name, last_name
+    } = req.user.profile._json;
+    const userProfile = {
+      email: em,
+      firstName: first_name,
+      lastName: last_name,
+      isVerified: true
+    };
+    try {
+      const userInDatabase = await findUserInUsersDb(em);
+      if (!userInDatabase) {
+        const {
+          id, email, firstName, lastName, roleId,
+        } = await userService.addUser(userProfile);
+        const user = {
+          id, email, firstName, lastName, roleId
+        };
+        const token = await jwtSignUser(user);
+        util.setSuccess(201, 'Successfully signed up', { token });
+        return util.send(res);
+      }
+      const {
+        id, email, firstName, lastName, roleId
+      } = userInDatabase;
+      const user = {
+        id, email, firstName, lastName, roleId
+      };
+      const token = await jwtSignUser(user);
+      util.setSuccess(201, 'Successfully signed up', { token });
+      return util.send(res);
     } catch (error) {
       return errorResponse(res, 500, error);
     }
