@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const comment = sequelize.define('comments', {
     message: DataTypes.STRING,

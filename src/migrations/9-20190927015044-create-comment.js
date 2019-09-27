@@ -1,27 +1,43 @@
-'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('comments', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      message: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+  up: (queryInterface, Sequelize) => queryInterface.createTable('comments', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER,
+    },
+    message: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+    },
+    quotedCommentId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    requestId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'requests',
+        key: 'id',
       }
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('comments');
-  }
+    },
+    ownerId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      }
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
+  }),
+  down: (queryInterface) => queryInterface.dropTable('comments')
 };

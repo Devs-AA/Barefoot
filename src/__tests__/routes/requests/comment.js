@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
-import { comment } from '../../../__mocks__/comments';
+import { comment } from '../../../__mocks__/comment';
 import {
     users, departments, login
 } from '../../../__mocks__/createRequest';
