@@ -11,3 +11,4 @@ import './routes/users/login';
 import './routes/requests/createRequest';
 import './routes/requests/createTrip';
 import './routes/requests/updateRequest';
+import './services/resetPasswordMail';

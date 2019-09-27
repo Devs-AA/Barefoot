@@ -1,5 +1,6 @@
 const faker = require('faker');
 
+
 module.exports = {
   up: (queryInterface) => queryInterface.bulkInsert('users', [
     {
@@ -81,6 +82,14 @@ module.exports = {
       lastName: faker.name.lastName(),
       roleId: 1,
       email: 'barefoot@gmail.com',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      roleId: 1,
+      email: process.env.ADMIN_EMAIL,
       createdAt: new Date(),
       updatedAt: new Date()
     },

@@ -1,5 +1,5 @@
-export const unauthorizedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInVzZXJuYW1lIjpudWxsLCJlbWFpbCI6ImJhcmVmb290MUBnbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJBcnZpZCIsImxhc3ROYW1lIjoiTGVkbmVyIiwibGFzdExvZ2luIjoiMjAxOS0wOS0yM1QxMzoxMzoyOC4xMjBaIiwicm9sZUlkIjo0LCJpYXQiOjE1NjkyNDc5ODF9.THuk_9GTmtUJm-KBh449D3iV126Acvj5WI4ZOejqwEY';
-export const authorizedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwidXNlcm5hbWUiOm51bGwsImVtYWlsIjoiYmFyZWZvb3RAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiRWxvaXNlIiwibGFzdE5hbWUiOiJHb29kd2luIiwibGFzdExvZ2luIjoiMjAxOS0wOS0yM1QxMzoxMzoyOC4xMjBaIiwicm9sZUlkIjoxLCJpYXQiOjE1NjkyNDc3MTh9.GZa0urX1A1swfYoWF4id2b34-sxgVGBFsAsLrGbLHkg';
+export const unauthorizedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNSwiZW1haWwiOiJhbmllZmlvZGthQGdtYWlsLmNvbSIsImZpcnN0TmFtZSI6IkRvZyIsImxhc3ROYW1lIjoiaGdoZ2giLCJyb2xlSWQiOjUsImlzVmVyaWZpZWQiOmZhbHNlLCJ1c2VybmFtZSI6bnVsbH0sImlhdCI6MTU2OTA5NTY4OH0.AwkM77ix7nkrCo65N5UUdDeDncwWpMrJjKl-ADUmr60';
+export const authorizedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxMCwidXNlcm5hbWUiOm51bGwsImVtYWlsIjoiYW5pZWZpb2thQGdtYWlsLmNvbSIsImZpcnN0TmFtZSI6Ik1vcmdhbiIsImxhc3ROYW1lIjoiSGVybWFubiIsImxhc3RMb2dpbiI6IjIwMTktMDktMjFUMTY6NDU6MTMuODcxWiIsImlzVmVyaWZpZWQiOm51bGwsInJvbGVJZCI6MX0sImlhdCI6MTU2OTA5ODAxNX0.amVNU-rjGfp_gTV_W3xqD4IVDwhFA9sqEu2HDg76rMQ';
 export const validInfoRole = {
   roleId: 4,
   email: 'abc123@gmail.com'
@@ -27,7 +27,7 @@ export const users = {
     lastName: 'Doe',
     roleId: 1,
     password: 'password',
-    email: 'barefoot@gmail.com',
+    email: 'aniefioka@gmail.com',
     createdAt: new Date(),
     updatedAt: new Date()
   },

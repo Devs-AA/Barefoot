@@ -9,7 +9,7 @@ export default class Request {
         id
       }
     });
-    console.log(updatedRequest);
+    // console.log(updatedRequest);
     return updatedRequest[1].dataValues;
   }
 }
