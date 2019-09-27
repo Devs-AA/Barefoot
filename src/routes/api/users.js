@@ -36,7 +36,23 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
-router('/users/auth/google', passport.authenticate('google', { session: false }));
+router.get('/users/auth/google', passport.authenticate('google', { scope: ['profile','email'], session: false }));
+
+router.get('/users/auth/callback', passport.authenticate('google'),
+
+  (req, res, next) => {
+    console.log(req.user)
+    if (!req.user) {
+      return res.send(401, 'User Not Authenticated');
+    }
+
+    // prepare token for API
+    req.auth = {
+      id: req.user.id
+    };
+
+    res.end()
+  });
 
 /**
  * Example of how to make use of a protected route
@@ -61,8 +77,5 @@ router.get('/users/profile', authorization, getUserProfile);
 
 router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
 
-router.get('/tes', (req, res) => {
-  req.redirect('/uv');
-});
 
 export default router;
