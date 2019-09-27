@@ -59,6 +59,7 @@ describe('User Role Setting', () => {
         .patch('/api/v1/users/roles')
         .set('authorization', authorizedToken)
         .send(invalidInfoRole1);
+        console.log(res.body)
       assert.equal(
         res.status,
         400,
@@ -73,7 +74,7 @@ describe('User Role Setting', () => {
         .patch('/api/v1/users/roles')
         .set('authorization', authorizedToken)
         .send(invalidInfoRole3);
-
+      console.log(res.body)
       assert.equal(res.status, 404, 'Should return 404 if email does not exist');
       assert.equal(res.body.success, false, 'Should equal error');
     });
@@ -84,7 +85,7 @@ describe('User Role Setting', () => {
         .patch('/api/v1/users/roles')
         .set('authorization', authorizedToken)
         .send(validInfoRole);
-
+      console.log(res.body)
       assert.equal(
         res.status,
         200,
