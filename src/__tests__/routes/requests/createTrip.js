@@ -27,7 +27,7 @@ describe('REQUESTS', () => {
       await models.departments.bulkCreate(departments);
       await models.requests.create({
         ...requests.valid,
-        requesterId: 15,
+        requesterId: 19,
         managerId: 2
       });
     } catch (error) {
@@ -303,7 +303,7 @@ describe('REQUESTS', () => {
         tripType: 'oneWay',
         departmentId: 2,
         managerId: 2,
-        requesterId: 15
+        requesterId: 19
       };
       try {
         await models.requests.create(request1);
@@ -345,7 +345,7 @@ describe('REQUESTS', () => {
         tripType: 'return',
         departmentId: 2,
         managerId: 2,
-        requesterId: 15
+        requesterId: 19
       };
       try {
         await models.requests.create(request2);
@@ -384,7 +384,7 @@ describe('REQUESTS', () => {
       const request3 = {
         reason: 'Training',
         tripType: 'multiCity',
-        requesterId: 15,
+        requesterId: 19,
         departmentId: 2,
         managerId: 2
       };
@@ -443,7 +443,8 @@ describe('REQUESTS', () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', token.requester2)
-        .send(trips.noExistentAccommodation);
+        .send(trips.nonExistentAccommodation);
+
       assert.equal(res.status, 404);
       assert.equal(res.body.success, false);
     });

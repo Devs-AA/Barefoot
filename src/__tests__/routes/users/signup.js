@@ -7,7 +7,6 @@ import app from '../../../index';
 import { jwtVerifyUserToken, emailVerifyToken } from '../../../utils/index';
 import { hashPassword, comparePassword } from '../../../helpers/hashpassword';
 import { validateData, signUpValidationSchema } from '../../../helpers/validation/signupValidation';
-import { jwtVerify, authorization } from '../../../middlewares/auth/auth';
 import userController from '../../../controllers/userController';
 import db from '../../../models';
 import { roles } from '../../../__mocks__/userRoles';
