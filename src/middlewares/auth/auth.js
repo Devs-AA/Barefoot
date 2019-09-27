@@ -22,7 +22,7 @@ export const authorization = async (req, res, next) => {
     if (invalidToken) {
       return res.status(401).json({
         success: false,
-        message: 'Please login again, Your Session is expired',
+        message: 'Please login again, Your Session has expired',
       });
     }
 

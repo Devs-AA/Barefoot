@@ -68,7 +68,7 @@ export default class UserController {
       const {
         invalidToken
       } = await userService.logout(token);
-      util.setSuccess(201, 'Successfully Logout', { invalidToken });
+      util.setSuccess(200, 'Successfully Logout', { invalidToken });
       return util.send(res);
     } catch (error) {
       util.setError(500, error.message);
