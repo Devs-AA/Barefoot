@@ -13,6 +13,10 @@ module.exports = {
     quotedCommentId: {
       type: Sequelize.INTEGER,
       allowNull: true,
+      references: {
+        model: 'comments',
+        key: 'id',
+      }
     },
     requestId: {
       type: Sequelize.INTEGER,

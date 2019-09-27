@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     comment.belongsTo(models.requests, {
       foreignKey: 'id'
     });
+    comment.belongsTo(models.comments, {
+      foreignKey: 'quotedCommentId'
+    });
   };
   return comment;
 };
