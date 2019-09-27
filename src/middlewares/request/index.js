@@ -55,17 +55,23 @@ export const checkRequestManager = async (req, res, next) => {
 export const validateEditRequest = (req, res, next) => {
   const errors = {};
   try {
-    const tripType = req.body.tripType ? req.body.tripType.trim() : null;
-    const reason = req.body.reason ? req.body.reason.trim() : null;
+    if (req.body.reason) {
+      req.body.reason = req.body.reason.trim();
+    } else if (req.body.tripType) {
+      req.body.tripType = req.body.tripType.trim();
+    }
     const isValidReqParam = Validation.validateInteger(req.params.requestId, errors);
+    const { reason, tripType } = req.body;
     if (!isValidReqParam) {
       throw new Error('Invalid Request Id');
     }
-    const requestObj = {
-      tripType,
-      reason
-    };
-    validateRequestObj(requestObj, errors);
+    validateRequestObj({ reason, tripType }, errors);
+    if (!reason && tripType) {
+      delete errors.reason;
+    }
+    if (!tripType && reason) {
+      delete errors.tripType;
+    }
     delete errors.department;
     if (Object.keys(errors).length) {
       return res.status(400).json({
@@ -99,10 +105,10 @@ export const checkRequestOwnerAndConflict = async (req, res, next) => {
         message: 'You are not authorised to perform this operation'
       });
     }
-    if (request.reason === reason.trim()) {
+    if (reason && request.reason === reason.trim()) {
       errors.reason = `Request reason is already ${reason}`;
     }
-    if (request.tripType === tripType.trim()) {
+    if (tripType && request.tripType === tripType.trim()) {
       errors.tripType = `Request trip is already ${tripType}`;
     }
     if (Object.keys(errors).length) {

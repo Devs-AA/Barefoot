@@ -2,12 +2,10 @@ const body = {
   valid: {
     reason: 'Business',
     tripType: 'oneWay',
-    departmentId: 3
   },
   noReason: {
-    reason: '',
+    reason: 9,
     tripType: 'oneWay',
-    departmentId: 3
   },
   sameReason: {
     reason: 'Business',

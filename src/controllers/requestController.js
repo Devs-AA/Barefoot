@@ -117,10 +117,9 @@ export default class Requests {
    * @returns {object} returns response object
    */
   static async editRequest(req, res, next) {
-    const { tripType, reason } = req.body;
     const id = parseInt(req.params.requestId, 10);
     try {
-      const updatedRequest = await Request.editRequest(id, { tripType, reason });
+      const updatedRequest = await Request.editRequest(id, { ...req.body })
       response.setSuccess(200, 'Request Updated Successfully', updatedRequest);
       return response.send(res);
     } catch (error) {
