@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
+import passport from 'passport';
 
 // Configure dotEnv
 dotEnv.config();
@@ -23,6 +24,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(passport.initialize()); // Used to initialize passport
+
 
 app.use(express.static(`${__dirname}/public`));
 

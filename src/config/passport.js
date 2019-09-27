@@ -15,10 +15,17 @@ const {
 passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
-  callbackURL: GOOGLE_CALLBACK_URL,
+  // callbackURL: GOOGLE_CALLBACK_URL,
   profileFields: ['name', 'photos', 'email']
 },
-(accessToken, refreshToken, profile, done) => done(null, profile)));
+(accessToken, refreshTocken, profile, done) => {
+  const user = {
+    accessToken,
+    refreshTocken,
+    profile
+  };
+  return done(null, user);
+}));
 
 passport.use(new FacebookStrategy({
   clientID: FACEBOOK_CLIENT_ID,
@@ -27,7 +34,13 @@ passport.use(new FacebookStrategy({
   profileFields: ['name', 'photos', 'email']
 },
 (accessToken, refreshTocken, profile, done) => {
-  done(null, profile);
+  const user = {
+    accessToken,
+    refreshTocken,
+    profile
+  };
+  console.log(user)
+  return done(null, user);
 }));
 
 

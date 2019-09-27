@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from '../../config/passport';
 import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization } from '../../middlewares/auth/auth';
 import {
@@ -35,6 +36,8 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
+router('/users/auth/google', passport.authenticate('google', { session: false }));
+
 /**
  * Example of how to make use of a protected route
  * Simply call the authorization and jwtVerify middleware in the route you want
@@ -55,6 +58,11 @@ router.post('/users/passwords/forgot', forgotPasswordCheck, forgotPassword);
 router.post('/users/passwords/reset/:userId', resetPasswordCheck, resetPassword);
 
 router.get('/users/profile', authorization, getUserProfile);
+
 router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
+
+router.get('/tes', (req, res) => {
+  req.redirect('/uv');
+});
 
 export default router;
