@@ -17,7 +17,7 @@ const { forgotPasswordCheck, resetPasswordCheck } = validate;
 
 const {
   forgotPassword, resetPassword, loginAUser, getUserProfile,
-  updateUserProfile, googleLogin, facebookLogin
+  updateUserProfile, googleLogin, facebookLogin, logOut
 } = userController;
 
 const router = Router();
@@ -73,7 +73,12 @@ router.get('/users/auth/facebook/callback', passport.authenticate('facebook'),
  */
 router.get('/users/myaccount', authorization, indexController.Welcome);
 
+// It should logout a user by invalidating the user token
+router.delete('/users/auth/logout', authorization, logOut);
+
+//  It set roles for users
 router.patch('/users/roles', [authorization, validateSetRole,
+
   permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
 
 // @route POST /api/v1/users/passwords/forgot

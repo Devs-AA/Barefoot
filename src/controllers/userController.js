@@ -57,6 +57,25 @@ export default class UserController {
     }
   }
 
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async logOut(req, res) {
+    const { token } = req;
+    try {
+      const {
+        invalidToken
+      } = await userService.logout(token);
+      util.setSuccess(201, 'Successfully Logout', { invalidToken });
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
 
   /** Login User
    * @description Logins a user

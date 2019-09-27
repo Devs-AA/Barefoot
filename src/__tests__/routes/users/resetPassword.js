@@ -64,6 +64,7 @@ const clearTestDb = async () => {
   try {
     await db.users.sync({ force: true });
     await db.logins.sync({ force: true });
+    await db.logouts.sync({ force: true });
     await db.resets.sync({ force: true });
   } catch (err) {
     throw err;
@@ -75,6 +76,7 @@ before(async () => {
   try {
     await db.users.sync({ force: true });
     await db.logins.sync({ force: true });
+    await db.logouts.sync({ force: true });
     await db.resets.sync({ force: true });
     await seedTestDb();
   } catch (err) {

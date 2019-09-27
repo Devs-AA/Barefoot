@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import userService from '../../services/userService';
 
 import { jwtVerifyUserToken } from '../../utils/index';
 
@@ -11,17 +12,27 @@ export const authorization = async (req, res, next) => {
       message: 'Token required',
     });
   }
+  
   try {
     // eslint-disable-next-line no-unused-vars
     const [, realToken] = token.split(' ');
     const { user } = await jwtVerifyUserToken(realToken);
+
+    const invalidToken = await userService.checkInvalidToken(realToken);
+    if (invalidToken) {
+      return res.status(401).json({
+        success: false,
+        message: 'Please login again, Your Session is expired',
+      });
+    }
+
     if (user) {
       req.user = user;
+      req.token = realToken;
       return next();
     }
     throw new Error('Invalid Token Provided');
   } catch (error) {
-    console.log(error,'authorization')
     return res.status(401).json({
       success: false,
       message: error.message,
