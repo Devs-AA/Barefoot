@@ -38,7 +38,7 @@ export const permit = (roles = []) => (req, res, next) => {
     }
     next();
   } catch (error) {
-    res.status(401).json({
+    res.status(408).json({
       success: false,
       message: error.message
     });
