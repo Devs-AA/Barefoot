@@ -48,7 +48,9 @@ router.get('/users/auth/google', passport.authenticate('google',
 // @Route POST /api/v1/users/auth/callback
 // @desc redirect user to the where middleware and controller get user details
 //  and generate a token to be used for other routes
-router.get('/users/auth/google/callback', passport.authenticate('google'), NoUserFromPassport, googleLogin);
+router.get('/users/auth/google/callback', passport.authenticate('google'),
+
+  NoUserFromPassport, googleLogin);
 
 // @Route POST /api/v1/users/auth/google
 // @desc prompt user to select an account from google to be used in login user and send
@@ -60,7 +62,9 @@ router.get('/users/auth/facebook', passport.authenticate('facebook',
 // @Route POST /api/v1/users/auth/callback
 // @desc redirect user to the where middleware and controller get user details
 //  and generate a token to be used for other routes
-router.get('/users/auth/facebook/callback', passport.authenticate('facebook'), NoUserFromPassport, facebookLogin);
+router.get('/users/auth/facebook/callback', passport.authenticate('facebook'),
+
+  NoUserFromPassport, facebookLogin);
 
 /**
  * Example of how to make use of a protected route
