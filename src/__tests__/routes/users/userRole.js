@@ -7,7 +7,6 @@ import {
   invalidInfoRole2, invalidInfoRole3, users, roles
 } from '../../../__mocks__/userRoles';
 
-
 chai.use(chaiHttp);
 
 const { assert } = chai;

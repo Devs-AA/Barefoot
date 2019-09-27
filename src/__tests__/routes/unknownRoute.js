@@ -21,7 +21,7 @@ describe('EMAIL ROUTE', () => {
       const response = await request.post('/');
 
       expect(response.status).to.equal(404);
-      expect(response.body.message).to.equal('That routes is not a known route');
+      expect(response.body.message).to.equal('That route is not a known route');
     });
   });
 });

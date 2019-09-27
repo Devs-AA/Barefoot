@@ -1,9 +1,9 @@
-import models from '../models';
-import { checkIfExistsInDb } from '../utils/searchDb';
+import models from '../../models';
+import { checkIfExistsInDb } from '../../utils/searchDb';
 import {
   validateRequestObj, validateOnewayTrip, validateReturnTrip, validateMuticityTrip, findTripData,
   validateId
-} from '../helpers/validation/tripValidation';
+} from '../../helpers/validation/tripValidation';
 
 export const validateTripRequest = async (req, res, next) => {
   req.body.tripType = !req.body.tripType ? null : req.body.tripType.trim();
