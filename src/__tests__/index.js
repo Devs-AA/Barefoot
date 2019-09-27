@@ -12,4 +12,4 @@
 // import './routes/requests/createTrip';
 // import './routes/requests/updateRequest';
 // import './services/resetPasswordMail';
-import './routes/requests/comment';
+import './routes/requests/createComment';

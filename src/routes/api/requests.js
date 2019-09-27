@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import requestController from '../../controllers/requestController';
+import commentController from '../../controllers/commentController';
 import {
   validateTripRequest, checkRequest, validateTripData, validateTripInput
 } from '../../middlewares/trips';
@@ -24,12 +25,8 @@ router.patch('/requests/:requestId', [authorization, permit([roleIds.manager]),
 
   validateUpdateRequest, checkRequestManager], requestController.updateStatus);
 
-  router.post('/requests/:requestId/comments', async (req, res, next) => {
-    const { requestId } = req.params;
-    const ownerId = 2;
-    const comment = await models.comments.create({...req.body, requestId, ownerId });
-    res.send(comment.dataValues)
-  })
+router.post('/requests/:requestId/comments', [authorization, permit([roleIds.requester, roleIds.manager])
+  ], commentController.create);
 
 router.get('/requests/:requestId/comments/:commentId', async (req, res, next) => {
   const { commentId } = req.params;
@@ -39,6 +36,6 @@ router.get('/requests/:requestId/comments/:commentId', async (req, res, next) =>
     },
     include: [models.comments]
   });
-  res.send(comment.dataValues)
-})
+  res.send(comment.dataValues);
+});
 export default router;
