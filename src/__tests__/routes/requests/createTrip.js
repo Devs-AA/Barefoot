@@ -443,7 +443,7 @@ describe('REQUESTS', () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', token.requester2)
-        .send(trips.noExistentAccommodation);
+        .send(trips.nonExistentAccommodation);
 
       assert.equal(res.status, 404);
       assert.equal(res.body.success, false);

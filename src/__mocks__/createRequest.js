@@ -97,7 +97,7 @@ export const trips = {
       },
 
   },
-  noExistentAccommodation: {
+  nonExistentAccommodation: {
     trip:
       {
         destinationLocationId: 2, departureLocationId: 1, accommodationId: 200, departureDate: '2019/10/10 18:00'
@@ -387,6 +387,20 @@ export const login = [
   },
   {
     email: 'barefoot3@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'requester1@gmail.com',
+    password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+    lastLogin: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    email: 'requester2@gmail.com',
     password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
     lastLogin: new Date(),
     createdAt: new Date(),

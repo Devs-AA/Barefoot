@@ -3,8 +3,10 @@ import requestController from '../../controllers/requestController';
 import commentController from '../../controllers/commentController';
 import {
   validateTripRequest, checkRequest, validateTripData, validateTripInput
-} from '../../middlewares/trips';
-import { validateUpdateRequest, checkRequestManager } from '../../middlewares/request';
+} from '../../middlewares/request/trips';
+import {
+  validateUpdateRequest, checkRequestManager, validateEditRequest, checkRequestOwnerAndConflict
+} from '../../middlewares/request';
 import { validateCommentInput, validateCommentRequest } from '../../middlewares/comment';
 import { authorization } from '../../middlewares/auth/auth';
 import { permit } from '../../middlewares/users';
@@ -25,7 +27,12 @@ router.patch('/requests/:requestId', [authorization, permit([roleIds.manager]),
 
   validateUpdateRequest, checkRequestManager], requestController.updateStatus);
 
+router.put('/requests/:requestId', [authorization, permit([roleIds.requester]),
+
+  validateEditRequest, checkRequestOwnerAndConflict], requestController.editRequest);
+
 router.post('/requests/:requestId/comments', [authorization, permit([roleIds.requester, roleIds.manager]),
+
   validateCommentInput, validateCommentRequest], commentController.create);
 
 export default router;
