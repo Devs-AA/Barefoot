@@ -12,7 +12,7 @@ describe('Test for getting undefined routes', () => {
       .post('/')
       .end((err, res) => {
         expect(res.status).to.equal(404);
-        expect(res.body.message).to.equal('That routes is not a known route');
+        expect(res.body.message).to.equal('That route is not a known route');
       });
   });
 });
