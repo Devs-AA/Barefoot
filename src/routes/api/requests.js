@@ -5,10 +5,10 @@ import {
   validateTripRequest, checkRequest, validateTripData, validateTripInput
 } from '../../middlewares/trips';
 import { validateUpdateRequest, checkRequestManager } from '../../middlewares/request';
+import { validateCommentInput, validateCommentRequest } from '../../middlewares/comment';
 import { authorization } from '../../middlewares/auth/auth';
 import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
-import models from '../../models';
 
 const router = Router();
 
@@ -25,17 +25,7 @@ router.patch('/requests/:requestId', [authorization, permit([roleIds.manager]),
 
   validateUpdateRequest, checkRequestManager], requestController.updateStatus);
 
-router.post('/requests/:requestId/comments', [authorization, permit([roleIds.requester, roleIds.manager])
-  ], commentController.create);
+router.post('/requests/:requestId/comments', [authorization, permit([roleIds.requester, roleIds.manager]),
+  validateCommentInput, validateCommentRequest], commentController.create);
 
-router.get('/requests/:requestId/comments/:commentId', async (req, res, next) => {
-  const { commentId } = req.params;
-  const comment = await models.comments.findOne({
-    where: {
-      id: commentId
-    },
-    include: [models.comments]
-  });
-  res.send(comment.dataValues);
-});
 export default router;

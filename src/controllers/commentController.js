@@ -13,7 +13,7 @@ export default class CommentController {
      */
   static async create(req, res, next) {
     const commentObj = {
-      message: req.body.message,
+      message: req.body.message.trim(),
       requestId: req.params.requestId,
       ownerId: req.user.id
     };
@@ -24,7 +24,7 @@ export default class CommentController {
       const createdComment = await Comment.addComment(commentObj);
       return res.status(201).json({
         success: true,
-        data: createdComment.dataValues
+        data: createdComment
       });
     } catch (error) {
       next(error);
