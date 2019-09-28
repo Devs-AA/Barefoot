@@ -1,6 +1,5 @@
 import './routes/users/resetPassword';
 import './routes/routes';
-import './routes/unknownRoute';
 import './utils/hash';
 import './validations/resetPassword';
 import './routes/users/emailverification';
