@@ -4,9 +4,9 @@ import express from 'express';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
+import passport from 'passport';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
-import passport from 'passport';
 
 // Configure dotEnv
 dotEnv.config();

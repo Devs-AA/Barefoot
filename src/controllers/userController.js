@@ -151,6 +151,7 @@ export default class UserController {
         id, email, firstName, lastName, roleId
       };
       const token = await jwtSignUser(user);
+      res.setHeader('authorization', token);
       util.setSuccess(201, 'Successfully signed up', { token });
       return util.send(res);
     } catch (error) {

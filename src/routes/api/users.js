@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import passport from '../../config/passport';
+// import passport from 'passport';
 import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization, NoUserFromPassport } from '../../middlewares/auth/auth';
 import {
@@ -32,39 +33,30 @@ router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptyS
 
 router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 
-
 // @route POST /api/v1/users/auth/login
 // @desc Logins a verified User / Set JWT Token in cookies
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
 // @Route POST /api/v1/users/auth/google
-// @desc prompt user to select an account from google to be used in login user and send
-// the user to the callback route
-router.get('/users/auth/google', passport.authenticate('google',
-  { scope: ['profile', 'email'], session: false }));
+// @desc this route recieves the access token from the client side and
+// sends this detail in the req.body
+// and we authenticate this accessToken from our backend, if valid we generate a
+// token and saves the user
+// in our database.
+router.get('/users/auth/token/google', passport.authenticate('google-token',
 
+  { scope: ['profile', 'email'], session: false }), NoUserFromPassport, googleLogin);
 
-// @Route POST /api/v1/users/auth/callback
-// @desc redirect user to the where middleware and controller get user details
-//  and generate a token to be used for other routes
-router.get('/users/auth/google/callback', passport.authenticate('google'),
+// @Route POST /api/v1/users/auth/facebook
+// @desc this route recieves the access token from the client side and
+// sends this detail in the req.body
+// and we authenticate this accessToken from our backend
+// if valid we generate a token and saves the user
+// in our database.
+router.get('/users/auth/token/facebook', passport.authenticate('facebook-token',
 
-  NoUserFromPassport, googleLogin);
-
-// @Route POST /api/v1/users/auth/google
-// @desc prompt user to select an account from google to be used in login user and send
-// the user to the callback route
-router.get('/users/auth/facebook', passport.authenticate('facebook',
-  { scope: ['public_profile', 'email'], session: false }));
-
-
-// @Route POST /api/v1/users/auth/callback
-// @desc redirect user to the where middleware and controller get user details
-//  and generate a token to be used for other routes
-router.get('/users/auth/facebook/callback', passport.authenticate('facebook'),
-
-  NoUserFromPassport, facebookLogin);
+  { scope: ['public_profile', 'email'], session: false }), NoUserFromPassport, facebookLogin);
 
 /**
  * Example of how to make use of a protected route
@@ -73,7 +65,9 @@ router.get('/users/auth/facebook/callback', passport.authenticate('facebook'),
  */
 router.get('/users/myaccount', authorization, indexController.Welcome);
 
+
 router.patch('/users/roles', [authorization, validateSetRole,
+
   permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
 
 // @route POST /api/v1/users/passwords/forgot
