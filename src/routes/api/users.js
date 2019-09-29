@@ -38,9 +38,10 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
+
 // @Route POST /api/v1/users/auth/google
 // @desc this route recieves the access token from the client side and
-// sends this detail in the req.body
+// sends this detail as query params
 // and we authenticate this accessToken from our backend, if valid we generate a
 // token and saves the user
 // in our database.
@@ -48,9 +49,10 @@ router.get('/users/auth/token/google', passport.authenticate('google-token',
 
   { scope: ['profile', 'email'], session: false }), NoUserFromPassport, googleLogin);
 
+
 // @Route POST /api/v1/users/auth/facebook
 // @desc this route recieves the access token from the client side and
-// sends this detail in the req.body
+// sends this detail as query params
 // and we authenticate this accessToken from our backend
 // if valid we generate a token and saves the user
 // in our database.
