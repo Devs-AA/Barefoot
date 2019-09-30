@@ -19,6 +19,18 @@ class userService {
   }
 
   /**
+   * @param { token } token to be added to logout table.
+ * @returns {object} containing newly added user to the database
+ */
+  static async logout(token) {
+    try {
+      return await db.logouts.create({ invalidToken: token });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * @param { email } email of newly registered to be added to login table.
    * @param { userlogged } userlogged of newly registered to be added to login table.
  * @returns {object} containing newly added user to login table.
@@ -34,6 +46,21 @@ class userService {
         return createdLoginUser;
       }
       return null;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * @param { invalidToken } invalidToken to check in database.
+ * @returns {object} containing newly added user to login table.
+ */
+  static async checkInvalidToken(invalidToken) {
+    try {
+      const token = await db.logouts.findOne({
+        where: { invalidToken }
+      });
+      return token;
     } catch (error) {
       throw error;
     }

@@ -27,6 +27,7 @@ describe('Edit Requests with Open Status', () => {
     };
     try {
       await models.users.sync({ force: true });
+      await models.logouts.sync({ force: true });
       await models.logins.sync({ force: true });
       await models.departments.sync({ force: true });
       await models.requests.sync({ force: true });
@@ -53,6 +54,7 @@ describe('Edit Requests with Open Status', () => {
       await models.departments.destroy({ where: {} });
       await models.logins.destroy({ where: {} });
       await models.users.destroy({ where: {} });
+      await models.logouts.destroy({ where: {} });
     } catch (error) {
       console.log(error);
     }

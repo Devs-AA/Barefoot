@@ -28,6 +28,7 @@ describe('Update Request status', () => {
     };
     try {
       await models.users.sync({ force: true });
+      await models.logouts.sync({ force: true });
       await models.logins.sync({ force: true });
       await models.departments.sync({ force: true });
       await models.requests.sync({ force: true });
@@ -49,6 +50,7 @@ describe('Update Request status', () => {
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
     await models.users.destroy({ where: {} });
+    await models.logouts.destroy({ where: {} });
   });
 
   describe('It should validate Token', () => {

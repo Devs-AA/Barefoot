@@ -1,9 +1,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/prefer-default-export */
+import dotenv from 'dotenv';
 import { verifyEmailTemplate } from '../services/mail/template/verifyEmail';
 import { emailVerifyToken } from '../utils/index';
 import validation from '../helpers/validation';
 import Mail from '../services/mail/Mail';
+
+dotenv.config();
+
+const { CLIENT_URL } = process.env;
 
 const { isValidEmail } = validation;
 
@@ -29,10 +34,10 @@ export const SendVerificationEmail = async (req, res, next) => {
     Subject: 'Email Verification',
     Recipient: email,
   };
-  const domain = 'firestar-backend-staging-pr-24.herokuapp.com';
+  const domain = CLIENT_URL;
   const linkProd = `${req.protocol}://${req.hostname}/api/v1/users/email/verify?id=${token}`;
   const linkLocal = `${req.protocol}://${req.hostname}:${process.env.PORT}/api/v1/users/email/verify?id=${token}`;
-  const link = req.hostname === domain ? linkProd : linkLocal;
+  const link = `${req.protocol}://${req.hostname}` === domain ? linkProd : linkLocal;
   const data = {
     email,
     firstName,
