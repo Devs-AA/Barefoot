@@ -38,33 +38,7 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
-// @Route POST /api/v1/users/auth/google
-// @desc prompt user to select an account from google to be used in login user and send
-// the user to the callback route
-router.get('/users/auth/google', passport.authenticate('google',
-  { scope: ['profile', 'email'], session: false }));
 
-
-// @Route POST /api/v1/users/auth/callback
-// @desc redirect user to the where middleware and controller get user details
-//  and generate a token to be used for other routes
-router.get('/users/auth/google/callback', passport.authenticate('google'),
-
-  NoUserFromPassport, googleLogin);
-
-// @Route POST /api/v1/users/auth/google
-// @desc prompt user to select an account from google to be used in login user and send
-// the user to the callback route
-router.get('/users/auth/facebook', passport.authenticate('facebook',
-  { scope: ['public_profile', 'email'], session: false }));
-
-
-// @Route POST /api/v1/users/auth/callback
-// @desc redirect user to the where middleware and controller get user details
-//  and generate a token to be used for other routes
-router.get('/users/auth/facebook/callback', passport.authenticate('facebook'),
-
-  NoUserFromPassport, facebookLogin);
 
 /**
  * Example of how to make use of a protected route

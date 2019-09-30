@@ -40,9 +40,3 @@ export const authorization = async (req, res, next) => {
   }
 };
 
-export const NoUserFromPassport = (req, res, next) => {
-  if (!req.user) {
-    return res.send(401, 'User Not Authenticated');
-  }
-  next();
-};
