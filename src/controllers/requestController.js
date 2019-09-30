@@ -119,7 +119,7 @@ export default class Requests {
   static async editRequest(req, res, next) {
     const id = parseInt(req.params.requestId, 10);
     try {
-      const updatedRequest = await Request.editRequest(id, { ...req.body })
+      const updatedRequest = await Request.editRequest(id, { ...req.body });
       response.setSuccess(200, 'Request Updated Successfully', updatedRequest);
       return response.send(res);
     } catch (error) {

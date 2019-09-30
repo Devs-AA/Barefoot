@@ -21,7 +21,7 @@ export const authorization = async (req, res, next) => {
     }
     throw new Error('Invalid Token Provided');
   } catch (error) {
-    console.log(error,'authorization')
+    console.log(error, 'authorization');
     return res.status(401).json({
       success: false,
       message: error.message,
