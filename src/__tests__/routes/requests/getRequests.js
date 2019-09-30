@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
-import body from '../../../__mocks__/editRequest';
 import {
   users, departments, login
 } from '../../../__mocks__/createRequest';
@@ -13,8 +12,8 @@ chai.use(chaiHttp);
 const { assert } = chai;
 const route = '/api/v1/requests';
 
-describe('Edit Requests with Open Status', () => {
-  let permittedToken, notPermittedToken, notOwner;
+describe('Get all requests belonging to a user', () => {
+  let permittedToken, notPermittedToken;
   before(async () => {
     const request = {
       reason: 'Meeting',
@@ -39,9 +38,6 @@ describe('Edit Requests with Open Status', () => {
       (({ body: { token: notPermittedToken } } = await chai.request(server)
         .post('/api/v1/users/auth/login')
         .send({ email: 'abc123@gmail.com', password: 'Password1$' })));
-      (({ body: { token: notOwner } } = await chai.request(server)
-        .post('/api/v1/users/auth/login')
-        .send({ email: 'requester2@gmail.com', password: 'Password1$' })));
     } catch (error) {
       console.log(error);
     }
@@ -85,15 +81,6 @@ describe('Edit Requests with Open Status', () => {
 
 
   describe('Get all requests', async () => {
-    it('It should return 401 if user does not own the requests', async () => {
-      const res = await chai.request(server)
-        .get('/api/v1/requests')
-        .send(body.valid)
-        .set('authorization', `Bearer ${notOwner}`);
-
-      assert.equal(401, res.status);
-      assert.equal(false, res.body.success);
-    });
     it('It should get all requests ', async () => {
       const { user } = await jwt.decode(permittedToken, process.env.SECRET_KEY_SIGNUP);
       const res = await chai.request(server)
@@ -101,13 +88,9 @@ describe('Edit Requests with Open Status', () => {
         .set('authorization', `Bearer ${permittedToken}`);
 
       assert.equal(200, res.status);
-      assert.isArray(res.body.data);
+      assert.isObject(res.body.data);
       assert.equal(res.body.success, true);
-      if (res.body.data.length) {
-        res.body.data.forEach(({ requesterId }) => {
-          assert.equal(requesterId, user.id);
-        });
-      }
+      assert.equal(res.body.data.requesterId, user.id);
     });
   });
 });
