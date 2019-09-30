@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import passport from '../../config/passport';
+// import passport from 'passport';
 import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
 import { authorization, NoUserFromPassport } from '../../middlewares/auth/auth';
 import {
@@ -32,13 +33,32 @@ router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptyS
 
 router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 
-
 // @route POST /api/v1/users/auth/login
 // @desc Logins a verified User / Set JWT Token in cookies
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
 
+// @Route POST /api/v1/users/auth/google
+// @desc this route recieves the access token from the client side and
+// sends this detail as query params
+// and we authenticate this accessToken from our backend, if valid we generate a
+// token and saves the user
+// in our database.
+router.get('/users/auth/token/google', passport.authenticate('google-token',
+
+  { scope: ['profile', 'email'], session: false }), NoUserFromPassport, googleLogin);
+
+
+// @Route POST /api/v1/users/auth/facebook
+// @desc this route recieves the access token from the client side and
+// sends this detail as query params
+// and we authenticate this accessToken from our backend
+// if valid we generate a token and saves the user
+// in our database.
+router.get('/users/auth/token/facebook', passport.authenticate('facebook-token',
+
+  { scope: ['public_profile', 'email'], session: false }), NoUserFromPassport, facebookLogin);
 
 /**
  * Example of how to make use of a protected route
