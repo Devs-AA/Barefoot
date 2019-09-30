@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    request.hasMany(models.comments, {
+      foreignKey: {
+        name: 'requestId',
+      }
+    });
   };
   return request;
 };

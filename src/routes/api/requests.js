@@ -35,4 +35,6 @@ router.post('/requests/:requestId/comments', [authorization, permit([roleIds.req
 
   validateCommentInput, validateCommentRequest], commentController.create);
 
+router.get('/requests', [authorization, permit([roleIds.requester])], requestController.findAll);
+
 export default router;

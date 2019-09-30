@@ -12,7 +12,6 @@ export const authorization = async (req, res, next) => {
       message: 'Token required',
     });
   }
-  
   try {
     // eslint-disable-next-line no-unused-vars
     const [, realToken] = token.split(' ');
@@ -40,3 +39,9 @@ export const authorization = async (req, res, next) => {
   }
 };
 
+export const NoUserFromPassport = (req, res, next) => {
+  if (!req.user) {
+    return res.send(401, 'User Not Authenticated');
+  }
+  next();
+};
