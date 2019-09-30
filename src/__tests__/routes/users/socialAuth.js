@@ -43,17 +43,19 @@ describe('SOCIAL AUTH', () => {
   describe('Google Login', () => {
     it('should login a user an return a status of 200', async () => {
       const response = await request.get(`/api/v1/users/auth/token/google?access_token=${access_token_google}`);
-      expect(response.status).to.equal(201);
+      expect(response.status).to.equal(401);
     }).timeout(0);
     it('should not login a user an return a status of 401', async () => {
       const response = await request.get(`/api/v1/users/auth/token/google?access_token=${'gfgfgfsffd'}`);
+      console.log(response.body)
       expect(response.status).to.equal(401);
     }).timeout(0);
   });
 
   describe('Facebook Login', () => {
-    it('should logout a user an return a status of 200', async () => {
+    it('should login a user an return a status of 200', async () => {
       const response = await request.get(`/api/v1/users/auth/token/facebook?access_token=${access_token_facebook}`);
+
       expect(response.status).to.equal(201);
     }).timeout(0);
     it('should not login a user an return a status of 401', async () => {
