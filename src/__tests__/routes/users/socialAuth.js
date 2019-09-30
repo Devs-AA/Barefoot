@@ -47,7 +47,6 @@ describe('SOCIAL AUTH', () => {
     }).timeout(0);
     it('should not login a user an return a status of 401', async () => {
       const response = await request.get(`/api/v1/users/auth/token/google?access_token=${'gfgfgfsffd'}`);
-      console.log(response.body)
       expect(response.status).to.equal(401);
     }).timeout(0);
   });
