@@ -3,6 +3,8 @@ import cors from 'cors';
 import express from 'express';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
+import passport from 'passport';
+
 import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
@@ -23,6 +25,8 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(passport.initialize()); // Used to initialize passport
+
 
 app.use(express.static(`${__dirname}/public`));
 

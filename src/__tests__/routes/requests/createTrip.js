@@ -16,6 +16,7 @@ describe('REQUESTS', () => {
   before(async () => {
     try {
       await models.users.sync({ force: true });
+      await models.logouts.sync({ force: true });
       await models.destinations.sync({ force: true });
       await models.accommodations.sync({ force: true });
       await models.departments.sync({ force: true });
@@ -41,6 +42,7 @@ describe('REQUESTS', () => {
     await models.requests.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
     await models.users.destroy({ where: {} });
+    await models.logouts.destroy({ where: {} });
   });
   describe('Should validate token', () => {
     it('Returns 401 if no token is provided ', async () => {
