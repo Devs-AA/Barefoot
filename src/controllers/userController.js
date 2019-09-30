@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-underscore-dangle */
 import moment from 'moment';
 import crypto from 'crypto';
 import Response from '../utils/response';
@@ -51,6 +53,25 @@ export default class UserController {
         return util.send(res);
       }
       util.setError(500, error);
+      return util.send(res);
+    }
+  }
+
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async logOut(req, res) {
+    const { token } = req;
+    try {
+      const {
+        invalidToken
+      } = await userService.logout(token);
+      util.setSuccess(200, 'Successfully Logout', { invalidToken });
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
       return util.send(res);
     }
   }

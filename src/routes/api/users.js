@@ -1,6 +1,7 @@
 import { Router } from 'express';
+import passport from '../../config/passport';
 import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
-import { authorization } from '../../middlewares/auth/auth';
+import { authorization, NoUserFromPassport } from '../../middlewares/auth/auth';
 import {
   validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
   EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn,
@@ -16,12 +17,14 @@ const { forgotPasswordCheck, resetPasswordCheck } = validate;
 
 const {
   forgotPassword, resetPassword, loginAUser, getUserProfile,
-  updateUserProfile
+  updateUserProfile, googleLogin, facebookLogin, logOut
 } = userController;
 
 const router = Router();
 
-router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail, SendVerificationEmail, emailController.signUp);
+router.post('/users/email/test', handleEmptyEmailBody, handleInvalidEmail,
+
+  SendVerificationEmail, emailController.signUp);
 
 router.post('/users/auth/register', ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
 
@@ -35,6 +38,8 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
 // @access Public
 router.post('/users/auth/login', validationForSignIn, loginAUser);
 
+
+
 /**
  * Example of how to make use of a protected route
  * Simply call the authorization and jwtVerify middleware in the route you want
@@ -42,7 +47,13 @@ router.post('/users/auth/login', validationForSignIn, loginAUser);
  */
 router.get('/users/myaccount', authorization, indexController.Welcome);
 
-router.patch('/users/roles', [authorization, validateSetRole, permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
+// It should logout a user by invalidating the user token
+router.delete('/users/auth/logout', authorization, logOut);
+
+//  It set roles for users
+router.patch('/users/roles', [authorization, validateSetRole,
+
+  permit([roleIds.superAdmin]), checkRoleConflict], userController.changeRole);
 
 // @route POST /api/v1/users/passwords/forgot
 // @desc Generate User Password Reset / Returning JWT Token
@@ -55,6 +66,8 @@ router.post('/users/passwords/forgot', forgotPasswordCheck, forgotPassword);
 router.post('/users/passwords/reset/:userId', resetPasswordCheck, resetPassword);
 
 router.get('/users/profile', authorization, getUserProfile);
+
 router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
+
 
 export default router;

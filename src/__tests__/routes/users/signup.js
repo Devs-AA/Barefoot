@@ -30,6 +30,7 @@ describe('SIGNUP ROUTE', () => {
     await db.roles.sync({ force: true });
     await db.users.sync({ force: true });
     await db.logins.sync({ force: true });
+    await db.logouts.sync({ force: true });
     await db.roles.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
   });
 
@@ -38,6 +39,7 @@ describe('SIGNUP ROUTE', () => {
   });
   after(async () => {
     await db.logins.destroy({ where: {} });
+    await db.logouts.destroy({ where: {} });
     await db.users.destroy({ where: {} });
     await db.roles.destroy({ where: {} });
   });
