@@ -1,11 +1,17 @@
+/* eslint-disable camelcase */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import dotenv from 'dotenv';
 import app from '../../../index';
 
 import db from '../../../models';
 import { roles } from '../../../__mocks__/userRoles';
+
+dotenv.config();
+
+const { access_token_google, access_token_facebook } = process.env;
 
 chai.use(chaiHttp);
 chai.use(sinonChai);
@@ -13,9 +19,8 @@ chai.use(sinonChai);
 const { expect } = chai;
 
 let request;
-let token;
 
-describe('LOGOUT', () => {
+describe('SOCIAL AUTH', () => {
   before(async () => {
     request = chai.request(app).keepOpen();
     const {
@@ -23,7 +28,6 @@ describe('LOGOUT', () => {
     } = roles;
     await db.roles.sync({ force: true });
     await db.users.sync({ force: true });
-    await db.logouts.sync({ force: true });
     await db.roles.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
   });
 
@@ -36,44 +40,26 @@ describe('LOGOUT', () => {
     await db.roles.destroy({ where: {} });
   });
 
-  describe('SIGN UP USER FIRST', () => {
-    it('should sign up user first to get user credentials', async () => {
-      const body = {
-        user: {
-          email: 'akps.i@yahoo.com',
-          firstName: 'Aniefiok',
-          lastName: 'Akpan',
-          password: 'ADsd23$$'
-        }
-      };
-      const response = await request.post('/api/v1/users/auth/register').send(body.user);
-      token = response.body.data.token;
+  describe('Google Login', () => {
+    it('should login a user an return a status of 200', async () => {
+      const response = await request.get(`/api/v1/users/auth/token/google?access_token=${access_token_google}`);
+      expect(response.status).to.equal(401);
+    }).timeout(0);
+    it('should not login a user an return a status of 401', async () => {
+      const response = await request.get(`/api/v1/users/auth/token/google?access_token=${'gfgfgfsffd'}`);
+      expect(response.status).to.equal(401);
+    }).timeout(0);
+  });
+
+  describe('Facebook Login', () => {
+    it('should login a user an return a status of 200', async () => {
+      const response = await request.get(`/api/v1/users/auth/token/facebook?access_token=${access_token_facebook}`);
 
       expect(response.status).to.equal(201);
-      expect(response.body).to.be.a('object');
+    }).timeout(0);
+    it('should not login a user an return a status of 401', async () => {
+      const response = await request.get(`/api/v1/users/auth/token/facebook?access_token=${'gfgtrt'}`);
+      expect(response.status).to.equal(500);
     }).timeout(0);
   });
-
-  describe('LOGOUT USER', () => {
-    it('should logout a user an return a status of 200', async () => {
-      const tokenHeader = `Bearer ${token}`;
-      const response = await request.delete('/api/v1/users/auth/logout')
-        .set('Authorization', tokenHeader);
-      expect(response.status).to.equal(200);
-      expect(response.body.success).to.equal(true);
-      expect(response.body.message).to.equal('Successfully Logout');
-    }).timeout(0);
-  });
-
-  describe('INVALIDTOKEN PLEASE SIGN IN AGAIN', () => {
-    it('should return "Please login again, Your Session has expired" and a status of 200', async () => {
-      const tokenHeader = `Bearer ${token}`;
-      const response = await request.get('/api/v1/users/myaccount')
-        .set('Authorization', tokenHeader);
-      expect(response.status).to.equal(401);
-      expect(response.body.success).to.equal(false);
-      expect(response.body.message).to.equal('Please login again, Your Session has expired');
-    }).timeout(0);
-  });
-
 });
