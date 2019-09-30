@@ -6,7 +6,6 @@ import morgan from 'morgan';
 import passport from 'passport';
 
 import swaggerUi from 'swagger-ui-express';
-import passport from 'passport';
 import routes from './routes';
 import swaggerDocument from '../swagger.json';
 
