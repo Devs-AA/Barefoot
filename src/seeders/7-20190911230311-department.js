@@ -13,13 +13,13 @@ module.exports = {
   },
   {
     name: 'ADMINISTARTION',
-    managerId: 10,
+    managerId: 13,
     createdAt: new Date(),
     updatedAt: new Date()
   },
   {
     name: 'HUMAN RESOURCES',
-    managerId: 13,
+    managerId: 14,
     createdAt: new Date(),
     updatedAt: new Date()
   }], {}),

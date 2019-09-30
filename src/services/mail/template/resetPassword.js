@@ -4,7 +4,9 @@
  * @param {data} data is an object of email information
  * @returns {string} string is returned
  */
-export const resetPasswwordTemplate = ({ user, resetToken, expiry, CLIENT_URL }) => `
+export const resetPasswwordTemplate = ({
+  user, resetToken, expiry, CLIENT_URL
+}) => `
 <html>
 <head>
 <title></title>

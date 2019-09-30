@@ -13,7 +13,6 @@ chai.use(sinonChai);
 
 describe('Email services', () => {
   describe('Should fail to send mail', async () => {
-
     const user = {
       id: 2000000,
       email: '',
@@ -32,7 +31,6 @@ describe('Email services', () => {
   });
 
   describe('Should send reset mail', async () => {
-
     const user = {
       id: 2000000,
       email: 'akp.ani@yahoo.com',

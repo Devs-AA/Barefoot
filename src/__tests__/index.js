@@ -13,3 +13,4 @@ import './routes/requests/updateRequest';
 import './routes/requests/editRequest';
 import './services/resetPasswordMail';
 import './routes/users/logout';
+import './routes/requests/createComment';
