@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id'
     });
     comment.belongsTo(models.requests, {
-      foreignKey: 'id'
+      foreignKey: 'requestId'
     });
     comment.belongsTo(models.comments, {
       foreignKey: 'quotedCommentId'

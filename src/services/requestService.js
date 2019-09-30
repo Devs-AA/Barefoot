@@ -42,4 +42,32 @@ export default class Request {
     });
     return requestEdited[1].dataValues;
   }
+
+  /**
+   *
+   * @param {id} id of the request to be updated
+   * @description edits a request with an open status
+   * @type {obj} object
+   * @returns {obj} return updated request object
+   * @memberof Request class
+   */
+  static async getAllRequest(id) {
+    const foundRequests = await models.requests.findAll({
+      returning: true,
+      plain: true,
+      where: {
+        requesterId: id
+      },
+      include: [
+        {
+          model: models.trips,
+          include: [models.accommodations]
+        },
+        {
+          model: models.comments
+        }
+      ]
+    });
+    return foundRequests ? foundRequests.dataValues : [];
+  }
 }
