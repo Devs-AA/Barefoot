@@ -22,7 +22,7 @@
     "seed:test": "cross-env NODE_ENV=test sequelize db:seed:all",
     "undo:seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all"
   },
-  "author": "Andela Simulations Programme",
+  "author": "DEV AA",
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "^7.6.0",

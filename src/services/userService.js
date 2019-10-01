@@ -159,13 +159,31 @@ class userService {
 * @param {Integer} id - user's id
 * @returns {Promise} - sequelize response
 */
-
   static async findUserById(id) {
     try {
       const user = await users.findOne({
         where: { id },
         attributes: {
           exclude: ['isVerified', 'saveProfile']
+        },
+      });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+* Helper function to find a user by id
+* @param {Integer} id - user's id
+* @returns {Promise} - sequelize response
+*/
+  static async findAlreadySaveProfile(id) {
+    try {
+      const user = await users.findOne({
+        where: { id },
+        attributes: {
+          exclude: ['isVerified', 'roleId']
         },
       });
       return user;
@@ -188,10 +206,10 @@ class userService {
       if (userToUpdate) {
         const newProfile = await db.users.update(user, {
           where: { id },
-          attributes: {
-            exclude: ['firstName']
-          },
           returning: true,
+          attributes: {
+            exclude: [ 'isVerified', 'saveProfile']
+          }
         });
         return newProfile[1][0].dataValues;
       }
