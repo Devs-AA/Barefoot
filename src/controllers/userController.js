@@ -491,19 +491,19 @@ export default class UserController {
 
     try {
       const userDetails = {
-        firstName,
-        lastName,
-        username,
-        dateOfBirth,
-        preferredLanguage,
-        preferredCurrency,
-        gender,
-        lineManager,
-        residentialLocation,
-        countryCode,
-        department,
-        phoneNumber,
-        departmentId,
+        firstName: firstName ? firstName.trim() : undefined,
+        lastName: lastName ? lastName.trim() : undefined,
+        username: username ? username.trim() : undefined,
+        dateOfBirth: dateOfBirth ? dateOfBirth.trim() : undefined,
+        preferredLanguage: preferredLanguage ? preferredLanguage.trim() : undefined,
+        preferredCurrency: preferredCurrency ? preferredCurrency.trim() : undefined,
+        gender: gender ? gender.trim() : undefined,
+        lineManager: lineManager ? lineManager.trim() : undefined,
+        residentialLocation: residentialLocation ? residentialLocation.trim() : undefined,
+        countryCode: countryCode ? countryCode.trim() : undefined,
+        department: department ? department.trim() : undefined,
+        phoneNumber: phoneNumber ? phoneNumber.trim() : undefined,
+        departmentId: departmentId ? departmentId.trim() : undefined,
       };
       const updatedUser = await updateUser(id, userDetails);
 
@@ -517,6 +517,7 @@ export default class UserController {
       );
       return util.send(res);
     } catch (error) {
+      console.log(error)
       util.setError(500, error.message);
       return util.send(res);
     }

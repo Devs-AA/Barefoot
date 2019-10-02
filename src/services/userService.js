@@ -201,17 +201,24 @@ class userService {
   static async updateUser(id, user) {
     try {
       const userToUpdate = await users.findOne({
-        where: { id }
+        where: { id },
+        attributes: {
+          exclude: ['isVerified', 'saveProfile']
+        },
       });
       if (userToUpdate) {
-        const newProfile = await db.users.update(user, {
-          where: { id },
-          returning: true,
-          attributes: {
-            exclude: [ 'isVerified', 'saveProfile']
-          }
-        });
-        return newProfile[1][0].dataValues;
+        if (Object.values(user).filter((r) => r !== undefined).length > 0) {
+          const newProfile = await db.users.update(user, {
+            where: { id },
+            returning: true,
+            attributes: {
+              exclude: ['isVerified', 'saveProfile']
+            }
+          });
+          return newProfile[1][0].dataValues;
+        }
+
+        return userToUpdate;
       }
       return null;
     } catch (error) {
