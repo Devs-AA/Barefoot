@@ -101,6 +101,7 @@ describe('USER PROFILE', () => {
     await db.users.sync({ force: true });
     await db.logouts.sync({ force: true });
     await db.logins.sync({ force: true });
+    await db.departments.sync({ force: true });
     await db.roles.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
     await seedUserDb();
     await seedDepartmentDb();
