@@ -15,7 +15,7 @@ const { expect } = chai;
 let request;
 let token;
 
-describe('USER PROFILE', () => {
+describe('SAVE PROFILE', () => {
   // seed data to department table
   const seedDepartmentDb = async () => {
     await db.departments.create({
