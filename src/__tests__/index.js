@@ -7,6 +7,7 @@ import './routes/users/signup';
 import './routes/users/socialAuth';
 import './routes/users/userRole';
 import './routes/users/userProfile';
+import './routes/users/saveProfile';
 import './routes/users/login';
 import './routes/requests/createRequest';
 import './routes/requests/createTrip';
