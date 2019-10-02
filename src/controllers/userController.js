@@ -116,7 +116,6 @@ export default class UserController {
     const { user } = req;
     try {
       const getUser = await userService.findAlreadySaveProfile(user.id);
-      console.log(getUser.lineManager);
       const {
         firstName, lastName, departmentId, lineManager, department,
         gender, email, phoneNumber
