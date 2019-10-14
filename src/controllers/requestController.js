@@ -1,6 +1,9 @@
 import models from '../models';
 import Response from '../utils/response';
 import Request from '../services/requestService';
+import { checkIfExistsInDb } from '../utils/searchDb';
+import { newRequestNotificationMail } from '../services/mail/resetMail';
+// import webPush from 'web'
 
 const response = new Response();
 /**
@@ -28,6 +31,13 @@ export default class Requests {
         managerId,
         reason
       });
+      const newNotification = {
+        title: 'New Request',
+        recipientId: managerId
+      }
+      await models.notifications.create(newNotification);
+      const { email } = await checkIfExistsInDb(models.users, managerId,'')
+      await newRequestNotificationMail(email);
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       return response.send(res);
     } catch (error) {

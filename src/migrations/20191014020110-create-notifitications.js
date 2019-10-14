@@ -9,9 +9,6 @@ module.exports = {
     title: {
       type: Sequelize.STRING
     },
-    body: {
-      type: Sequelize.STRING
-    },
     recipientId: {
       type: Sequelize.INTEGER,
       references: {
