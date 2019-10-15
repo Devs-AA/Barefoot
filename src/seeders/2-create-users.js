@@ -96,7 +96,7 @@ module.exports = {
     {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: 'abc123@gmail.com',
+      email: 'walesadeks@gmail.com',
       roleId: 4,
       createdAt: new Date(),
       updatedAt: new Date()

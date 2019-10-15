@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('notifitications', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('notifications', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -16,6 +16,13 @@ module.exports = {
         key: 'id'
       }
     },
+    issuerId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
@@ -25,5 +32,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface) => queryInterface.dropTable('notifitications')
+  down: (queryInterface) => queryInterface.dropTable('notifications')
 };

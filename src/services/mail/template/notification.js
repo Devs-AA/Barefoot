@@ -1,10 +1,11 @@
 /* eslint-disable no-tabs */
 /* eslint-disable import/prefer-default-export */
 /**
- * @param {data} data is an object of email information
+ * @param {string} message is an object of email information
+ * @param {string} CLIENT_URL is the http proxy of the user
  * @returns {string} string is returned
  */
-export const newRequestNotification = (message) => `
+export const newRequestNotification = (message, CLIENT_URL) => `
 <html>
 <head>
 <title></title>
@@ -110,7 +111,7 @@ export const newRequestNotification = (message) => `
                       <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
                         <table border="0" cellspacing="0" cellpadding="0">
                           <tr>
-                              <td align="center" style="border-radius: 3px;" bgcolor="#7c72dc"><a href="${process.env.CLIENT_URL}/api/v1/users/:userId/notifications" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7c72dc; display: inline-block;">Reset Password</a></td>
+                              <td align="center" style="border-radius: 3px;" bgcolor="#7c72dc"><a href="${CLIENT_URL}/api/v1/notifications" target="_blank" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7c72dc; display: inline-block;">View On BareFoot</a></td>
                           </tr>
                         </table>
                       </td>
@@ -133,17 +134,16 @@ export const newRequestNotification = (message) => `
                 </td>
               </tr>
               
-              <!-- ADDRESS -->
+              <!-- UNSUBSCRIBE -->
               <tr>
                 <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
-                  <p style="margin: 0;">185, Jiraeul-ro, Jijeong-myeon, Wonju-si, Gangwon-do</p>
+                  <div><a href= "${CLIENT_URL}/api/v1/notifications/unsubscribe" style="color:fff; padding: 0.6em 2em; background-color: red: cursor: pointer">Unsubcribe</a></div>
                 </td>
               </tr>
             </table>
         </td>
     </tr>
 </table>
-<div><a href= "${process.env.CLIENT_URL}/api/v1/notifications/unsubscribe" style="color:fff; padding: 0.6em 2em; background-color: red: cursor: pointer">Unsubcribe</a></div>
 </body>
 </html>
 `;

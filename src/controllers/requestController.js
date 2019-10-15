@@ -3,7 +3,7 @@ import Response from '../utils/response';
 import Request from '../services/requestService';
 import { checkIfExistsInDb } from '../utils/searchDb';
 import { newRequestNotificationMail } from '../services/mail/resetMail';
-// import webPush from 'web'
+
 
 const response = new Response();
 /**
@@ -32,12 +32,16 @@ export default class Requests {
         reason
       });
       const newNotification = {
-        title: 'New Request',
-        recipientId: managerId
+        title: 'New Travel Request',
+        recipientId: managerId,
+        issuerId: newRequest.requesterId
+      };
+      if (req.user.emailNotification) {
+        await models.notifications.create(newNotification);
       }
-      await models.notifications.create(newNotification);
-      const { email } = await checkIfExistsInDb(models.users, managerId,'')
-      await newRequestNotificationMail(email);
+      const { email } = await checkIfExistsInDb(models.users, managerId, '');
+      const msg = 'Hello, your direct report has made a new travel request. The request is awaiting your decision';
+      await newRequestNotificationMail(email, msg);
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       return response.send(res);
     } catch (error) {
@@ -129,7 +133,7 @@ export default class Requests {
   static async editRequest(req, res, next) {
     const id = parseInt(req.params.requestId, 10);
     try {
-      const updatedRequest = await Request.editRequest(id, { ...req.body })
+      const updatedRequest = await Request.editRequest(id, { ...req.body });
       response.setSuccess(200, 'Request Updated Successfully', updatedRequest);
       return response.send(res);
     } catch (error) {
