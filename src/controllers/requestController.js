@@ -2,6 +2,7 @@ import models from '../models';
 import Response from '../utils/response';
 import Request from '../services/requestService';
 import Notification from '../services/notificationService';
+import { io } from '../index';
 
 
 const response = new Response();
@@ -33,12 +34,14 @@ export default class Requests {
       const newNotification = {
         title: 'New Travel Request',
         recipientId: managerId,
-        issuerId: newRequest.requesterId
+        issuerId: newRequest.requesterId,
+        requestId: newRequest.id
       };
-      // await Notification.createEmailNotification(requesterId, managerId, newNotification);
+      await Notification.createEmailNotification(requesterId, managerId, newNotification);
 
       response.setSuccess(201, 'Request Created Successfully', newRequest);
-      return response.send(res);
+      response.send(res);
+      return io.emit(`request-notification-${managerId}`, 'Someone created a travel request');
     } catch (error) {
       error.status = 500;
       next(error);

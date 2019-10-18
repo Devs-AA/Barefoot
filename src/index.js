@@ -1,6 +1,9 @@
 import dotEnv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
+import path from 'path';
+import http from 'http';
+import socket from 'socket.io';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
@@ -14,6 +17,16 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 // Create global app object
 const app = express();
+
+const server = http.createServer(app);
+export const io = socket(server);
+
+io.on('connection', () => {
+  console.log('Socket Connected')
+});
+
+// Static files setup
+app.use(express.static(path.join(__dirname, '../client')));
 
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -57,7 +70,7 @@ if (!isProduction) {
 // eslint-disable-next-line no-unused-vars
 
 // finally, let's start our server...
-const server = app.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${server.address().port}`);
 });
 
