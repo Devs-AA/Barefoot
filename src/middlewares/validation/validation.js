@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/prefer-default-export */
 import Joi from '@hapi/joi';
 import joiValidator from '../joiValidator';
@@ -137,10 +138,14 @@ export const validateProfileData = async (req, res, next) => {
       userName: Joi.string().min(2),
       gender: Joi.string().valid(['male', 'female']),
       company: Joi.string().min(2),
-      lineManager: Joi.string().min(2),
+      lineManager: Joi.string().regex(/^\d+$/).error((errors) => ({
+        message: 'Only digit are permitted lineManager'
+      })),
+      departmentId: Joi.string().regex(/^\d+$/).error((errors) => ({
+        message: 'Only digit are permitted departmentId'
+      })),
       phoneNumber: Joi.string().length(11),
       dateOfBirth: Joi.date(),
-      department: Joi.string().min(2),
       countryCode: Joi.string().min(2),
       preferredLanguage: Joi.string().min(2),
       preferredCurrency: Joi.string().min(2),

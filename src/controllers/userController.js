@@ -77,6 +77,71 @@ export default class UserController {
     }
   }
 
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async updateSavedProfile(req, res) {
+    const { saveProfile } = req.body;
+    const { user } = req;
+    try {
+      const getUser = await userService.findAlreadySaveProfile(user.id);
+      if (getUser.saveProfile && saveProfile === 'true') {
+        util.setSuccess(409, 'You have already updated your profile');
+        return util.send(res);
+      }
+      const response = await userService.updateUser(user.id, { saveProfile });
+      const { departmentId, firstName, lastName } = response;
+      const details = {
+        lastName,
+        firstName,
+        saveProfile: response.saveProfile,
+        departmentId
+      };
+      util.setSuccess(200, 'Profile setting has been saved', { details });
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async getSavedProfile(req, res) {
+    const { user } = req;
+    try {
+      const getUser = await userService.findAlreadySaveProfile(user.id);
+      const {
+        firstName, lastName, departmentId, lineManager, department,
+        gender, email, phoneNumber
+      } = getUser;
+      const details = {
+        firstName,
+        lastName,
+        departmentId,
+        lineManager,
+        department,
+        gender,
+        email,
+        phoneNumber
+      };
+      if (getUser.saveProfile) {
+        util.setSuccess(200, 'Profile successfully retrieved', { ...details });
+        return util.send(res);
+      }
+      util.setSuccess(403, 'You are yet to toggle the saveProfile radio button');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
 
   /** Login User
    * @description Logins a user
@@ -409,14 +474,13 @@ export default class UserController {
       preferredLanguage,
       preferredCurrency,
       gender,
-      company,
       lineManager,
       residentialLocation,
       countryCode,
       department,
+      departmentId,
       phoneNumber,
     } = req.body;
-
     const user = await findUserById(id);
 
     if (!user) {
@@ -426,19 +490,19 @@ export default class UserController {
 
     try {
       const userDetails = {
-        firstName,
-        lastName,
-        username,
-        dateOfBirth,
-        preferredLanguage,
-        preferredCurrency,
-        gender,
-        company,
-        lineManager,
-        residentialLocation,
-        countryCode,
-        department,
-        phoneNumber,
+        firstName: firstName ? firstName.trim() : undefined,
+        lastName: lastName ? lastName.trim() : undefined,
+        username: username ? username.trim() : undefined,
+        dateOfBirth: dateOfBirth ? dateOfBirth.trim() : undefined,
+        preferredLanguage: preferredLanguage ? preferredLanguage.trim() : undefined,
+        preferredCurrency: preferredCurrency ? preferredCurrency.trim() : undefined,
+        gender: gender ? gender.trim() : undefined,
+        lineManager: lineManager ? lineManager.trim() : undefined,
+        residentialLocation: residentialLocation ? residentialLocation.trim() : undefined,
+        countryCode: countryCode ? countryCode.trim() : undefined,
+        department: department ? department.trim() : undefined,
+        phoneNumber: phoneNumber ? phoneNumber.trim() : undefined,
+        departmentId: departmentId ? departmentId.trim() : undefined,
       };
       const updatedUser = await updateUser(id, userDetails);
 
@@ -452,6 +516,7 @@ export default class UserController {
       );
       return util.send(res);
     } catch (error) {
+      console.log(error)
       util.setError(500, error.message);
       return util.send(res);
     }

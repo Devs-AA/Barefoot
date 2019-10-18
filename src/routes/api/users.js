@@ -8,7 +8,10 @@ import {
   EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn,
 } from '../../middlewares/validation/validation';
 import emailController from '../../controllers/emailController';
-import { validateSetRole, permit, checkRoleConflict } from '../../middlewares/users';
+import {
+  validateSetRole, permit, checkRoleConflict, allowedToggleValue,
+  checkInputFromDepartmentDb,
+} from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
 import userController from '../../controllers/userController';
 import indexController from '../../controllers/indexController';
@@ -18,7 +21,7 @@ const { forgotPasswordCheck, resetPasswordCheck } = validate;
 
 const {
   forgotPassword, resetPassword, loginAUser, getUserProfile,
-  updateUserProfile, googleLogin, facebookLogin, logOut
+  updateUserProfile, googleLogin, facebookLogin, logOut, updateSavedProfile, getSavedProfile
 } = userController;
 
 const router = Router();
@@ -87,7 +90,19 @@ router.post('/users/passwords/reset/:userId', resetPasswordCheck, resetPassword)
 
 router.get('/users/profile', authorization, getUserProfile);
 
-router.patch('/users/profile', validateProfileData, authorization, updateUserProfile);
+
+// This route changes the SaveProfile attributes of the user column boolean
+router.patch('/users/toggle/saveprofile', authorization, allowedToggleValue, updateSavedProfile);
+
+// This route get profile details for user who has saved there profile details to
+// be used all throughout the application.
+// This route display the user info if saveProfile is true
+router.get('/users/saveprofile', authorization, getSavedProfile);
+
+// This is the route to edit user profile details
+router.patch('/users/profile', authorization, validateProfileData, checkInputFromDepartmentDb,
+
+  updateUserProfile);
 
 
 export default router;
