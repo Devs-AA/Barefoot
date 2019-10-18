@@ -1,8 +1,7 @@
 import models from '../models';
 import Response from '../utils/response';
 import Request from '../services/requestService';
-import { checkIfExistsInDb } from '../utils/searchDb';
-import { newRequestNotificationMail } from '../services/mail/resetMail';
+import Notification from '../services/notificationService';
 
 
 const response = new Response();
@@ -36,12 +35,8 @@ export default class Requests {
         recipientId: managerId,
         issuerId: newRequest.requesterId
       };
-      if (req.user.emailNotification) {
-        await models.notifications.create(newNotification);
-      }
-      const { email } = await checkIfExistsInDb(models.users, managerId, '');
-      const msg = 'Hello, your direct report has made a new travel request. The request is awaiting your decision';
-      await newRequestNotificationMail(email, msg);
+      // await Notification.createEmailNotification(requesterId, managerId, newNotification);
+
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       return response.send(res);
     } catch (error) {

@@ -133,17 +133,32 @@ export const newRequestNotification = (message, CLIENT_URL) => `
                   <p style="margin: 0;">You received this email because you subscribed for email notification.</p>
                 </td>
               </tr>
-              
               <!-- UNSUBSCRIBE -->
               <tr>
                 <td bgcolor="#f4f4f4" align="left" style="padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 18px;" >
-                  <div><a href= "${CLIENT_URL}/api/v1/notifications/unsubscribe" style="color:fff; padding: 0.6em 2em; background-color: red: cursor: pointer">Unsubcribe</a></div>
+                  <div>
+                  <p>To Unsubscribe from email notifications click the button below.</p>
+                  <a id="unsubscribe" href= "#" style="color:white; padding: 0.6em 2em; background-color: red; cursor: pointer; text-decoration:none;" target="_blank">Unsubcribe</a>
+                  </div>
                 </td>
               </tr>
             </table>
         </td>
     </tr>
 </table>
+<script>
+const btn = document.querySelector('#unsubscribe');
+btn.addEventListener('click', (e) => {
+    console.log('Clicked')
+    e.preventDefault();
+    fetch('${CLIENT_URL}/notifications/unsubscribe', {
+        method: patch,
+        headers: {
+            'content-type': 'application/json'
+    }
+  }).then((res )=> console.log('Done', res))
+})
+</script>
 </body>
 </html>
 `;
