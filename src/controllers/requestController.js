@@ -34,14 +34,13 @@ export default class Requests {
       const newNotification = {
         title: 'New Travel Request',
         recipientId: managerId,
-        issuerId: newRequest.requesterId,
         requestId: newRequest.id
       };
       await Notification.createEmailNotification(requesterId, managerId, newNotification);
 
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       response.send(res);
-      return io.emit(`request-notification-${managerId}`, 'Someone created a travel request');
+      return io.emit(`request-notification-${managerId}`, `${req.user.firstName} created a travel request`);
     } catch (error) {
       error.status = 500;
       next(error);

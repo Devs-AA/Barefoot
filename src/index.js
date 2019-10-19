@@ -21,23 +21,19 @@ const app = express();
 const server = http.createServer(app);
 export const io = socket(server);
 
-io.on('connection', () => {
-  console.log('Socket Connected')
-});
 
 // Static files setup
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
 app.use(cors());
+
 // Normal express config defaults
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-app.use(express.static(`${__dirname}/public`));
 
 if (!isProduction) {
   app.use(errorHandler());

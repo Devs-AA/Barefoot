@@ -3,15 +3,11 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     isRead: DataTypes.BOOLEAN,
     recipientId: DataTypes.INTEGER,
-    issuerId: DataTypes.INTEGER,
     requestId: DataTypes.INTEGER
   }, {});
   notifications.associate = (models) => {
     notifications.belongsTo(models.users, {
       primaryKey: 'recipientId',
-    });
-    notifications.belongsTo(models.users, {
-      primaryKey: 'issuerId',
     });
     notifications.belongsTo(models.requests, {
       primaryKey: 'requestId',
