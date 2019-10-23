@@ -268,7 +268,7 @@ router.post('/requests/:requestId/comments', [authorization, permit([roleIds.req
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/properties'
+ *               $ref: '#/components/schemas/response'
  *       '404':
  *         description: Not Found
  *         content:
