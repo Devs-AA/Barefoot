@@ -7,8 +7,7 @@ import passport from 'passport';
 
 import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
-import swaggerDocument from '../swagger.json';
-
+import swaggerDocument from './config/swaggerDocs';
 // Configure dotEnv
 dotEnv.config();
 
@@ -16,6 +15,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 // Create global app object
 const app = express();
+
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerDocument);
+});
+
+// swagger config middlewares
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
