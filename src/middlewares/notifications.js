@@ -7,7 +7,7 @@ export const checkEmailNotificationApproval = async (req, res, next) => {
     if (!emailNotification) {
         return res.status(403).json({
             success: false,
-            message: 'You are already unsubscribed for email notification'
+            message: 'You already unsubscribed from email notification'
         });
     }
     return next();
