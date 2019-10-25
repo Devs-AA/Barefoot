@@ -1,6 +1,6 @@
 import { users, notifications } from '../models';
 import { checkIfExistsInDb } from '../utils/searchDb';
-import { newRequestNotificationMail } from './mail/resetMail';
+import { newRequestNotificationMail } from './mail/notificationMail';
 /**
  * @description A class for notifications
  */

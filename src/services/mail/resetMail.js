@@ -2,12 +2,12 @@ import dotenv from 'dotenv';
 import Mail from './Mail';
 import { resetPasswwordTemplate } from './template/resetPassword';
 import { signUpResetPasswordTemplate } from './template/signupResetPassword';
-import { newRequestNotification } from './template/notification';
+
 
 dotenv.config();
 
 const { env } = process;
-const CLIENT_URL = env.NODE_ENV === 'test' || 'development' ? `http://localhost:${env.PORT}/api/v1` : env.CLIENT_URL;
+export const CLIENT_URL = env.NODE_ENV === 'test' || 'development' ? `http://localhost:${env.PORT}/api/v1` : env.CLIENT_URL;
 const expiry = parseInt(process.env.TOKENEXPIRY / 60 / 60) || 3;
 
 const sendResetMail = async (user, resetToken) => {
@@ -44,23 +44,6 @@ const sendSignupMail = async (email) => {
     }
   } catch (error) {
     return false;
-  }
-};
-
-export const newRequestNotificationMail = async (email, message) => {
-  const html = newRequestNotification(message, CLIENT_URL);
-  const emailDetails = {
-    Subject: 'New Travel Request',
-    Recipient: email
-  };
-  try {
-    const sendMailResponse = await new Mail(emailDetails, html).main();
-    if (sendMailResponse.message) {
-      return false;
-    }
-    return true;
-  } catch (error) {
-    throw new Error(error);
   }
 };
 export { sendResetMail, sendSignupMail };

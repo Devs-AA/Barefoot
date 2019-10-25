@@ -27,7 +27,7 @@ router.post('/notifications/notify', async (req, res) => {
     res.status().json({
       success: false,
       message: 'Could not send push notification'
-    })
+    });
   }
 });
 router.patch('/notifications/unsubscribe',

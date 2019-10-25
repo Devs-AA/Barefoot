@@ -12,7 +12,6 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 const send = async (message) => {
-
   const register = await navigator.serviceWorker.register('/worker.js');
   const subscription = await register.pushManager.subscribe({
     userVisibleOnly: true,
@@ -41,5 +40,4 @@ socket.on('request-notification-11', async (data) => {
   } catch (error) {
     console.log(error.message);
   }
-
 });
