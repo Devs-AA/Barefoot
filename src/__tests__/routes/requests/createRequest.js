@@ -1,24 +1,38 @@
 import chai from 'chai';
+import sinon from 'sinon';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
 import {
-  requests, users, token, departments
+  requests, users, departments, login
 } from '../../../__mocks__/createRequest';
+import { response } from '../../../controllers/requestController';
 
 chai.use(chaiHttp);
 
 const { assert } = chai;
 const route = '/api/v1/requests';
 
-describe('REQUESTS', () => {
+describe('REQUESTS', async () => {
+  let nonRequester, requester2, mockedSend, mockedSetsuccess;
   before(async () => {
+    mockedSend = await sinon.spy(response, 'send');
+    mockedSetsuccess = await sinon.spy(response, 'setSuccess');
     try {
       await models.users.sync({ force: true });
+      await models.logins.sync({ force: true });
       await models.departments.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.departments.bulkCreate(departments);
+      await models.logins.bulkCreate(login);
+
+      (({ body: { token: requester2 } } = await chai.request(server)
+        .post('/api/v1/users/auth/login')
+        .send({ email: 'requester1@gmail.com', password: 'Password1$' })));
+      (({ body: { token: nonRequester } } = await chai.request(server)
+        .post('/api/v1/users/auth/login')
+        .send({ email: 'abc123@gmail.com', password: 'Password1$' })));
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +65,7 @@ describe('REQUESTS', () => {
     it('Returns 401 if user is not permitted', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.nonRequester)
+        .set('authorization', `Bearer ${nonRequester}`)
         .send(requests.oneWay);
 
       assert.equal(res.status, 401);
@@ -62,7 +76,7 @@ describe('REQUESTS', () => {
     it('Returns 400 if no reason is provided', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.noReason);
 
       assert.equal(res.status, 400);
@@ -71,7 +85,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid trip request reason ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.invalidReason);
 
       assert.equal(res.status, 400);
@@ -80,7 +94,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no request trip type ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.noTripType);
 
       assert.equal(res.status, 400);
@@ -89,7 +103,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid request trip type ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.invalidTripType);
 
       assert.equal(res.status, 400);
@@ -98,7 +112,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for no department', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.noDepartment);
 
       assert.equal(res.status, 400);
@@ -107,7 +121,7 @@ describe('REQUESTS', () => {
     it('Returns 400 for invalid department ', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.invalidDepartment);
 
       assert.equal(res.status, 400);
@@ -115,15 +129,17 @@ describe('REQUESTS', () => {
     });
   });
   describe('Should create a new request', () => {
-    it('Should createa new request', async () => {
+    it('Should create a new request', async () => {
       const res = await chai.request(server)
         .post(route)
-        .set('authorization', token.requester2)
+        .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
 
       assert.equal(res.status, 201);
       assert.equal(res.body.success, true);
       assert.hasAnyKeys(res.body.data, ['id', 'tripType', 'status', 'managerId', 'reason']);
+      assert.isTrue(mockedSend.calledOnce);
+      assert.isTrue(mockedSetsuccess.calledOnce);
     });
   });
 });

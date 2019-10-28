@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
 import {
-  requests, users, token, departments, destinations, accommodations, trips
+  requests, users, token, departments, destinations, accommodations, trips, login
 } from '../../../__mocks__/createRequest';
 import Request from '../../../services/requestService';
 
@@ -16,11 +16,14 @@ describe('REQUESTS', () => {
   before(async () => {
     try {
       await models.users.sync({ force: true });
+      await models.logins.sync({ force: true });
+      await models.departments.sync({ force: true });
       await models.destinations.sync({ force: true });
       await models.accommodations.sync({ force: true });
-      await models.departments.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.trips.sync({ force: true });
+      await models.departments.bulkCreate(departments);
+      await models.logins.bulkCreate(login);
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
       await models.accommodations.bulkCreate(accommodations);

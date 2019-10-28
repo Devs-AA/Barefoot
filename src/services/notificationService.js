@@ -5,7 +5,21 @@ import { newRequestNotificationMail } from './mail/notificationMail';
  * @description A class for notifications
  */
 class Notification {
-/**
+  /**
+ *
+ * @param {*} newNotification Notification oject
+ * @returns {bool} returns boolean
+ */
+  static async create(newNotification) {
+    try {
+      const { dataValues } = await notifications.create(newNotification);
+      return dataValues;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
  *
  * @param {int} userId Id of the user creating request
  * @param {*} managerId The Id of the manager of the user creating request
@@ -18,13 +32,12 @@ class Notification {
       return false;
     }
     try {
-      await notifications.create(newNotification);
+      await Notification.create(newNotification);
       const { email } = await checkIfExistsInDb(users, managerId, '');
       const msg = 'Hello, your direct report has made a new travel request. The request is awaiting your decision';
       await newRequestNotificationMail(email, msg);
       return true;
     } catch (error) {
-      error.status(500);
       throw new Error(error);
     }
   }

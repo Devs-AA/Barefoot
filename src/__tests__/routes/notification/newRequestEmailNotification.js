@@ -34,10 +34,10 @@ describe('Notifications', async () => {
       const message = {
         message: 'No internet connection'
       };
-      const a = {
+      const response = {
         sendMail: () => message,
       };
-      stubbedMailer = sinon.stub(Mailer, 'createTransport').returns(a);
+      stubbedMailer = sinon.stub(Mailer, 'createTransport').returns(response);
     });
 
     afterEach(() => {

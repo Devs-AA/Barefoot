@@ -5,7 +5,7 @@ import Notification from '../services/notificationService';
 import { io } from '../index';
 
 
-const response = new Response();
+export const response = new Response();
 /**
  * @description A class for requests
  */
@@ -31,6 +31,7 @@ export default class Requests {
         managerId,
         reason
       });
+
       const newNotification = {
         title: 'New Travel Request',
         recipientId: managerId,
