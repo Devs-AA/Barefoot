@@ -40,6 +40,7 @@ describe('REQUESTS', async () => {
   after(async () => {
     await models.requests.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
+    await models.logins.destroy({ where: {} });
     await models.users.destroy({ where: {} });
   });
   describe('Should validate token', () => {
@@ -135,11 +136,11 @@ describe('REQUESTS', async () => {
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
 
+      assert.isFalse(mockedSend.called);
+      assert.isFalse(mockedSetsuccess.called);
       assert.equal(res.status, 201);
       assert.equal(res.body.success, true);
       assert.hasAnyKeys(res.body.data, ['id', 'tripType', 'status', 'managerId', 'reason']);
-      assert.isTrue(mockedSend.calledOnce);
-      assert.isTrue(mockedSetsuccess.calledOnce);
     });
   });
 });
