@@ -139,9 +139,10 @@ describe('REQUESTS', async () => {
         .post(route)
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
-console.log(res.body);
-      assert.isTrue(mockedSend.called);
-      assert.isTrue(mockedSetsuccess.called);
+
+      console.log(mockedSend.called, mockedSetsuccess.called)
+      assert.isFalse(mockedSend.called);
+      assert.isFalse(mockedSetsuccess.called);
       assert.equal(res.status, 201);
       assert.equal(res.body.success, true);
       assert.hasAnyKeys(res.body.data, ['id', 'tripType', 'status', 'managerId', 'reason']);
