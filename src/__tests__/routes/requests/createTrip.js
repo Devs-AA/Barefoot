@@ -23,7 +23,6 @@ describe('REQUESTS', () => {
       await models.accommodations.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.trips.sync({ force: true });
-      await models.departments.bulkCreate(departments);
       await models.logins.bulkCreate(login);
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
