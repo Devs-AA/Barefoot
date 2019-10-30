@@ -139,7 +139,7 @@ describe('REQUESTS', async () => {
         .post(route)
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
-
+console.log(res.body);
       assert.isTrue(mockedSend.called);
       assert.isTrue(mockedSetsuccess.called);
       assert.equal(res.status, 201);
