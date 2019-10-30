@@ -140,9 +140,9 @@ export const checkRequest = async (req, res, next) => {
         status: 'open'
       }
     });
-    // if (foundRequest) {
-    //   throw new Error('You still have a pending request');
-    // }
+    if (foundRequest) {
+      throw new Error('You still have a pending request');
+    }
     const foundDepartment = await checkIfExistsInDb(models.departments, req.body.departmentId, 'Department does not exist');
     if (foundDepartment) {
       req.managerId = foundDepartment.managerId;
