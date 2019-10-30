@@ -137,7 +137,7 @@ describe('REQUESTS', async () => {
         .post(route)
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
-
+      console.log(res.body)
       assert.isFalse(mockedSend.called);
       assert.isFalse(mockedSetsuccess.called);
       assert.equal(res.status, 201);
