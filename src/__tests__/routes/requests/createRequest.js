@@ -40,10 +40,10 @@ describe('REQUESTS', async () => {
     }
   });
   after(async () => {
+    await models.notifications.destroy({ where: {} });
     await models.requests.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
-    await models.notifications.destroy({ where: {} });
     await models.users.destroy({ where: {} });
     await models.logouts.destroy({ where: {} });
   });
@@ -139,9 +139,9 @@ describe('REQUESTS', async () => {
         .post(route)
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
-        
-      assert.isFalse(mockedSend.called);
-      assert.isFalse(mockedSetsuccess.called);
+
+      assert.isTrue(mockedSend.called);
+      assert.isTrue(mockedSetsuccess.called);
       assert.equal(res.status, 201);
       assert.equal(res.body.success, true);
       assert.hasAnyKeys(res.body.data, ['id', 'tripType', 'status', 'managerId', 'reason']);
