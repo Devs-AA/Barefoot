@@ -17,12 +17,14 @@ describe('User Role Setting', () => {
       superAdmin, travelAdmin, travelTeamMember, manager, requester
     } = roles;
     await models.users.sync({ force: true });
+    await models.logouts.sync({ force: true });
     await models.roles.sync({ force: true });
     await models.users.bulkCreate([users.superAdmin, users.nonadmin]);
     await models.roles.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
   });
   after(async () => {
     await models.users.destroy({ where: {} });
+    await models.logouts.destroy({ where: {} });
     await models.roles.destroy({ where: {} });
   });
 

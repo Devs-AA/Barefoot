@@ -63,7 +63,10 @@ const users = (sequelize, DataTypes) => {
       defaultValue: 5
     },
     lineManager: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
+    },
+    departmentId: {
+      type: DataTypes.INTEGER
     },
     createdAt: {
       allowNull: false,

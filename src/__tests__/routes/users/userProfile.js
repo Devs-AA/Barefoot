@@ -17,6 +17,81 @@ let request;
 let token;
 
 describe('USER PROFILE', () => {
+  // seed data to department table
+  const seedDepartmentDb = async () => {
+    await db.departments.create({
+      id: 1,
+      name: 'IT',
+      managerId: 5
+    });
+    await db.departments.create({
+      id: 2,
+      name: 'ACCOUNTS',
+      managerId: 6
+    });
+    await db.departments.create({
+      id: 3,
+      name: 'ADMINISTARTION',
+      managerId: 7
+    });
+    await db.departments.create({
+      id: 4,
+      name: 'HUMAN RESOURCE',
+      managerId: 8
+    });
+  };
+  // seed data to user table
+  const seedUserDb = async () => {
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail1@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail2@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail3@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail4@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail5@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail6@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail7@andela.com',
+      roleId: 5
+    });
+    await db.users.create({
+      firstName: 'futhermaths',
+      lastName: 'Physics',
+      email: 'youremail8@andela.com',
+      roleId: 5
+    });
+  };
+
   before(async () => {
     request = chai.request(app).keepOpen();
     const {
@@ -24,8 +99,12 @@ describe('USER PROFILE', () => {
     } = roles;
     await db.roles.sync({ force: true });
     await db.users.sync({ force: true });
+    await db.logouts.sync({ force: true });
     await db.logins.sync({ force: true });
+    await db.departments.sync({ force: true });
     await db.roles.bulkCreate([superAdmin, travelAdmin, travelTeamMember, manager, requester]);
+    await seedUserDb();
+    await seedDepartmentDb();
   });
 
   afterEach(async () => {
@@ -34,7 +113,9 @@ describe('USER PROFILE', () => {
   after(async () => {
     await db.logins.destroy({ where: {} });
     await db.users.destroy({ where: {} });
+    await db.logouts.destroy({ where: {} });
     await db.roles.destroy({ where: {} });
+    await db.departments.destroy({ where: {} });
   });
 
   describe('SIGN UP USER FIRST', () => {
@@ -82,7 +163,102 @@ describe('USER PROFILE', () => {
       const body = {
         firstName: 'Adewale',
         lastName: 'Olaoye',
-        department: 'Mathematics'
+      };
+      const tokenHeader = `Bearer ${token}`;
+      const response = await request.patch('/api/v1/users/profile').send(body)
+        .set('Authorization', tokenHeader);
+      expect(response.status).to.equal(201);
+      expect(response.body.success).to.equal(true);
+      expect(response.body.message).to.equal('You\'ve successfully updated your profile');
+    }).timeout(0);
+
+    it('should return 400 and not update user profile because department field contains alpaphet', async () => {
+      const body = {
+        firstName: 'Adewale',
+        lastName: 'Olaoye',
+        department: 'IT',
+        departmentId: 'HF'
+
+      };
+      const tokenHeader = `Bearer ${token}`;
+      const response = await request.patch('/api/v1/users/profile').send(body)
+        .set('Authorization', tokenHeader);
+      expect(response.status).to.equal(400);
+      expect(response.body.success).to.equal(false);
+      expect(response.body.message[0]).to.equal('Only digit are permitted departmentId');
+    }).timeout(0);
+
+    it('should return 403 and not update user profile because department does not match departmentId', async () => {
+      const body = {
+        firstName: 'Adewale',
+        lastName: 'Olaoye',
+        department: 'IT',
+        departmentId: '2'
+
+      };
+      const tokenHeader = `Bearer ${token}`;
+      const response = await request.patch('/api/v1/users/profile').send(body)
+        .set('Authorization', tokenHeader);
+      expect(response.status).to.equal(403);
+      expect(response.body.success).to.equal(false);
+      expect(response.body.message).to.equal('The department name does not exist for that departmentId, \n          please contact your company department');
+    }).timeout(0);
+
+    it('should return 201 and update user profile because department do match departmentId', async () => {
+      const body = {
+        firstName: 'Adewale',
+        lastName: 'Olaoye',
+        department: 'Accounts',
+        departmentId: '2'
+
+      };
+      const tokenHeader = `Bearer ${token}`;
+      const response = await request.patch('/api/v1/users/profile').send(body)
+        .set('Authorization', tokenHeader);
+      expect(response.status).to.equal(201);
+      expect(response.body.success).to.equal(true);
+      expect(response.body.message).to.equal('You\'ve successfully updated your profile');
+    }).timeout(0);
+
+    it('should return 400 and not update user profile because lineManager field contains alpaphet', async () => {
+      const body = {
+        firstName: 'Adewale',
+        lastName: 'Olaoye',
+        lineManager: 'GGF',
+        departmentId: '2'
+      };
+
+      const tokenHeader = `Bearer ${token}`;
+      const response = await request.patch('/api/v1/users/profile').send(body)
+        .set('Authorization', tokenHeader);
+      expect(response.status).to.equal(400);
+      expect(response.body.success).to.equal(false);
+      expect(response.body.message[0]).to.equal('Only digit are permitted lineManager');
+    }).timeout(0);
+
+    it('should return 403 and not update user profile because lineManager does not match departmentId', async () => {
+      const body = {
+        firstName: 'Adewale',
+        lastName: 'Olaoye',
+        lineManager: '7',
+        departmentId: '2'
+      };
+
+      const tokenHeader = `Bearer ${token}`;
+      const response = await request.patch('/api/v1/users/profile').send(body)
+        .set('Authorization', tokenHeader);
+      expect(response.status).to.equal(403);
+      expect(response.body.success).to.equal(false);
+      expect(response.body.message).to.equal('The lineManager id does not exist for that departmentId, \n          please contact your company department');
+    }).timeout(0);
+
+    it('should return 201 and update user profile because lineManager do match departmentId', async () => {
+      const body = {
+        firstName: 'Adewale',
+        lastName: 'Olaoye',
+        lineManager: '6',
+        departmentId: '2'
+
       };
       const tokenHeader = `Bearer ${token}`;
       const response = await request.patch('/api/v1/users/profile').send(body)

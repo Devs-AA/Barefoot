@@ -139,4 +139,24 @@ export default class Requests {
       next(error);
     }
   }
+
+
+  /**
+   *
+   * @param {*} req request object
+   * @param {*} res response object
+   * @param {*} next next method
+   * @returns {object} returns response object
+   */
+  static async findAll(req, res, next) {
+    const { id } = req.user;
+    try {
+      const requests = await Request.getAllRequest(id);
+      response.setSuccess(200, 'Request Retrieved Successfully', requests);
+      return response.send(res);
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
 }

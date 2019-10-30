@@ -6,10 +6,11 @@ import http from 'http';
 import socket from 'socket.io';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
+import passport from 'passport';
 import swaggerUi from 'swagger-ui-express';
+// eslint-disable-next-line import/no-cycle
 import routes from './routes';
-import swaggerDocument from '../swagger.json';
-
+import swaggerDocument from './config/swaggerDocs';
 // Configure dotEnv
 dotEnv.config();
 
@@ -24,6 +25,13 @@ export const io = socket(server);
 
 // Static files setup
 app.use(express.static(path.join(__dirname, '../public')));
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerDocument);
+});
+
+// swagger config middlewares
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -34,6 +42,9 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+// passport configuration and initialization
+app.use(passport.initialize()); // Used to initialize passport
+
 
 if (!isProduction) {
   app.use(errorHandler());

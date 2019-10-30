@@ -66,10 +66,10 @@ module.exports = {
       }
     },
     lineManager: {
-      type: Sequelize.STRING
+      type: Sequelize.INTEGER
     },
     departmentId: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     emailNotification: {
       type: Sequelize.BOOLEAN,

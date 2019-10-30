@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable camelcase */
+/* eslint-disable no-underscore-dangle */
 import moment from 'moment';
 import crypto from 'crypto';
 import Response from '../utils/response';
@@ -55,6 +58,90 @@ export default class UserController {
     }
   }
 
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async logOut(req, res) {
+    const { token } = req;
+    try {
+      const {
+        invalidToken
+      } = await userService.logout(token);
+      util.setSuccess(200, 'Successfully Logout', { invalidToken });
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async updateSavedProfile(req, res) {
+    const { saveProfile } = req.body;
+    const { user } = req;
+    try {
+      const getUser = await userService.findAlreadySaveProfile(user.id);
+      if (getUser.saveProfile && saveProfile === 'true') {
+        util.setSuccess(409, 'You have already updated your profile');
+        return util.send(res);
+      }
+      const response = await userService.updateUser(user.id, { saveProfile });
+      const { departmentId, firstName, lastName } = response;
+      const details = {
+        lastName,
+        firstName,
+        saveProfile: response.saveProfile,
+        departmentId
+      };
+      util.setSuccess(200, 'Profile setting has been saved', { details });
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
+  /**
+ * @param {req} req that contains the req body object.
+ * @param {res} res content to be rendered.
+ * @returns {object} Success or failure response on creating a specific logout token
+ */
+  static async getSavedProfile(req, res) {
+    const { user } = req;
+    try {
+      const getUser = await userService.findAlreadySaveProfile(user.id);
+      const {
+        firstName, lastName, departmentId, lineManager, department,
+        gender, email, phoneNumber
+      } = getUser;
+      const details = {
+        firstName,
+        lastName,
+        departmentId,
+        lineManager,
+        department,
+        gender,
+        email,
+        phoneNumber
+      };
+      if (getUser.saveProfile) {
+        util.setSuccess(200, 'Profile successfully retrieved', { ...details });
+        return util.send(res);
+      }
+      util.setSuccess(403, 'You are yet to toggle the saveProfile radio button');
+      return util.send(res);
+    } catch (error) {
+      util.setError(500, error.message);
+      return util.send(res);
+    }
+  }
+
 
   /** Login User
    * @description Logins a user
@@ -108,6 +195,95 @@ export default class UserController {
         });
       }
       return errorResponse(res, 401, 'Email or password incorrect');
+    } catch (error) {
+      return errorResponse(res, 500, error);
+    }
+  }
+
+  /** Log on User with google
+   * @description Logins a user to barefoot with google details
+   * @static
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {string} loginUsers
+   */
+  static async googleLogin(req, res) {
+    const {
+      email: em, given_name, family_name, email_verified
+    } = req.user.profile._json;
+    const userProfile = {
+      email: em,
+      firstName: given_name,
+      lastName: family_name,
+      isVerified: email_verified
+    };
+    try {
+      const userInDatabase = await findUserInUsersDb(em);
+      if (!userInDatabase) {
+        const {
+          id, email, firstName, lastName, roleId,
+        } = await userService.addUser(userProfile);
+        const user = {
+          id, email, firstName, lastName, roleId
+        };
+        const token = await jwtSignUser(user);
+        util.setSuccess(201, 'Successfully signed up', { token });
+        return util.send(res);
+      }
+      const {
+        id, email, firstName, lastName, roleId
+      } = userInDatabase;
+      const user = {
+        id, email, firstName, lastName, roleId
+      };
+      const token = await jwtSignUser(user);
+      res.setHeader('authorization', token);
+      util.setSuccess(201, 'Successfully signed up', { token });
+      return util.send(res);
+    } catch (error) {
+      return errorResponse(res, 500, error);
+    }
+  }
+
+  /** Log on User with facebook
+   * @description Logs a user to barefoot with facebook details
+   * @static
+   * @param {object} req - HTTP Request
+   * @param {object} res - HTTP Response
+   * @returns {string} loginUsers
+   */
+  static async facebookLogin(req, res) {
+    const {
+      email: em, first_name, last_name
+    } = req.user.profile._json;
+    const userProfile = {
+      email: em,
+      firstName: first_name,
+      lastName: last_name,
+      isVerified: true
+    };
+    try {
+      const userInDatabase = await findUserInUsersDb(em);
+      if (!userInDatabase) {
+        const {
+          id, email, firstName, lastName, roleId,
+        } = await userService.addUser(userProfile);
+        const user = {
+          id, email, firstName, lastName, roleId
+        };
+        const token = await jwtSignUser(user);
+        util.setSuccess(201, 'Successfully signed up', { token });
+        return util.send(res);
+      }
+      const {
+        id, email, firstName, lastName, roleId
+      } = userInDatabase;
+      const user = {
+        id, email, firstName, lastName, roleId
+      };
+      const token = await jwtSignUser(user);
+      util.setSuccess(201, 'Successfully signed up', { token });
+      return util.send(res);
     } catch (error) {
       return errorResponse(res, 500, error);
     }
@@ -299,14 +475,13 @@ export default class UserController {
       preferredLanguage,
       preferredCurrency,
       gender,
-      company,
       lineManager,
       residentialLocation,
       countryCode,
       department,
+      departmentId,
       phoneNumber,
     } = req.body;
-
     const user = await findUserById(id);
 
     if (!user) {
@@ -316,19 +491,19 @@ export default class UserController {
 
     try {
       const userDetails = {
-        firstName,
-        lastName,
-        username,
-        dateOfBirth,
-        preferredLanguage,
-        preferredCurrency,
-        gender,
-        company,
-        lineManager,
-        residentialLocation,
-        countryCode,
-        department,
-        phoneNumber,
+        firstName: firstName ? firstName.trim() : undefined,
+        lastName: lastName ? lastName.trim() : undefined,
+        username: username ? username.trim() : undefined,
+        dateOfBirth: dateOfBirth ? dateOfBirth.trim() : undefined,
+        preferredLanguage: preferredLanguage ? preferredLanguage.trim() : undefined,
+        preferredCurrency: preferredCurrency ? preferredCurrency.trim() : undefined,
+        gender: gender ? gender.trim() : undefined,
+        lineManager: lineManager ? lineManager.trim() : undefined,
+        residentialLocation: residentialLocation ? residentialLocation.trim() : undefined,
+        countryCode: countryCode ? countryCode.trim() : undefined,
+        department: department ? department.trim() : undefined,
+        phoneNumber: phoneNumber ? phoneNumber.trim() : undefined,
+        departmentId: departmentId ? departmentId.trim() : undefined,
       };
       const updatedUser = await updateUser(id, userDetails);
 
@@ -342,6 +517,7 @@ export default class UserController {
       );
       return util.send(res);
     } catch (error) {
+      console.log(error)
       util.setError(500, error.message);
       return util.send(res);
     }

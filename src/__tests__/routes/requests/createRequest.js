@@ -23,6 +23,7 @@ describe('REQUESTS', async () => {
       await models.logins.sync({ force: true });
       await models.departments.sync({ force: true });
       await models.requests.sync({ force: true });
+      await models.logouts.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.departments.bulkCreate(departments);
       await models.logins.bulkCreate(login);
@@ -42,6 +43,7 @@ describe('REQUESTS', async () => {
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
     await models.users.destroy({ where: {} });
+    await models.logouts.destroy({ where: {} });
   });
   describe('Should validate token', () => {
     it('Returns 401 if no token is provided ', async () => {
