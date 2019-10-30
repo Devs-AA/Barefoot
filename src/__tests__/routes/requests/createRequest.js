@@ -24,6 +24,7 @@ describe('REQUESTS', async () => {
       await models.departments.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.logouts.sync({ force: true });
+      await models.notifications.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.departments.bulkCreate(departments);
       await models.logins.bulkCreate(login);
@@ -42,6 +43,7 @@ describe('REQUESTS', async () => {
     await models.requests.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
+    await models.notifications.destroy({ where: {} });
     await models.users.destroy({ where: {} });
     await models.logouts.destroy({ where: {} });
   });
@@ -137,7 +139,7 @@ describe('REQUESTS', async () => {
         .post(route)
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
-      console.log(res.body)
+        
       assert.isFalse(mockedSend.called);
       assert.isFalse(mockedSetsuccess.called);
       assert.equal(res.status, 201);
