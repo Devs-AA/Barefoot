@@ -12,19 +12,21 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 const send = async (message) => {
-  const register = await navigator.serviceWorker.register('/worker.js');
+  let register = await navigator.serviceWorker.getRegistration('/worker.js')
+  if (!register) {
+    register = await navigator.serviceWorker.register('/worker.js');
+  }
   const subscription = await register.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(publicKey)
   });
-  const str = subscription;
-  const ab = {
-    subscription: str,
+  const reqObj = {
+    subscription,
     message
   };
   await fetch('http://localhost:9003/api/v1/notifications/notify', {
     method: 'post',
-    body: JSON.stringify(ab),
+    body: JSON.stringify(reqObj),
     headers: {
       'content-type': 'application/json'
     }
@@ -38,6 +40,7 @@ socket.on('request-notification-11', async (data) => {
       await send(data);
     }
   } catch (error) {
+    console.log(error)
     console.log(error.message);
   }
 });
