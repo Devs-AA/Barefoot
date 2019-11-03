@@ -108,12 +108,25 @@ export default class Requests {
    * @returns {object} returns response object
    */
   static async updateStatus(req, res, next) {
+    let message;
+    const { user } = req.user;
+    const approvedRequestMessage = `Congrats ${user.firstName}, your Manager has approved your Travel request`;
+    const rejectedRequestMessage = `Sorry ${user.firstName}, your Manager has rejected your Travel request`;
     const { status } = req.body;
     const id = parseInt(req.params.requestId, 10);
     try {
       const updatedRequest = await Request.updateStatus(id, status);
       response.setSuccess(200, `Request ${updatedRequest.status} Successfully`, updatedRequest);
-      return response.send(res);
+      response.send(res);
+      const { requesterId, managerId } = updatedRequest;
+      const notification = {
+        title: `Travel Request ${updatedRequest.status}`,
+        recipientId: requesterId,
+        requestId: id
+      };
+      message = status === 'approved' ? approvedRequestMessage : rejectedRequestMessage;
+      await Notification.createEmailNotification(requesterId, managerId, notification, message);
+      return io.emit(`request-${id}-${updatedRequest.status}`);
     } catch (error) {
       error.status = 500;
       next(error);

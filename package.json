@@ -7,7 +7,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha --require @babel/register --require @babel/polyfill -r dotenv/config ./src/__tests__/index --timeout 20000 --exit",
     "coverage": "nyc report --reporter=text --reporter=html",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/ --fix",
+    "lint": "eslint \"src/**/*.js\" --ignore-pattern node_modules/ --fix",
     "clean": "rm -rf ./dist && mkdir dist",
     "build": "npm run clean && babel ./src -d dist",
     "heroku-postbuild": "npm run build && npm run undo:prod && npm run migrate:prod",

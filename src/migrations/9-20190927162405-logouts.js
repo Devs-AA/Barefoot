@@ -1,4 +1,3 @@
-'use strict';
 
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('logouts', {
@@ -28,4 +27,3 @@ module.exports = {
   }),
   down: (queryInterface) => queryInterface.dropTable('logouts')
 };
-

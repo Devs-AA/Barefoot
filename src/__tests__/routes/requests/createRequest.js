@@ -140,7 +140,7 @@ describe('REQUESTS', async () => {
         .set('authorization', `Bearer ${requester2}`)
         .send(requests.valid);
 
-      console.log(mockedSend.called, mockedSetsuccess.called)
+      console.log(mockedSend.called, mockedSetsuccess.called);
       assert.isFalse(mockedSend.called);
       assert.isFalse(mockedSetsuccess.called);
       assert.equal(res.status, 201);

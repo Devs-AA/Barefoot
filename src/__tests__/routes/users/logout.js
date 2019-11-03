@@ -77,5 +77,4 @@ describe('LOGOUT', () => {
       expect(response.body.message).to.equal('Please login again, Your Session has expired');
     }).timeout(0);
   });
-
 });

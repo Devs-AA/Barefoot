@@ -1,6 +1,8 @@
 import { users, notifications } from '../models';
 import { checkIfExistsInDb } from '../utils/searchDb';
 import { newRequestNotificationMail } from './mail/notificationMail';
+
+const newRequestMessage = 'Hello, your direct report has made a new travel request. The request is awaiting your decision';
 /**
  * @description A class for notifications
  */
@@ -23,18 +25,18 @@ class Notification {
  *
  * @param {int} userId Id of the user creating request
  * @param {*} managerId The Id of the manager of the user creating request
- * @param {*} newNotification Notification oject
+ * @param {*} newNotification Notification object
+ * @param {*} msg message to be displayed in the email
  * @returns {bool} returns boolean
  */
-  static async createEmailNotification(userId, managerId, newNotification) {
+  static async createEmailNotification(userId, managerId, newNotification, msg = newRequestMessage) {
     const { emailNotification } = await checkIfExistsInDb(users, userId, '');
-    if (!emailNotification) {
-      return false;
-    }
     try {
       await Notification.create(newNotification);
+      if (!emailNotification) {
+        return false;
+      }
       const { email } = await checkIfExistsInDb(users, managerId, '');
-      const msg = 'Hello, your direct report has made a new travel request. The request is awaiting your decision';
       await newRequestNotificationMail(email, msg);
       return true;
     } catch (error) {

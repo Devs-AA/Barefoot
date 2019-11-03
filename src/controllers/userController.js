@@ -517,7 +517,7 @@ export default class UserController {
       );
       return util.send(res);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       util.setError(500, error.message);
       return util.send(res);
     }

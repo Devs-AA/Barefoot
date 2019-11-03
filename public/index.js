@@ -12,7 +12,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 const send = async (message) => {
-  let register = await navigator.serviceWorker.getRegistration('/worker.js')
+  let register = await navigator.serviceWorker.getRegistration('/worker.js');
   if (!register) {
     register = await navigator.serviceWorker.register('/worker.js');
   }
@@ -40,7 +40,7 @@ socket.on('request-notification-11', async (data) => {
       await send(data);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     console.log(error.message);
   }
 });
