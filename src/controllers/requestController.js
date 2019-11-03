@@ -41,7 +41,7 @@ export default class Requests {
 
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       response.send(res);
-      return io.emit(`request-notification-${managerId}`, `${req.user.firstName} created a travel request`);
+      return io.emit(`notify-${managerId}`, `${req.user.firstName} created a travel request`);
     } catch (error) {
       error.status = 500;
       next(error);
@@ -109,7 +109,7 @@ export default class Requests {
    */
   static async updateStatus(req, res, next) {
     let message;
-    const { user } = req.user;
+    const { user } = req;
     const approvedRequestMessage = `Congrats ${user.firstName}, your Manager has approved your Travel request`;
     const rejectedRequestMessage = `Sorry ${user.firstName}, your Manager has rejected your Travel request`;
     const { status } = req.body;
@@ -126,7 +126,7 @@ export default class Requests {
       };
       message = status === 'approved' ? approvedRequestMessage : rejectedRequestMessage;
       await Notification.createEmailNotification(requesterId, managerId, notification, message);
-      return io.emit(`request-${id}-${updatedRequest.status}`);
+      return io.emit(`notify-${requesterId}`);
     } catch (error) {
       error.status = 500;
       next(error);

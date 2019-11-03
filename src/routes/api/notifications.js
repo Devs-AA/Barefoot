@@ -30,7 +30,7 @@ router.post('/notifications/notify', async (req, res) => {
   try {
     await notificationController.notify(req.body);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Could not send push notification'
     });

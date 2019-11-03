@@ -25,14 +25,14 @@ class Notification {
  *
  * @param {int} userId Id of the user creating request
  * @param {*} managerId The Id of the manager of the user creating request
- * @param {*} newNotification Notification object
+ * @param {*} notification Notification object
  * @param {*} msg message to be displayed in the email
  * @returns {bool} returns boolean
  */
-  static async createEmailNotification(userId, managerId, newNotification, msg = newRequestMessage) {
+  static async createEmailNotification(userId, managerId, notification, msg = newRequestMessage) {
     const { emailNotification } = await checkIfExistsInDb(users, userId, '');
     try {
-      await Notification.create(newNotification);
+      await Notification.create(notification);
       if (!emailNotification) {
         return false;
       }
