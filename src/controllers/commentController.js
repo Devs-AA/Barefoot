@@ -44,7 +44,7 @@ export default class CommentController {
       await Comment.deleteComment(commentId);
       return res.status(200).json({
         success: true,
-        data: 'Comment deleted Successfully'
+        message: 'Comment deleted Successfully'
       });
     } catch (error) {
       next(error);

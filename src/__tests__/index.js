@@ -16,6 +16,7 @@ import './routes/requests/editRequest';
 import './services/resetPasswordMail';
 import './routes/users/logout';
 import './routes/requests/createComment';
+import './routes/requests/deleteComment';
 import './routes/notification/unsubscribe';
 import './routes/notification/newRequestEmailNotification';
 import './routes/notification/createNotification';

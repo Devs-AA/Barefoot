@@ -72,6 +72,7 @@ export const checkCommentOwner = async (req, res, next) => {
         message: 'Invalid comment id'
       });
     }
+
     const { ownerId } = await checkIfExistsInDb(models.comments, commentId, 'Comment does not exist');
     if (ownerId !== id) {
       return res.status(401).json({
