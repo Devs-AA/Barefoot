@@ -3,8 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     message: DataTypes.STRING,
     requestId: DataTypes.INTEGER,
     ownerId: DataTypes.INTEGER,
-    quotedCommentId: DataTypes.INTEGER
-  }, {});
+    quotedCommentId: DataTypes.INTEGER,
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   comment.associate = (models) => {
     comment.belongsTo(models.users, {
       foreignKey: 'id'

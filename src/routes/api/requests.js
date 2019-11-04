@@ -8,7 +8,7 @@ import {
 import {
   validateUpdateRequest, checkRequestManager, validateEditRequest, checkRequestOwnerAndConflict
 } from '../../middlewares/request';
-import { validateCommentInput, validateCommentRequest } from '../../middlewares/comment';
+import { validateCommentInput, validateCommentRequest, checkCommentOwner } from '../../middlewares/comment';
 import { authorization } from '../../middlewares/auth/auth';
 import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
@@ -252,6 +252,56 @@ router.put('/requests/:requestId', [authorization, permit([roleIds.requester]),
 router.post('/requests/:requestId/comments', [authorization, permit([roleIds.requester, roleIds.manager]),
 
   validateCommentInput, validateCommentRequest], commentController.create);
+
+/**
+ * @swagger
+ *
+ * /requests/{requestId}/comments/{commentId}:
+ *  post:
+ *    tags:
+ *      - Requests
+ *    summary: Delete a comment
+ *    security:
+ *       - bearerAuth: []
+ *    parameters:
+ *     - name: requestId
+ *       in: path
+ *       description: id of the request
+ *       schema:
+ *        type: string
+ *     - name: commentId
+ *       in: path
+ *       description: id of the comment
+ *       schema:
+ *        type: string
+ *    requestBody:
+ *      required: false
+ *      content:
+ *        null
+ *    responses:
+ *      '200':
+ *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/response'
+ *      '400':
+ *        description: Bad request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '500':
+ *        description: Bad request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ */
+
+router.delete('/requests/:requestId/comments/:commentId', [authorization, permit([roleIds.requester]),
+
+  checkCommentOwner], commentController.delete);
 
 /**
  * @swagger

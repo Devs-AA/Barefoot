@@ -30,4 +30,24 @@ export default class CommentController {
       next(error);
     }
   }
+
+  /**
+    *
+    * @param {*} req
+    * @param {*} res
+    * @param {*} next
+    * @returns {obj} returns created comment object
+    */
+  static async delete(req, res, next) {
+    const { commentId } = req.params;
+    try {
+      await Comment.deleteComment(commentId);
+      return res.status(200).json({
+        success: true,
+        data: 'Comment deleted Successfully'
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

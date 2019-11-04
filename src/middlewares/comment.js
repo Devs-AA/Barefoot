@@ -60,3 +60,31 @@ export const validateCommentRequest = async (req, res, next) => {
     });
   }
 };
+
+export const checkCommentOwner = async (req, res, next) => {
+  try {
+    const { commentId } = req.params;
+    const { id } = req.user;
+    const isInteger = Validation.validateInteger(commentId);
+    if (!isInteger) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid comment id'
+      });
+    }
+    const { ownerId } = await checkIfExistsInDb(models.comments, commentId, 'Comment does not exist');
+    if (ownerId !== id) {
+      return res.status(401).json({
+        success: false,
+        message: 'You are not authorized to perform this operation'
+
+      });
+    }
+    next();
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
