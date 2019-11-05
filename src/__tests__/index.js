@@ -21,3 +21,4 @@ import './routes/notification/unsubscribe';
 import './routes/notification/newRequestEmailNotification';
 import './routes/notification/createNotification';
 import './routes/requests/getRequests';
+import './routes/accommodation/createAccommodation';
