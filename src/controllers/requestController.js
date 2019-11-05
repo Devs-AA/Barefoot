@@ -153,6 +153,24 @@ export default class Requests {
     }
   }
 
+  /**
+ *
+ * @param {*} req request object
+ * @param {*} res response object
+ * @param {*} next next method
+ * @returns {object} returns response object
+ */
+  static async findOne(req, res, next) {
+    const { requestId } = req.params;
+    try {
+      const request = await Request.getOneRequest(requestId);
+      response.setSuccess(200, 'Request Retrieved Successfully', request);
+      return response.send(res);
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
 
   /**
    *

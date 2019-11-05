@@ -70,4 +70,36 @@ export default class Request {
     });
     return foundRequests ? foundRequests.dataValues : [];
   }
+
+  /**
+  *
+  * @param {id} id of the request to be retrieved
+  * @description gets a specific request
+  * @type {obj} object
+  * @returns {obj} return updated request object
+  * @memberof Request class
+  */
+  static async getOneRequest(id) {
+    try {
+      const foundRequests = await models.requests.findOne({
+        returning: true,
+        plain: true,
+        where: {
+          id
+        },
+        include: [
+          {
+            model: models.trips,
+            include: [models.accommodations]
+          },
+          {
+            model: models.comments
+          }
+        ]
+      });
+      return foundRequests.dataValues;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

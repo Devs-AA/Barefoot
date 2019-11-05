@@ -306,6 +306,45 @@ router.delete('/requests/:requestId/comments/:commentId', [authorization, permit
 /**
  * @swagger
  *
+ *    /requests/{requestId}:
+ *    get:
+ *     tags:
+ *       - Requests
+ *     summary: Gets a specific user's requests
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/response'
+ *       '401':
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/errorResponse'
+ *       '404':
+ *         description: Not Found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/errorResponse'
+ *       '500':
+ *         description: Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/errorResponse'
+ */
+
+router.get('/requests/:requestId', [authorization, permit([roleIds.requester])], requestController.findOne);
+
+/**
+ * @swagger
+ *
  *    /requests:
  *    get:
  *     tags:
