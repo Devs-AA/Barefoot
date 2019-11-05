@@ -1,10 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const accommodation = sequelize.define('accommodations', {
     name: DataTypes.STRING,
+    description: DataTypes.STRING,
     noOfRooms: DataTypes.INTEGER,
     type: DataTypes.STRING,
     timesVisited: DataTypes.INTEGER,
-    destinationId: DataTypes.INTEGER
+    destinationId: DataTypes.INTEGER,
+    address: DataTypes.STRING,
+    addOnServices: DataTypes.STRING,
+    price: DataTypes.INTEGER,
+    available: DataTypes.BOOLEAN,
+
   }, {});
   accommodation.associate = (models) => {
     accommodation.hasMany(models.trips, {
