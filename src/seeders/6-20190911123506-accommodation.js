@@ -6,6 +6,10 @@ module.exports = {
       type: 'standard',
       timesVisited: 1,
       destinationId: 1,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+      price: 20000,
+      addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+      address: '122, Luxury lane. GRA Ikeja, Lagos',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -15,6 +19,10 @@ module.exports = {
       type: 'standard',
       timesVisited: 1,
       destinationId: 2,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+      price: 20000,
+      addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+      address: '122, Luxury lane. GRA Ikeja, Lagos',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -24,6 +32,10 @@ module.exports = {
       type: 'standard',
       timesVisited: 1,
       destinationId: 3,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+      price: 20000,
+      addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+      address: '126, Luxury lane. GRA Ikeja, Lagos',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -33,6 +45,10 @@ module.exports = {
       type: 'suite',
       timesVisited: 1,
       destinationId: 4,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+      price: 20000,
+      addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+      address: '129, Luxury lane. GRA Ikeja, Lagos',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -42,6 +58,10 @@ module.exports = {
       type: 'suite',
       timesVisited: 4,
       destinationId: 4,
+      description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+      price: 20000,
+      addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+      address: '22, Luxury lane. GRA Ikeja, Lagos',
       createdAt: new Date(),
       updatedAt: new Date()
     }

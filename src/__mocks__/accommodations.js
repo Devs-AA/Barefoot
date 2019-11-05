@@ -5,6 +5,7 @@ export const valid = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -13,6 +14,7 @@ export const noName = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -22,6 +24,7 @@ export const invalidName = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -30,6 +33,7 @@ export const noDescription = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -39,6 +43,7 @@ export const invalidDescription = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -47,6 +52,7 @@ export const noPrice = {
   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -56,6 +62,7 @@ export const invalidPrice = {
   price: '2mef4',
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -65,6 +72,7 @@ export const invalidAddOn = {
   price: 20000,
   addOn: 221321,
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -100,6 +108,7 @@ export const noNumberOfRooms = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
 export const invalidNumberOfRooms = {
@@ -108,6 +117,7 @@ export const invalidNumberOfRooms = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 'd1',
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
@@ -117,6 +127,7 @@ export const noAddress = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
 };
 export const invalidAddress = {
@@ -125,6 +136,7 @@ export const invalidAddress = {
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destionationId: 1,
+  type: 'Single room',
   noOfRooms: 1,
   address: '122'
 };

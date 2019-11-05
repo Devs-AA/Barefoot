@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     timesVisited: DataTypes.INTEGER,
     destinationId: DataTypes.INTEGER,
     address: DataTypes.STRING,
-    addOnServices: DataTypes.STRING,
+    addOn: DataTypes.STRING,
     price: DataTypes.INTEGER,
     available: DataTypes.BOOLEAN,
 
