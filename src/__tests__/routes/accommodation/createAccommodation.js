@@ -24,8 +24,9 @@ describe('Accommodations', () => {
       await models.users.sync({ force: true });
       await models.logins.sync({ force: true });
       await models.destinations.sync({ force: true });
+      await models.accommodations.sync({ force: true });
       await models.users.bulkCreate(users);
-      await models.departments.bulkCreate(destinations);
+      await models.destinations.bulkCreate(destinations);
       await models.logins.bulkCreate(login);
       (({ body: { token: notPermittedToken } } = await chai.request(server)
         .post('/api/v1/users/auth/login')
@@ -39,6 +40,8 @@ describe('Accommodations', () => {
   });
   after(async () => {
     try {
+      await models.destinations.destroy({ where: {} });
+      await models.accommodations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
       await models.departments.destroy({ where: {} });
       await models.logins.destroy({ where: {} });
@@ -205,7 +208,7 @@ describe('Accommodations', () => {
 
 
   describe('Create new Accomodation', async () => {
-    it('It should create a new accommodation', async () => {
+    it.only('It should create a new accommodation', async () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
