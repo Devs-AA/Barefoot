@@ -162,9 +162,16 @@ export default class Requests {
  */
   static async findOne(req, res, next) {
     const { requestId } = req.params;
+    const { id } = req.user;
     try {
       const request = await Request.getOneRequest(requestId);
-      response.setSuccess(200, 'Request Retrieved Successfully', request);
+      if (!request) {
+        response.setError(404, 'Request does not exist');
+      } else if (request.requesterId !== id) {
+        response.setError(401, 'You are not authorised to view this request');
+      } else {
+        response.setSuccess(200, 'Request Retrieved Successfully', request);
+      }
       return response.send(res);
     } catch (error) {
       error.status = 500;

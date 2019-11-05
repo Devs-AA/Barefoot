@@ -97,7 +97,7 @@ export default class Request {
           }
         ]
       });
-      return foundRequests.dataValues;
+      return foundRequests ? foundRequests.dataValues : false;
     } catch (error) {
       throw new Error(error);
     }

@@ -6,7 +6,8 @@ import {
   validateTripRequest, checkRequest, validateTripData, validateTripInput
 } from '../../middlewares/request/trips';
 import {
-  validateUpdateRequest, checkRequestManager, validateEditRequest, checkRequestOwnerAndConflict
+  validateUpdateRequest, checkRequestManager, validateEditRequest, checkRequestOwnerAndConflict,
+  validateRequestIdParam
 } from '../../middlewares/request';
 import { validateCommentInput, validateCommentRequest, checkCommentOwner } from '../../middlewares/comment';
 import { authorization } from '../../middlewares/auth/auth';
@@ -340,7 +341,7 @@ router.delete('/requests/:requestId/comments/:commentId', [authorization, permit
  *               $ref: '#/components/schemas/errorResponse'
  */
 
-router.get('/requests/:requestId', [authorization, permit([roleIds.requester])], requestController.findOne);
+router.get('/requests/:requestId', [authorization, permit([roleIds.requester]), validateRequestIdParam], requestController.findOne);
 
 /**
  * @swagger

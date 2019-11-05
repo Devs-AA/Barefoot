@@ -99,7 +99,7 @@ describe('Get all requests belonging to a user', () => {
     });
     it('It should return 400 for invalid request id', async () => {
       const res = await chai.request(server)
-        .get('/api/v1/requests/200')
+        .get('/api/v1/requests/gh')
         .set('authorization', `Bearer ${permittedToken}`);
 
       assert.equal(400, res.status);
@@ -114,7 +114,7 @@ describe('Get all requests belonging to a user', () => {
       const res = await chai.request(server)
         .get(route)
         .set('authorization', `Bearer ${permittedToken}`);
-      console.log(res.body)
+
       assert.equal(200, res.status);
       assert.isObject(res.body.data);
       assert.equal(res.body.success, true);

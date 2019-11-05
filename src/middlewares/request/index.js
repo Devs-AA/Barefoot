@@ -125,3 +125,15 @@ export const checkRequestOwnerAndConflict = async (req, res, next) => {
     });
   }
 };
+
+export const validateRequestIdParam = async (req, res, next) => {
+  const { requestId } = req.params;
+  const isInteger = Validation.validateInteger(requestId);
+  if (!isInteger) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid request id'
+    });
+  }
+  next();
+};
