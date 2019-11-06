@@ -341,7 +341,7 @@ router.delete('/requests/:requestId/comments/:commentId', [authorization, permit
  *               $ref: '#/components/schemas/errorResponse'
  */
 
-router.get('/requests/:requestId', [authorization, permit([roleIds.requester]), validateRequestIdParam], requestController.findOne);
+router.get('/requests/:requestId', [authorization, permit([roleIds.requester, roleIds.manager]), validateRequestIdParam], requestController.findOne);
 
 /**
  * @swagger
