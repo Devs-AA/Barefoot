@@ -40,8 +40,8 @@ describe('Accommodations', () => {
   });
   after(async () => {
     try {
-      await models.destinations.destroy({ where: {} });
       await models.accommodations.destroy({ where: {} });
+      await models.destinations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
       await models.departments.destroy({ where: {} });
       await models.logins.destroy({ where: {} });
@@ -208,7 +208,7 @@ describe('Accommodations', () => {
 
 
   describe('Create new Accomodation', async () => {
-    it.only('It should create a new accommodation', async () => {
+    it('It should create a new accommodation', async () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import accommodationController from '../../controllers/accommodation';
-// import { authorization } from '../../middlewares/auth/auth';
-// import { checkEmailNotificationApproval } from '../../middlewares/notifications';
-// import { permit } from '../../middlewares/users';
-// import { roleIds } from '../../helpers/default';
+import { authorization } from '../../middlewares/auth/auth';
+import { permit } from '../../middlewares/users';
+import { roleIds } from '../../helpers/default';
+import { validateNewAccommodationInput } from '../../middlewares/accommodation';
 
 const router = Router();
 
@@ -26,6 +26,7 @@ const router = Router();
  *            schema:
  *              $ref: '#/components/schemas/response'
  */
-router.post('/accommodations', accommodationController.create);
+router.post('/accommodations', [authorization, permit([roleIds.travelAdmin, roleIds.traveTeamMember]),
+  validateNewAccommodationInput], accommodationController.create);
 
 export default router;
