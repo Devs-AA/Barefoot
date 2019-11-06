@@ -1,4 +1,6 @@
 import Validation from '../helpers/validation';
+import { checkIfExistsInDb } from '../utils/searchDb';
+import { destinations } from '../models';
 
 export const isInteger = (num, key, title, errors) => {
   const validInteger = Validation.validateInteger(num);
@@ -7,7 +9,7 @@ export const isInteger = (num, key, title, errors) => {
   }
   return errors;
 };
-export const validateNewAccommodationInput = (req, res, next) => {
+export const validateNewAccommodationInput = async (req, res, next) => {
   const errors = {};
   const {
     name, description, address, type, destinationId, noOfRooms, price, addOn
@@ -64,6 +66,14 @@ export const validateNewAccommodationInput = (req, res, next) => {
     return res.status(400).json({
       success: false,
       errors
+    });
+  }
+  try {
+    await checkIfExistsInDb(destinations, destinationId, 'Sorry we do not have a branch in the choosen destination. Check back later');
+  } catch ({ message }) {
+    return res.status(404).json({
+      success: false,
+      message
     });
   }
   return next();
