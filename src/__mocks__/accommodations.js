@@ -28,6 +28,16 @@ export const invalidName = {
   noOfRooms: 1,
   address: '122, Luxury lane. GRA Ikeja, Lagos.'
 };
+export const invalidName2 = {
+  name: 'kl',
+  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+  price: 20000,
+  addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+  destinationId: 1,
+  type: 'Single room',
+  noOfRooms: 1,
+  address: '122, Luxury lane. GRA Ikeja, Lagos.'
+};
 export const noDescription = {
   name: 'WaterFalls Hotels',
   price: 20000,
@@ -40,6 +50,16 @@ export const noDescription = {
 export const invalidDescription = {
   name: 'WaterFalls Hotels',
   description: 3223,
+  price: 20000,
+  addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+  destinationId: 1,
+  type: 'Single room',
+  noOfRooms: 1,
+  address: '122, Luxury lane. GRA Ikeja, Lagos.'
+};
+export const invalidDescription2 = {
+  name: 'WaterFalls Hotels',
+  description: '3223',
   price: 20000,
   addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
   destinationId: 1,
@@ -71,6 +91,16 @@ export const invalidAddOn = {
   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
   price: 20000,
   addOn: 221321,
+  destinationId: 1,
+  type: 'Single room',
+  noOfRooms: 1,
+  address: '122, Luxury lane. GRA Ikeja, Lagos.'
+};
+export const invalidAddOn2 = {
+  name: 'WaterFalls Hotels',
+  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+  price: 20000,
+  addOn: 'kk',
   destinationId: 1,
   type: 'Single room',
   noOfRooms: 1,
@@ -139,4 +169,14 @@ export const invalidAddress = {
   type: 'Single room',
   noOfRooms: 1,
   address: '122'
+};
+export const invalidAddress2 = {
+  name: 'WaterFalls Hotels',
+  description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit',
+  price: 20000,
+  addOn: 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit',
+  destinationId: 1,
+  type: 'Single room',
+  noOfRooms: 1,
+  address: 10009
 };

@@ -8,7 +8,8 @@ import {
 import {
   valid, noName, noAddress, noDescription, noDestinationId, noNumberOfRooms,
   noPrice, nonExistentDestination, invalidAddOn, invalidAddress, invalidDescription,
-  invalidDestinationId, invalidName, invalidNumberOfRooms, invalidPrice
+  invalidDestinationId, invalidName, invalidNumberOfRooms, invalidPrice,
+  invalidAddOn2, invalidAddress2, invalidDescription2, invalidName2
 } from '../../../__mocks__/accommodations';
 
 
@@ -87,11 +88,20 @@ describe('Accommodations', () => {
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
-    it('It should return 400 if name is invalid', async () => {
+    it('It should return 400 if name is not a string', async () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(invalidName);
+
+      assert.equal(400, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should return 400 if name is too short or long', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send(invalidName2);
 
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
@@ -123,11 +133,20 @@ describe('Accommodations', () => {
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
-    it('It should return 400 if description is invalid', async () => {
+    it('It should return 400 if description is not a string', async () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(invalidDescription);
+
+      assert.equal(400, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should return 400 if description is < 50 characters', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send(invalidDescription2);
 
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
@@ -195,11 +214,29 @@ describe('Accommodations', () => {
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
-    it('It should return 400 if add on services is invalid', async () => {
+    it('It should return 400 if address is not a string', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send(invalidAddress2);
+
+      assert.equal(400, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should return 400 if add on services is not a string', async () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(invalidAddOn);
+
+      assert.equal(400, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should return 400 if add on services is has less than 3 characters', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send(invalidAddOn2);
 
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
