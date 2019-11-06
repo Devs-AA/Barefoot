@@ -180,3 +180,49 @@ export const invalidAddress2 = {
   noOfRooms: 1,
   address: 10009
 };
+
+export const validAccommodationBooking = {
+  lodgeInDate: '2090/12/23',
+  lodgeOutDate: '2090/12/30',
+  tripDate: '2090/12/23'
+};
+
+export const noLodgeInDate = {
+  lodgeInDate: '',
+  lodgeOutDate: '2090/12/30',
+  tripDate: '2090/12/23'
+};
+
+export const noLodgeOutDate = {
+  lodgeInDate: '2090/12/30',
+  lodgeOutDate: '',
+  tripDate: '2090/12/23'
+};
+
+export const invalidLodgeInDate = {
+  lodgeInDate: '87',
+  lodgeOutDate: '2090/12/30',
+  tripDate: '2090/12/23'
+};
+
+export const invalidLodgeOutDate = {
+  lodgeInDate: '2090/12/30',
+  lodgeOutDate: '87gjhh',
+  tripDate: '2090/12/23'
+};
+export const expiredLodgeInDate = {
+  lodgeInDate: '2010/12/30',
+  lodgeOutDate: '2090/12/30',
+  tripDate: '2090/12/23'
+};
+export const noBookingTripDate = {
+  lodgeInDate: '2090/12/30',
+  lodgeOutDate: '2090/11/30',
+  tripDate: ''
+};
+
+export const invalidBookingTripDate = {
+  lodgeInDate: '2090/12/30',
+  lodgeOutDate: '2090/11/30',
+  tripDate: 'wed1223'
+};
