@@ -63,6 +63,11 @@ module.exports = {
     deletedAt: {
       allowNull: true,
       type: Sequelize.DATE
+    },
+    rating: {
+      allowNull: false,
+      type: Sequelize.FLOAT,
+      defaultValue: 0
     }
   }),
   down: (queryInterface) => queryInterface.dropTable('accommodations')

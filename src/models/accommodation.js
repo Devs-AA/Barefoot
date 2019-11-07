@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     addOn: DataTypes.STRING,
     price: DataTypes.INTEGER,
     available: DataTypes.BOOLEAN,
-    deletedAt: DataTypes.DATE
-
+    deletedAt: DataTypes.DATE,
+    rating: DataTypes.FLOAT
   }, {
     paranoid: true,
     timestamps: true
