@@ -99,4 +99,7 @@ router.post('/accommodations', [authorization, permit([roleIds.travelAdmin, role
 router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.requester]),
   validateBookingInput, checkBookinginfo], accommodationController.book);
 
+router.post('/accommodations/:accommodationId/feedback', [authorization, permit([roleIds.requester])],
+  accommodationController.rate);
+
 export default router;

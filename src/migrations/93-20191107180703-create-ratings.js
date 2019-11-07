@@ -16,7 +16,7 @@ module.exports = {
     requesterId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      refernces: {
+      references: {
         model: 'users',
         key: 'id'
       },
@@ -25,7 +25,7 @@ module.exports = {
     accommodationId: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      refernces: {
+      references: {
         model: 'accommodations',
         key: 'id'
       },
@@ -40,6 +40,10 @@ module.exports = {
     },
     updatedAt: {
       allowNull: false,
+      type: Sequelize.DATE
+    },
+    deletedAt: {
+      allowNull: true,
       type: Sequelize.DATE
     }
   }),
