@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
 import {
-  users, destinations, login
+  users, destinations, login, departments
 } from '../../../__mocks__/createRequest';
 import {
   valid, validAccommodationBooking, noLodgeInDate, noLodgeOutDate, invalidLodgeInDate,
@@ -17,17 +17,19 @@ chai.use(chaiHttp);
 const { assert } = chai;
 const route = '/api/v1/accommodations/1';
 
-describe('Accommodations', () => {
+describe('Book accommodation', () => {
   let permittedToken, notPermittedToken;
   before(async () => {
     try {
       await models.users.sync({ force: true });
+      await models.departments.sync({ force: true });
       await models.logins.sync({ force: true });
       await models.destinations.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.accommodations.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
+      await models.departments.bulkCreate(departments);
       await models.logins.bulkCreate(login);
       await models.accommodations.create(valid);
       await Request.create({
@@ -53,6 +55,7 @@ describe('Accommodations', () => {
     try {
       await models.accommodations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
+      await models.departments.destroy({ where: {} });
       await models.destinations.destroy({ where: {} });
       await models.logins.destroy({ where: {} });
       await models.users.destroy({ where: {} });

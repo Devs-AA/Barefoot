@@ -3,8 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     isRead: DataTypes.BOOLEAN,
     recipientId: DataTypes.INTEGER,
-    requestId: DataTypes.INTEGER
-  }, {});
+    requestId: DataTypes.INTEGER,
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   notifications.associate = (models) => {
     notifications.belongsTo(models.users, {
       primaryKey: 'recipientId',

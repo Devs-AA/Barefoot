@@ -77,10 +77,14 @@ const users = (sequelize, DataTypes) => {
       defaultValue: true,
       allowNull: false
     },
+    deletedAt: DataTypes.DATE,
     updatedAt: {
       allowNull: false,
       type: DataTypes.DATE
     }
+  }, {
+    paranoid: true,
+    timestamps: true
   });
 
   User.associate = (models) => {

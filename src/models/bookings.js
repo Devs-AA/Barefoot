@@ -3,8 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     accommodationId: DataTypes.INTEGER,
     lodgeInDate: DataTypes.STRING,
     lodgeOutDate: DataTypes.STRING,
-    requesterId: DataTypes.INTEGER
-  }, {});
+    requesterId: DataTypes.INTEGER,
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   bookings.associate = (models) => {
     bookings.belongsTo(models.accommodations, {
       foreignKey: 'accomodationId',

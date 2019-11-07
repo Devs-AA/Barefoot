@@ -10,8 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     addOn: DataTypes.STRING,
     price: DataTypes.INTEGER,
     available: DataTypes.BOOLEAN,
+    deletedAt: DataTypes.DATE
 
-  }, {});
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   accommodation.associate = (models) => {
     accommodation.hasMany(models.trips, {
       foreignKey: 'accommodationId'

@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const { assert } = chai;
 const route = '/api/v1/requests/1/comments/1';
 
-describe('COMMENTS', () => {
+describe('Delete Comment', () => {
   let requesterToken, randomToken, newComment;
   before(async () => {
     const request = {
