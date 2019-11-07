@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const bookings = sequelize.define('bookings', {
-    accomodationId: DataTypes.INTEGER,
+    accommodationId: DataTypes.INTEGER,
     lodgeInDate: DataTypes.STRING,
     lodgeOutDate: DataTypes.STRING,
     requesterId: DataTypes.INTEGER

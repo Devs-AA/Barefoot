@@ -9,6 +9,7 @@ import {
   valid, validAccommodationBooking, noLodgeInDate, noLodgeOutDate, invalidLodgeInDate,
   invalidLodgeOutDate, expiredLodgeInDate, noBookingTripDate, invalidBookingTripDate
 } from '../../../__mocks__/accommodations';
+import Request from '../../../services/requestService';
 
 
 chai.use(chaiHttp);
@@ -23,11 +24,21 @@ describe('Accommodations', () => {
       await models.users.sync({ force: true });
       await models.logins.sync({ force: true });
       await models.destinations.sync({ force: true });
+      await models.requests.sync({ force: true });
       await models.accommodations.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
       await models.logins.bulkCreate(login);
       await models.accommodations.create(valid);
+      await Request.create({
+        tripType: 'oneWay',
+        requesterId: 3,
+        departmentId: 1,
+        managerId: 11,
+        reason: 'Business',
+        active: true
+      });
+      await Request.updateStatus(1, 'approved');
       (({ body: { token: permittedToken } } = await chai.request(server)
         .post('/api/v1/users/auth/login')
         .send({ email: 'requester1@gmail.com', password: 'Password1$' })));
@@ -41,9 +52,8 @@ describe('Accommodations', () => {
   after(async () => {
     try {
       await models.accommodations.destroy({ where: {} });
-      await models.destinations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
-      await models.departments.destroy({ where: {} });
+      await models.destinations.destroy({ where: {} });
       await models.logins.destroy({ where: {} });
       await models.users.destroy({ where: {} });
     } catch (error) {
@@ -150,7 +160,7 @@ describe('Accommodations', () => {
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(validAccommodationBooking);
-
+      console.log(res.body);
       assert.equal(201, res.status);
       assert.isObject(res.body.data);
       assert.equal(res.body.success, true);

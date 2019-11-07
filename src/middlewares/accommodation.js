@@ -1,6 +1,7 @@
 import Validation from '../helpers/validation';
 import { checkIfExistsInDb } from '../utils/searchDb';
-import { destinations } from '../models';
+import { destinations, accommodations, requests } from '../models';
+import { validateDate } from '../helpers/default';
 
 export const isInteger = (num, key, title, errors) => {
   const validInteger = Validation.validateInteger(num);
@@ -77,4 +78,56 @@ export const validateNewAccommodationInput = async (req, res, next) => {
     });
   }
   return next();
+};
+
+export const validateBookingInput = async (req, res, next) => {
+  const { tripDate, lodgeInDate, lodgeOutDate } = req.body;
+  const errors = {};
+  validateDate(tripDate, 'trip', errors);
+  validateDate(lodgeInDate, 'arrival', errors);
+  validateDate(lodgeOutDate, 'departure', errors);
+  if ((Date.parse(tripDate) - Date.parse(lodgeInDate)) > 0) {
+    errors.date = 'Trip date should be earlier than arrival date';
+  }
+  if ((Date.parse(lodgeOutDate) - Date.parse(lodgeInDate)) < 0) {
+    errors.date = 'Departure date should be at least a day ahead of arrival date';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(400).json({
+      success: false,
+      errors
+    });
+  }
+  next();
+};
+
+export const checkBookinginfo = async (req, res, next) => {
+  const { accommodationId } = req.params;
+  const { id } = req.user;
+  try {
+    const foundAccommodation = await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exists');
+    req.accommodation = foundAccommodation;
+    const foundRequest = await requests.findOne({
+      where: {
+        requesterId: id,
+        status: 'approved',
+        active: true
+      }
+    });
+    if (!foundRequest) {
+      throw new Error('You have no approved request');
+    } else if (foundRequest.dataValues.trips && foundRequest.dataValues.trips.length) {
+      return res.status(403).json({
+        success: false,
+        message: 'Accommodation already booked for trip'
+      });
+    }
+    req.request = foundRequest.dataValues;
+    next();
+  } catch ({ message }) {
+    return res.status(404).json({
+      success: false,
+      message
+    });
+  }
 };

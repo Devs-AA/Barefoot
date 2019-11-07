@@ -6,7 +6,7 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    accomodationId: {
+    accommodationId: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
@@ -14,7 +14,7 @@ module.exports = {
         key: 'id'
       }
     },
-    lodgeIndate: {
+    lodgeInDate: {
       type: Sequelize.STRING,
       allowNull: false
     },

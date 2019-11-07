@@ -38,9 +38,13 @@ class Accommodation {
    */
   static async book(req, res, next) {
     const { body, accommodation } = req;
+    const { accommodationId } = req.params;
+    const { id } = req.request;
+    body.requesterId = req.user.id;
+    body.accommodationId = accommodationId;
     try {
-      const newBooking = await Booking.create(body, accommodation);
-      response.setSuccess(201, 'Accommodation created successfully', newBooking);
+      const newBooking = await Booking.create(body, accommodation, id);
+      response.setSuccess(201, 'Accommodation booked successfully', newBooking);
       return response.send(res);
     } catch (error) {
       next(error);

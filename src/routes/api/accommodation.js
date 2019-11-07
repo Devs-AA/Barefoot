@@ -3,7 +3,7 @@ import accommodationController from '../../controllers/accommodation';
 import { authorization } from '../../middlewares/auth/auth';
 import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
-import { validateNewAccommodationInput } from '../../middlewares/accommodation';
+import { validateNewAccommodationInput, validateBookingInput, checkBookinginfo } from '../../middlewares/accommodation';
 
 const router = Router();
 
@@ -96,6 +96,7 @@ router.post('/accommodations', [authorization, permit([roleIds.travelAdmin, role
  *            schema:
  *              $ref: '#/components/schemas/errorResponse'
  */
-router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.requester])], accommodationController.create);
+router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.requester]),
+  validateBookingInput, checkBookinginfo], accommodationController.book);
 
 export default router;
