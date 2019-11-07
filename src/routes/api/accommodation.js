@@ -19,14 +19,83 @@ const router = Router();
  *      required: true
  *      content: application/json
  *    responses:
- *      '200':
+ *      '201':
  *        description: success
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/response'
+ *      '400':
+ *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '404':
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '500':
+ *        description: Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
  */
 router.post('/accommodations', [authorization, permit([roleIds.travelAdmin, roleIds.traveTeamMember]),
   validateNewAccommodationInput], accommodationController.create);
+
+/**
+ * @swagger
+ *
+ * /accommodations/{accommodationId}:
+ *  post:
+ *    tags:
+ *      - Accommodation
+ *    summary: Books accommodation
+ *    requestBody:
+ *      required: true
+ *      content: application/json
+ *    responses:
+ *      '201':
+ *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/response'
+ *      '400':
+ *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '404':
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '500':
+ *        description: Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ */
+router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.requester])], accommodationController.create);
 
 export default router;
