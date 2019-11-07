@@ -160,10 +160,19 @@ describe('Accommodations', () => {
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(validAccommodationBooking);
-      console.log(res.body);
+
       assert.equal(201, res.status);
       assert.isObject(res.body.data);
       assert.equal(res.body.success, true);
+    });
+    it('It should return a 403 error if user has no active request', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send(validAccommodationBooking);
+
+      assert.equal(404, res.status);
+      assert.equal(res.body.success, false);
     });
   });
 });

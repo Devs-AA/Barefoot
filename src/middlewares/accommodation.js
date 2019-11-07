@@ -116,11 +116,6 @@ export const checkBookinginfo = async (req, res, next) => {
     });
     if (!foundRequest) {
       throw new Error('You have no approved request');
-    } else if (foundRequest.dataValues.trips && foundRequest.dataValues.trips.length) {
-      return res.status(403).json({
-        success: false,
-        message: 'Accommodation already booked for trip'
-      });
     }
     req.request = foundRequest.dataValues;
     next();
