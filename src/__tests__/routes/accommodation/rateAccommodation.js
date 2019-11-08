@@ -27,10 +27,13 @@ describe('Book accommodation', () => {
       await models.destinations.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.accommodations.sync({ force: true });
+      await models.bookings.sync({ force: true });
+      await models.ratings.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
       await models.departments.bulkCreate(departments);
       await models.logins.bulkCreate(login);
+      await models.accommodations.create(valid);
       await models.accommodations.create(valid);
       await Request.create({
         tripType: 'oneWay',
@@ -41,13 +44,18 @@ describe('Book accommodation', () => {
         active: true
       });
       await Request.updateStatus(1, 'approved');
+      const acc = {
+        noOfTimesVisited: 1,
+        id: 1
+      };
       await Booking.create({
         tripDate: '2017/09/08',
         lodgeInDate: '2019/09/09',
         lodgeOutDate: '2019/09/09',
         requesterId: 3,
         accommodationId: 1
-      })(({ body: { token: permittedToken } } = await chai.request(server)
+      }, acc, 1);
+      (({ body: { token: permittedToken } } = await chai.request(server)
         .post('/api/v1/users/auth/login')
         .send({ email: 'requester1@gmail.com', password: 'Password1$' })));
       (({ body: { token: notPermittedToken } } = await chai.request(server)
@@ -62,6 +70,8 @@ describe('Book accommodation', () => {
   });
   after(async () => {
     try {
+      await models.bookings.destroy({ where: {} });
+      await models.ratings.destroy({ where: {} });
       await models.accommodations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
       await models.departments.destroy({ where: {} });
@@ -138,11 +148,11 @@ describe('Book accommodation', () => {
     });
     it('It should return 403 if user did not book that accommodation', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .post('/api/v1/accommodations/2/feedback')
         .set('authorization', `Bearer ${noBookingToken}`)
         .send(validRating);
 
-      assert.equal(400, res.status);
+      assert.equal(403, res.status);
       assert.equal(res.body.success, false);
     });
   });
@@ -166,9 +176,8 @@ describe('Book accommodation', () => {
         .set('authorization', `Bearer ${permittedToken}`)
         .send(validRating);
 
-      assert.equal(201, res.status);
-      assert.isObject(res.body.data);
-      assert.equal(res.body.success, true);
+      assert.equal(403, res.status);
+      assert.equal(res.body.success, false);
     });
   });
 });
