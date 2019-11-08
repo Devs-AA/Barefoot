@@ -17,10 +17,10 @@ describe('Read Notification', () => {
       await models.notifications.sync({ force: true });
       await models.users.bulkCreate(users);
       (({ body: { token: requesterToken } } = await chai.request(server)
-        .get('/api/v1/users/auth/login')
+        .post('/api/v1/users/auth/login')
         .send({ email: 'requester1@gmail.com', password: 'Password1$' })));
       (({ body: { token: randomToken } } = await chai.request(server)
-        .get('/api/v1/users/auth/login')
+        .post('/api/v1/users/auth/login')
         .send({ email: 'requester2@gmail.com', password: 'Password1$' })));
       const notifications = [{
         title: 'New Travel Request',
@@ -46,14 +46,14 @@ describe('Read Notification', () => {
   describe('Read Notification', async () => {
     it('It should return 401 for no Token', async () => {
       const res = await chai.request(server)
-        .get(route);
+        .patch(route);
 
       assert.equal(401, res.status);
       assert.equal(res.body.success, false);
     });
     it('It should return 401 for invalid token', async () => {
       const res = await chai.request(server)
-        .get(route)
+        .patch(route)
         .set('authorization', '65e65jhvjhvjvj67');
 
       assert.equal(401, res.status);
@@ -61,7 +61,7 @@ describe('Read Notification', () => {
     });
     it('It should return 401 for non permitted roles', async () => {
       const res = await chai.request(server)
-        .get(route)
+        .patch(route)
         .set('authorization', `Bearer ${randomToken}`);
 
       assert.equal(401, res.status);
@@ -69,7 +69,7 @@ describe('Read Notification', () => {
     });
     it('Should successfully mark all notifications as read', async () => {
       const res = await chai.request(server)
-        .get(route)
+        .patch(route)
         .set('authorization', `Bearer ${requesterToken}`);
       assert.equal(200, res.status);
       res.body.data.forEach(({ isRead, recipientId }) => {
