@@ -20,8 +20,9 @@
 // import './routes/notification/unsubscribe';
 // import './routes/notification/newRequestEmailNotification';
 // import './routes/notification/createNotification';
-import './routes/notification/readAllNotification';
+// import './routes/notification/readAllNotification';
 // import './routes/requests/getRequests';
 // import './routes/accommodation/createAccommodation';
 // import './routes/accommodation/bookAccommodation';
 // import './routes/accommodation/rateAccommodation';
+import './routes/accommodation/likeAccommodation';
