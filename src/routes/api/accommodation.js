@@ -105,6 +105,50 @@ router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.
 /**
  * @swagger
  *
+ * /accommodations/{accommodationId}:
+ *  post:
+ *    tags:
+ *      - Accommodation
+ *    summary: Books accommodation
+ *    requestBody:
+ *      required: true
+ *      content: application/json
+ *    responses:
+ *      '201':
+ *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/response'
+ *      '400':
+ *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '404':
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '500':
+ *        description: Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ */
+router.patch('/accommodations/:accommodationId', [authorization, permit([roleIds.requester])], accommodationController.likeAndUnlike);
+/**
+ * @swagger
+ *
  * /accommodations/{accommodationId}/feedback:
  *  post:
  *    tags:
