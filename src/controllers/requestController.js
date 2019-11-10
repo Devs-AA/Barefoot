@@ -59,21 +59,26 @@ export default class Requests {
     const {
       tripType, id
     } = req.request;
+    const requesterId = req.user.id;
     try {
       if (tripType === 'oneWay') {
         const { trip } = req.body;
         trip.requestId = id;
+        trip.requesterId = requesterId;
         await models.trips.create(trip);
       } else if (tripType === 'return') {
         const { initialTrip, returnTrip } = req.body;
         initialTrip.requestId = id;
+        initialTrip.requesterId = requesterId;
         returnTrip.requestId = id;
+        returnTrip.requesterId = requesterId;
         await models.trips.create(initialTrip);
         await models.trips.create(returnTrip);
       } else {
         const { trips } = req.body;
         const createdTrips = trips.map(async (trip) => {
           trip.requestId = id;
+          trip.requesterId = requesterId;
           const createdTrip = await models.trips.create(trip);
           return createdTrip.dataValues;
         });

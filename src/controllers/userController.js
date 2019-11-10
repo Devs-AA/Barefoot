@@ -185,7 +185,8 @@ export default class UserController {
           lastLogin: loggedUser.lastLogin,
           isVerified: user.isVerified,
           roleId: user.roleId,
-          emailNotification: user.emailNotification
+          emailNotification: user.emailNotification,
+          departmentId: user.departmentId
         });
 
         await userService.updateLogins(loginData);
@@ -517,7 +518,6 @@ export default class UserController {
       );
       return util.send(res);
     } catch (error) {
-      console.log(error);
       util.setError(500, error.message);
       return util.send(res);
     }
