@@ -4,7 +4,7 @@ import models from '../../models';
 import { checkIfExistsInDb } from '../../utils/searchDb';
 
 
-const validateDate = (date, errors) => {
+export const validateDate = (date, errors) => {
   if (!date) {
     errors.departureDate = 'No departure date provided';
   } else {
