@@ -11,6 +11,7 @@
 // import './routes/users/login';
 // import './routes/requests/createRequest';
 // import './routes/requests/createTrip';
+import './routes/requests/tripStats';
 // import './routes/requests/updateRequest';
 // import './routes/requests/editRequest';
 // import './services/resetPasswordMail';
@@ -25,4 +26,4 @@
 // import './routes/accommodation/createAccommodation';
 // import './routes/accommodation/bookAccommodation';
 // import './routes/accommodation/rateAccommodation';
-import './routes/accommodation/likeAccommodation';
+// import './routes/accommodation/likeAccommodation';
