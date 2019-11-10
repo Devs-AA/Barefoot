@@ -6,11 +6,15 @@ import {
   requests, users, departments, destinations, accommodations, trips, login
 } from '../../../__mocks__/createRequest';
 import Request from '../../../services/requestService';
+import {
+  getStatsUser, getStatsManager, noEndDate, noStartDate, nonExistentUser,
+  invalidEndDate, invalidStartDate, invalidEmail, wrongDepartment
+} from '../../../__mocks__/trips';
 
 chai.use(chaiHttp);
 
 const { assert } = chai;
-const route = '/api/v1/requests/trips/stats';
+const route = '/api/v1/trips/stats';
 
 describe('REQUESTS', () => {
   let requesterToken, managerToken, notManagerToken, notRequesterToken;
@@ -66,26 +70,26 @@ describe('REQUESTS', () => {
   describe('Should validate token', () => {
     it('Returns 401 if no token is provided ', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', '')
-        .send(requests.oneWay);
+        .send(getStatsUser);
 
       assert.equal(res.status, 401);
       assert.equal(res.body.success, false);
     });
     it('Returns 401 for invalid Token ', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', 'hgvy565eheu3y87d2dhb2vdu62276t72gd7')
-        .send(requests.oneWay);
+        .send(getStatsUser);
       assert.equal(res.status, 401);
       assert.equal(res.body.success, false);
     });
     it('Returns 401 if user is not permitted', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${notRequesterToken}`)
-        .send(requests.oneWay);
+        .send(getStatsUser);
 
       assert.equal(res.status, 401);
       assert.equal(res.body.success, false);
@@ -95,45 +99,45 @@ describe('REQUESTS', () => {
   describe("Should validate user's input", () => {
     it('Returns 400 for no start date', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${requesterToken}`)
-        .send(trips.noTrips);
+        .send(noStartDate);
 
       assert.equal(res.status, 400);
       assert.equal(res.body.success, false);
     });
     it('Returns 400 for invalid start date', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${requesterToken}`)
-        .send(trips.noTrips);
+        .send(invalidStartDate);
 
       assert.equal(res.status, 400);
       assert.equal(res.body.success, false);
     });
     it('Returns 400 for no end date', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${requesterToken}`)
-        .send(trips.noTrips);
+        .send(noEndDate);
 
       assert.equal(res.status, 400);
       assert.equal(res.body.success, false);
     });
     it('Returns 400 for invalid end date', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${requesterToken}`)
-        .send(trips.noTrips);
+        .send(invalidEndDate);
 
       assert.equal(res.status, 400);
       assert.equal(res.body.success, false);
     });
     it('Returns 400 for invalid email', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${managerToken}`)
-        .send(trips.noDestination);
+        .send(invalidEmail);
 
       assert.equal(res.status, 400);
       assert.equal(res.body.success, false);
@@ -144,18 +148,18 @@ describe('REQUESTS', () => {
   describe('Should validate user', () => {
     it('should return 404 if user does not exist ', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${managerToken}`)
-        .send(trips.oneWay);
+        .send(nonExistentUser);
 
       assert.equal(res.status, 404);
       assert.equal(res.body.success, false);
     });
     it('should return 403 if staff and manager are not of the same department', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${notManagerToken}`)
-        .send(trips.oneWay);
+        .send(wrongDepartment);
 
       assert.equal(res.status, 403);
       assert.equal(res.body.success, false);
@@ -165,9 +169,9 @@ describe('REQUESTS', () => {
   describe('Should Return 200 if successful', () => {
     it('should return 200 if user successfully gets his/her trip stats', async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${requesterToken}`)
-        .send(trips.oneWay);
+        .send(getStatsUser);
 
       assert.equal(res.status, 200);
       assert.equal(res.body.success, true);
@@ -175,9 +179,9 @@ describe('REQUESTS', () => {
     });
     it("should return 200 if manager successfully gets user's trip stats", async () => {
       const res = await chai.request(server)
-        .post(route)
+        .get(route)
         .set('authorization', `Bearer ${managerToken}`)
-        .send(trips.oneWay);
+        .send(getStatsManager);
 
       assert.equal(res.status, 200);
       assert.equal(res.body.success, true);

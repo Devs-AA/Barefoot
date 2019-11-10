@@ -164,9 +164,10 @@ export const validateTripStatsInput = (req, res, next) => {
   validateDate(startDate, 'Start', errors);
   validateDate(endDate, 'End', errors);
   const isValidEmail = Validation.isValidEmail(email);
-  if (!email) {
+  const isManager = req.user.roleId === roleIds.manager;
+  if (!email && isManager) {
     errors.email = 'Email Required';
-  } else if (!isValidEmail) {
+  } else if (!isValidEmail && isManager) {
     errors.email = 'Invalid Email';
   }
   if (Object.keys(errors).length) {
@@ -191,8 +192,8 @@ export const checkManager = async (req, res, next) => {
         });
       }
       req.userId = id;
-    } catch ({ status, message }) {
-      return res.status(status).json({
+    } catch ({ message }) {
+      return res.status(404).json({
         success: false,
         message
       });
