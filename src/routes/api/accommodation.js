@@ -5,7 +5,8 @@ import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
 import {
   validateNewAccommodationInput, validateBookingInput, checkBookinginfo,
-  checkAccommodationRating, validateRateAccommodationInput
+  checkAccommodationRating, validateRateAccommodationInput, checkIfUserCanLikeOrUnlikeAccommodation,
+  validateLikeUnlike
 } from '../../middlewares/accommodation';
 
 const router = Router();
@@ -109,7 +110,7 @@ router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.
  *  post:
  *    tags:
  *      - Accommodation
- *    summary: Books accommodation
+ *    summary: Likes or Unlikes an accommodation
  *    requestBody:
  *      required: true
  *      content: application/json
@@ -145,7 +146,9 @@ router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.
  *            schema:
  *              $ref: '#/components/schemas/errorResponse'
  */
-router.patch('/accommodations/:accommodationId', [authorization, permit([roleIds.requester])], accommodationController.likeAndUnlike);
+router.patch('/accommodations/:accommodationId', [authorization, permit([roleIds.requester]),
+  validateLikeUnlike, checkIfUserCanLikeOrUnlikeAccommodation],
+accommodationController.likeAndUnlike);
 /**
  * @swagger
  *

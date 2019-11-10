@@ -82,21 +82,23 @@ class Accommodation {
 * @returns {obj} response object
 */
   static async likeAndUnlike(req, res, next) {
-    let reaction;
+    let reaction, responseObj;
     const { body } = req;
     const { id } = req.user;
     const { accommodationId } = req.params;
     body.requesterId = id;
     body.accommodationId = accommodationId;
     try {
-      if (!body.like) {
-        const { noOfLikes } = req.accommodation;
-        reaction = await accommodationService.like(noOfLikes, body);
+      if (body.like) {
+        const { likes } = req.accommodation;
+        responseObj = await accommodationService.like(likes, body);
+        reaction = 'like';
       } else {
-        const { noOfUnlikes } = req.accommodation;
-        reaction = await accommodationService.unlike(noOfUnlikes, body);
+        const { unlikes } = req.accommodation;
+        responseObj = await accommodationService.unlike(unlikes, body);
+        reaction = 'unlike';
       }
-      response.setSuccess(201, 'Accommodation liked', reaction);
+      response.setSuccess(201, `Accommodation ${reaction}`, responseObj);
       return response.send(res);
     } catch (error) {
       next(error);

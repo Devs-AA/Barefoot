@@ -16,7 +16,7 @@ const { assert } = chai;
 const route = '/api/v1/accommodations/1';
 
 describe('Book accommodation', () => {
-  let permittedToken, notPermittedToken, createdAccommodation;
+  let permittedToken, notPermittedToken;
   before(async () => {
     try {
       await models.users.sync({ force: true });
@@ -26,12 +26,13 @@ describe('Book accommodation', () => {
       await models.requests.sync({ force: true });
       await models.accommodations.sync({ force: true });
       await models.bookings.sync({ force: true });
-      await models.ratings.sync({ force: true });
+      await models.likes.sync({ force: true });
+      await models.unlikes.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
       await models.departments.bulkCreate(departments);
       await models.logins.bulkCreate(login);
-      createdAccommodation = await models.accommodations.create(valid);
+      await models.accommodations.create(valid);
       await models.accommodations.create(valid);
       await Request.create({
         tripType: 'oneWay',
@@ -66,7 +67,8 @@ describe('Book accommodation', () => {
   after(async () => {
     try {
       await models.bookings.destroy({ where: {} });
-      await models.ratings.destroy({ where: {} });
+      await models.likes.destroy({ where: {} });
+      await models.unlikes.destroy({ where: {} });
       await models.accommodations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
       await models.departments.destroy({ where: {} });
@@ -102,16 +104,16 @@ describe('Book accommodation', () => {
         .set('authorization', `Bearer ${permittedToken}`)
         .send({ unlike: true });
 
-      assert.equal(401, res.status);
+      assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
     it('It should return 404 if accommodation does not exist', async () => {
       const res = await chai.request(server)
         .patch('/api/v1/accommodations/200')
         .set('authorization', `Bearer ${permittedToken}`)
-        .send({ unlike: true });
+        .send({ like: true });
 
-      assert.equal(401, res.status);
+      assert.equal(404, res.status);
       assert.equal(res.body.success, false);
     });
     it('It should return 401 for non permitted roles', async () => {
@@ -160,17 +162,36 @@ describe('Book accommodation', () => {
         .set('authorization', `Bearer ${permittedToken}`)
         .send({ like: true });
 
-      assert.equal(200, res.status);
+      assert.equal(201, res.status);
       assert.isObject(res.body.data);
       assert.equal(res.body.success, true);
-      assert.isBelow(createdAccommodation.like, res.body.data.like);
     });
 
-    it('It should return a 403 error if user has already liked/unliked the accommodation', async () => {
+    it('It should return a 403 error if user has already liked the accommodation', async () => {
       const res = await chai.request(server)
         .patch(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send({ like: true });
+
+      assert.equal(403, res.status);
+      assert.equal(res.body.success, false);
+    });
+    it('It should unlike an accommodation', async () => {
+      const res = await chai.request(server)
+        .patch(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send({ like: false });
+
+      assert.equal(201, res.status);
+      assert.isObject(res.body.data);
+      assert.equal(res.body.success, true);
+    });
+
+    it('It should return a 403 error if user has already unliked the accommodation', async () => {
+      const res = await chai.request(server)
+        .patch(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .send({ like: false });
 
       assert.equal(403, res.status);
       assert.equal(res.body.success, false);
