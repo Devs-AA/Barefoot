@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import http from 'http';
-import socket from 'socket.io';
+// import socket from 'socket.io';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
 import passport from 'passport';
@@ -11,6 +11,7 @@ import swaggerUi from 'swagger-ui-express';
 // eslint-disable-next-line import/no-cycle
 import routes from './routes';
 import swaggerDocument from './config/swaggerDocs';
+import { socket } from './config/socket';
 // Configure dotEnv
 dotEnv.config();
 
@@ -19,8 +20,11 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Create global app object
 const app = express();
 
+// Configure Socket
 const server = http.createServer(app);
 export const io = socket(server);
+
+io.on('connection', () => console.log('Connected'));
 
 
 // Static files setup
