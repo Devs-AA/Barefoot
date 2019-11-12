@@ -24,9 +24,6 @@ const app = express();
 const server = http.createServer(app);
 export const io = socket(server);
 
-io.on('connection', () => console.log('Connected'));
-
-
 // Static files setup
 app.use(express.static(path.join(__dirname, '../public')));
 app.get('/swagger.json', (req, res) => {
