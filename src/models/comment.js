@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     message: DataTypes.STRING,
     requestId: DataTypes.INTEGER,
     ownerId: DataTypes.INTEGER,
+    firstName: DataTypes.STRING,
     quotedCommentId: DataTypes.INTEGER,
     deletedAt: DataTypes.DATE
   }, {
