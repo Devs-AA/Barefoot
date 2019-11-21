@@ -24,7 +24,6 @@ export const authorization = async (req, res, next) => {
         message: 'Please login again, Your Session has expired',
       });
     }
-
     if (user) {
       req.user = user;
       req.token = realToken;

@@ -3,7 +3,6 @@ import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import http from 'http';
-// import socket from 'socket.io';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
 import passport from 'passport';
@@ -11,6 +10,7 @@ import swaggerUi from 'swagger-ui-express';
 // eslint-disable-next-line import/no-cycle
 import routes from './routes';
 import swaggerDocument from './config/swaggerDocs';
+import Chat from './services/chat';
 import { socket } from './config/socket';
 // Configure dotEnv
 dotEnv.config();
@@ -23,7 +23,7 @@ const app = express();
 // Configure Socket
 const server = http.createServer(app);
 export const io = socket(server);
-
+Chat();
 // Static files setup
 app.use(express.static(path.join(__dirname, '../public')));
 app.get('/swagger.json', (req, res) => {
