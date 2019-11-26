@@ -4,6 +4,7 @@ import { authorization } from '../../middlewares/auth/auth';
 import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
 import { validateNewAccommodationInput } from '../../middlewares/accommodation';
+import { uploadMultipleImages } from '../../config/multer';
 
 const router = Router();
 
@@ -27,6 +28,6 @@ const router = Router();
  *              $ref: '#/components/schemas/response'
  */
 router.post('/accommodations', [authorization, permit([roleIds.travelAdmin, roleIds.traveTeamMember]),
-  validateNewAccommodationInput], accommodationController.create);
+  uploadMultipleImages('accommodation-images'), validateNewAccommodationInput], accommodationController.create);
 
 export default router;

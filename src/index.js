@@ -11,6 +11,7 @@ import swaggerUi from 'swagger-ui-express';
 // eslint-disable-next-line import/no-cycle
 import routes from './routes';
 import swaggerDocument from './config/swaggerDocs';
+import cloudinaryConfig from './config/cloudinary';
 // Configure dotEnv
 dotEnv.config();
 
@@ -40,7 +41,7 @@ app.use(cors());
 
 // Normal express config defaults
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // passport configuration and initialization
 app.use(passport.initialize()); // Used to initialize passport
@@ -50,7 +51,7 @@ if (!isProduction) {
   app.use(errorHandler());
 }
 
-app.use(routes);
+app.use(cloudinaryConfig, routes);
 
 // / catch 404 and forward to error handler
 app.use('*', (req, res) => {
