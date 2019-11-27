@@ -9,3 +9,5 @@ export const roleIds = {
   manager: 4,
   requester: 5
 };
+
+export const trimString = (str) => str.trim();

@@ -6,7 +6,8 @@ import {
   validateTripRequest, checkRequest, validateTripData, validateTripInput
 } from '../../middlewares/request/trips';
 import {
-  validateUpdateRequest, checkRequestManager, validateEditRequest, checkRequestOwnerAndConflict
+  validateUpdateRequest, checkRequestManager, validateEditRequest, checkRequestOwnerAndConflict,
+  validateRequestIdParam
 } from '../../middlewares/request';
 import { validateCommentInput, validateCommentRequest, checkCommentOwner } from '../../middlewares/comment';
 import { authorization } from '../../middlewares/auth/auth';
@@ -302,6 +303,45 @@ router.post('/requests/:requestId/comments', [authorization, permit([roleIds.req
 router.delete('/requests/:requestId/comments/:commentId', [authorization, permit([roleIds.requester]),
 
   checkCommentOwner], commentController.delete);
+
+/**
+ * @swagger
+ *
+ *    /requests/{requestId}:
+ *    get:
+ *     tags:
+ *       - Requests
+ *     summary: Gets a specific user's requests
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/response'
+ *       '401':
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/errorResponse'
+ *       '404':
+ *         description: Not Found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/errorResponse'
+ *       '500':
+ *         description: Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/errorResponse'
+ */
+
+router.get('/requests/:requestId', [authorization, permit([roleIds.requester]), validateRequestIdParam], requestController.findOne);
 
 /**
  * @swagger

@@ -64,9 +64,6 @@ export default class Validation {
  * @returns {boolean} Returns true or false
  */
   static validateInteger(id) {
-    if (typeof id !== 'number' && !parseInt(id, 10)) {
-      return false;
-    }
-    return true;
+    return !(/\D/.test(id));
   }
 }

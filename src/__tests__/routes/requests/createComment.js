@@ -56,8 +56,8 @@ describe('CREATE COMMENTS', () => {
     }
   });
   after(async () => {
-    await models.comments.destroy({ where: {} });
     await models.requests.destroy({ where: {} });
+    await models.comments.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
     await models.users.destroy({ where: {} });

@@ -153,6 +153,31 @@ export default class Requests {
     }
   }
 
+  /**
+ *
+ * @param {*} req request object
+ * @param {*} res response object
+ * @param {*} next next method
+ * @returns {object} returns response object
+ */
+  static async findOne(req, res, next) {
+    const { requestId } = req.params;
+    const { id } = req.user;
+    try {
+      const request = await Request.getOneRequest(requestId);
+      if (!request) {
+        response.setError(404, 'Request does not exist');
+      } else if (request.requesterId !== id) {
+        response.setError(401, 'You are not authorised to view this request');
+      } else {
+        response.setSuccess(200, 'Request Retrieved Successfully', request);
+      }
+      return response.send(res);
+    } catch (error) {
+      error.status = 500;
+      next(error);
+    }
+  }
 
   /**
    *
