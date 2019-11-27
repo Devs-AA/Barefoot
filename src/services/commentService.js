@@ -13,4 +13,18 @@ export default class Comment {
     const createdComment = await models.comments.create(body);
     return createdComment.dataValues;
   }
+
+  /**
+   *
+   * @param {*} id of the comment to be deleted
+   * @return {obj} created comment object
+   */
+  static async deleteComment(id) {
+    const comment = await models.comments.destroy({
+      where: {
+        id
+      }
+    });
+    return comment;
+  }
 }

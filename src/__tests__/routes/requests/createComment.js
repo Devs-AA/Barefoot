@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const { assert } = chai;
 const route = '/api/v1/requests/1/comments';
 
-describe('COMMENTS', () => {
+describe('CREATE COMMENTS', () => {
   let requesterToken, managerToken, randomToken;
   before(async () => {
     const request = {

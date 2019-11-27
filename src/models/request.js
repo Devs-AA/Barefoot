@@ -5,8 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     reason: DataTypes.STRING,
     managerId: DataTypes.INTEGER,
     departmentId: DataTypes.INTEGER,
-    status: DataTypes.ENUM(['open', 'approved', 'rejected'])
-  }, {});
+    status: DataTypes.ENUM(['open', 'approved', 'rejected']),
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   request.associate = (models) => {
     request.hasMany(models.trips, {
       foreignKey: {
