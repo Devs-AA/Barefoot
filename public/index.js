@@ -12,7 +12,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 const send = async (message) => {
-  let register = await navigator.serviceWorker.getRegistration('/worker.js')
+  let register = await navigator.serviceWorker.getRegistration('/worker.js');
   if (!register) {
     register = await navigator.serviceWorker.register('/worker.js');
   }
@@ -24,23 +24,38 @@ const send = async (message) => {
     subscription,
     message
   };
-  await fetch('http://localhost:9003/api/v1/notifications/notify', {
-    method: 'post',
-    body: JSON.stringify(reqObj),
-    headers: {
-      'content-type': 'application/json'
-    }
-  });
+  try {
+    await fetch('http://localhost:9003/api/v1/notifications/notify', {
+      method: 'post',
+      body: JSON.stringify(reqObj),
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+ 
 };
 
 const publicKey = 'BDBWrChIwSY82qo-sN2Oi7tzOA5nhyXVonLm312OPKIVhw1CAjhT0l9FIVJcifRHQzvC0nBEI2nK4CWjSHt6mb8';
-socket.on('request-notification-11', async (data) => {
+socket.on('notify-11', async (data) => {
   try {
     if ('serviceWorker' in navigator) {
       await send(data);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    console.log(error.message);
+  }
+});
+socket.on('notify-15', async (data) => {
+  try {
+    if ('serviceWorker' in navigator) {
+      await send(data);
+    }
+  } catch (error) {
+    console.log(error);
     console.log(error.message);
   }
 });

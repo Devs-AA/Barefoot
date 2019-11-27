@@ -37,11 +37,11 @@ export default class Requests {
         recipientId: managerId,
         requestId: newRequest.id
       };
-      await Notification.createEmailNotification(requesterId, managerId, newNotification);
+      await Notification.createEmailNotification(managerId, newNotification);
 
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       response.send(res);
-      return io.emit(`request-notification-${managerId}`, `${req.user.firstName} created a travel request`);
+      return io.emit(`notify-${managerId}`, `${req.user.firstName} created a travel request`);
     } catch (error) {
       error.status = 500;
       next(error);
@@ -108,12 +108,25 @@ export default class Requests {
    * @returns {object} returns response object
    */
   static async updateStatus(req, res, next) {
+    let message;
+    const { user } = req;
+    const approvedRequestMessage = `Congrats ${user.firstName}, your Manager has approved your Travel request`;
+    const rejectedRequestMessage = `Sorry ${user.firstName}, your Manager has rejected your Travel request`;
     const { status } = req.body;
     const id = parseInt(req.params.requestId, 10);
     try {
       const updatedRequest = await Request.updateStatus(id, status);
       response.setSuccess(200, `Request ${updatedRequest.status} Successfully`, updatedRequest);
-      return response.send(res);
+      response.send(res);
+      const { requesterId } = updatedRequest;
+      const notification = {
+        title: `Travel Request ${updatedRequest.status}`,
+        recipientId: requesterId,
+        requestId: id
+      };
+      message = status === 'approved' ? approvedRequestMessage : rejectedRequestMessage;
+      await Notification.createEmailNotification(requesterId, notification, message);
+      return io.emit(`notify-${requesterId}`);
     } catch (error) {
       error.status = 500;
       next(error);

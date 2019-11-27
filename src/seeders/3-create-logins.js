@@ -87,6 +87,13 @@ module.exports = {
       lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
+    },
+    {
+      email: process.env.REQUESTER_EMAIL,
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
   ],
   {}),
