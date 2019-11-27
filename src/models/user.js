@@ -72,6 +72,11 @@ const users = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE
     },
+    emailNotification: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: false
+    },
     updatedAt: {
       allowNull: false,
       type: DataTypes.DATE

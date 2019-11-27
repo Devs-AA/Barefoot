@@ -51,7 +51,6 @@ class Mail {
       }
     });
 
-
     const mailOptions = {
       from: `"BareFoot" <${process.env.EMAIL}>`,
       to: recipient,
@@ -61,7 +60,6 @@ class Mail {
 
     try {
       const response = await transporter.sendMail(mailOptions);
-
       return response;
     } catch (error) {
       return error;

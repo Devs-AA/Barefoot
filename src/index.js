@@ -1,11 +1,14 @@
 import dotEnv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
+import path from 'path';
+import http from 'http';
+import socket from 'socket.io';
 import errorHandler from 'errorhandler';
 import morgan from 'morgan';
 import passport from 'passport';
-
 import swaggerUi from 'swagger-ui-express';
+// eslint-disable-next-line import/no-cycle
 import routes from './routes';
 import swaggerDocument from './config/swaggerDocs';
 // Configure dotEnv
@@ -16,6 +19,12 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Create global app object
 const app = express();
 
+const server = http.createServer(app);
+export const io = socket(server);
+
+
+// Static files setup
+app.use(express.static(path.join(__dirname, '../public')));
 app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerDocument);
@@ -28,6 +37,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
 app.use(cors());
+
 // Normal express config defaults
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
@@ -35,8 +45,6 @@ app.use(express.json());
 // passport configuration and initialization
 app.use(passport.initialize()); // Used to initialize passport
 
-
-app.use(express.static(`${__dirname}/public`));
 
 if (!isProduction) {
   app.use(errorHandler());
@@ -69,7 +77,7 @@ if (!isProduction) {
 // eslint-disable-next-line no-unused-vars
 
 // finally, let's start our server...
-const server = app.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${server.address().port}`);
 });
 

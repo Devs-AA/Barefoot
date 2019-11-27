@@ -3,10 +3,11 @@ import Mail from './Mail';
 import { resetPasswwordTemplate } from './template/resetPassword';
 import { signUpResetPasswordTemplate } from './template/signupResetPassword';
 
+
 dotenv.config();
 
 const { env } = process;
-const CLIENT_URL = env.NODE_ENV === 'test' || 'development' ? `http://localhost:${env.PORT}/api/v1` : env.CLIENT_URL;
+export const CLIENT_URL = env.NODE_ENV === 'test' || 'development' ? `http://localhost:${env.PORT}/api/v1` : env.CLIENT_URL;
 const expiry = parseInt(process.env.TOKENEXPIRY / 60 / 60) || 3;
 
 const sendResetMail = async (user, resetToken) => {
@@ -45,5 +46,4 @@ const sendSignupMail = async (email) => {
     return false;
   }
 };
-
 export { sendResetMail, sendSignupMail };

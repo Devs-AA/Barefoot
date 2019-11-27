@@ -71,6 +71,11 @@ module.exports = {
     departmentId: {
       type: Sequelize.INTEGER,
     },
+    emailNotification: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+      allowNull: false
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
