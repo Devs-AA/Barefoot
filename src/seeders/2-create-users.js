@@ -165,6 +165,15 @@ module.exports = {
       emailNotification: true,
       createdAt: new Date(),
       updatedAt: new Date()
+    },
+    {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: process.env.REQUESTER_EMAIL,
+      roleId: 5,
+      emailNotification: true,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {}),
   down: (queryInterface) => queryInterface.bulkDelete('users', null, {})
 };
