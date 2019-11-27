@@ -106,7 +106,7 @@ module.exports = {
     {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: 'walesadeks@gmail.com',
+      email: process.env.MANAGER_EMAIL,
       roleId: 4,
       emailNotification: true,
       createdAt: new Date(),
