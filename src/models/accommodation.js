@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     noOfRooms: DataTypes.INTEGER,
     type: DataTypes.STRING,
     timesVisited: DataTypes.INTEGER,
-    destinationId: DataTypes.INTEGER
+    destinationId: DataTypes.INTEGER,
+    deletedAt: DataTypes.DATE
   }, {
     paranoid: true,
     timestamps: true
