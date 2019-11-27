@@ -15,8 +15,9 @@ class Accommodation {
    * @returns {obj} response object
    */
   static async create(req, res, next) {
-    const { body } = req;
+    const { body, images } = req;
     try {
+      body.images = images;
       const acc = await accommodationService.create(body);
       if (!acc) {
         throw new Error('Something went wrong');

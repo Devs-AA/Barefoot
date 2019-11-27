@@ -33,9 +33,6 @@ app.get('/swagger.json', (req, res) => {
 
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// swagger config middlewares
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
 app.use(cors());
 
@@ -50,8 +47,8 @@ app.use(passport.initialize()); // Used to initialize passport
 if (!isProduction) {
   app.use(errorHandler());
 }
-
-app.use(cloudinaryConfig, routes);
+app.use(cloudinaryConfig);
+app.use(routes);
 
 // / catch 404 and forward to error handler
 app.use('*', (req, res) => {
