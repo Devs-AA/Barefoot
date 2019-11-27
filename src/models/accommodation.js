@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     timesVisited: DataTypes.INTEGER,
     destinationId: DataTypes.INTEGER
-  }, {});
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   accommodation.associate = (models) => {
     accommodation.hasMany(models.trips, {
       foreignKey: 'accommodationId'

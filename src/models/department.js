@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     managerId: DataTypes.INTEGER
-  }, {});
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   department.associate = (models) => {
     department.belongsTo(models.users, {
       foreignKey: 'managerId',

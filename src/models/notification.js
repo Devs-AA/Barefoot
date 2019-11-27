@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     isRead: DataTypes.BOOLEAN,
     recipientId: DataTypes.INTEGER,
     requestId: DataTypes.INTEGER
-  }, {});
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   notifications.associate = (models) => {
     notifications.belongsTo(models.users, {
       primaryKey: 'recipientId',

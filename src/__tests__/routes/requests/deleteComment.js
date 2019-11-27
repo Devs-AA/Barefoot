@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const { assert } = chai;
 const route = '/api/v1/requests/1/comments/1';
 
-describe('COMMENTS', () => {
+describe('DELETE COMMENTS', () => {
   let requesterToken, randomToken, newComment;
   before(async () => {
     const request = {
@@ -46,8 +46,8 @@ describe('COMMENTS', () => {
     }
   });
   after(async () => {
-    await models.comments.destroy({ where: {} });
     await models.requests.destroy({ where: {} });
+    await models.comments.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
     await models.users.destroy({ where: {} });
