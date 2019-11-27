@@ -3,7 +3,11 @@ import accommodationController from '../../controllers/accommodation';
 import { authorization } from '../../middlewares/auth/auth';
 import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
-import { validateNewAccommodationInput, validateBookingInput, checkBookinginfo } from '../../middlewares/accommodation';
+import {
+  validateNewAccommodationInput, validateBookingInput, checkBookinginfo,
+  checkAccommodationImages
+} from '../../middlewares/accommodation';
+import { uploadMultipleImages } from '../../config/multer';
 
 const router = Router();
 
@@ -51,7 +55,8 @@ const router = Router();
  *              $ref: '#/components/schemas/errorResponse'
  */
 router.post('/accommodations', [authorization, permit([roleIds.travelAdmin, roleIds.traveTeamMember]),
-  validateNewAccommodationInput], accommodationController.create);
+  uploadMultipleImages('accommodation-images'), validateNewAccommodationInput, checkAccommodationImages],
+accommodationController.create);
 
 /**
  * @swagger

@@ -12,10 +12,12 @@ export default class CommentController {
      * @returns {obj} returns created comment object
      */
   static async create(req, res, next) {
+    const { id, firstName } = req.user;
     const commentObj = {
       message: req.body.message.trim(),
       requestId: req.params.requestId,
-      ownerId: req.user.id
+      ownerId: id,
+      firstName
     };
     if (req.body.quotedCommentId) {
       commentObj.quotedCommentId = req.body.quotedCommentId;
