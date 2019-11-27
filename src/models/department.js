@@ -12,8 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false,
     },
-    managerId: DataTypes.INTEGER
-  }, {});
+    managerId: DataTypes.INTEGER,
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   department.associate = (models) => {
     department.belongsTo(models.users, {
       foreignKey: 'managerId',
