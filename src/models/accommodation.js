@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     addOn: DataTypes.STRING,
     price: DataTypes.INTEGER,
     available: DataTypes.BOOLEAN,
+    images: DataTypes.ARRAY(DataTypes.STRING(2033)),
     deletedAt: DataTypes.DATE
   }, {
     paranoid: true,
