@@ -82,7 +82,7 @@ export const validateNewAccommodationInput = async (req, res, next) => {
   return next();
 };
 
-const validateImage = (imageArray) => {
+export const validateImage = (imageArray) => {
   let isValid = true;
   imageArray.forEach((image) => {
     if (!path.extname(image.originalname).match(/jpg|jpeg|png/)) {
@@ -92,27 +92,33 @@ const validateImage = (imageArray) => {
   return isValid;
 };
 
+export const getImagesUrl = async (files) => {
+  const images = files.map(async (file) => {
+    const { url } = await cloudinary.uploader.upload(file.path);
+    fs.unlinkSync(file.path);
+    return url;
+  });
+  return Promise.all(images);
+};
+
 export const checkAccommodationImages = async (req, res, next) => {
   const { files } = req;
-  const validImage = validateImage(files);
-  if (!validImage) {
-    return res.status(400).json({
-      success: false,
-      message: 'File is not an image'
-    });
-  }
-  try {
-    const images = files.map(async (file) => {
-      const { url } = await cloudinary.uploader.upload(file.path);
-      fs.unlinkSync(file.path);
-      return url;
-    });
-    req.images = await Promise.all(images);
+  if (files) {
+    const validImage = validateImage(files);
+    if (!validImage) {
+      return res.status(400).json({
+        success: false,
+        message: 'File is not an image'
+      });
+    }
+    try {
+      req.images = await getImagesUrl(files);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Could not upload image. Please check your internet connection'
+      });
+    }
     next();
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Could not upload image. Please check your internet connection'
-    });
   }
 };

@@ -17,7 +17,9 @@ class Accommodation {
   static async create(req, res, next) {
     const { body, images } = req;
     try {
-      body.images = images;
+      if (images) {
+        body.images = images;
+      }
       const acc = await accommodationService.create(body);
       if (!acc) {
         throw new Error('Something went wrong');
