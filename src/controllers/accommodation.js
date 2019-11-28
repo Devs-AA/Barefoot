@@ -76,6 +76,37 @@ class Accommodation {
       next(error);
     }
   }
+
+  /**
+*
+* @param {*} req object
+* @param {*} res object
+* @param {*} next method
+* @returns {obj} response object
+*/
+  static async likeAndUnlike(req, res, next) {
+    let reaction, responseObj;
+    const { body } = req;
+    const { id } = req.user;
+    const { accommodationId } = req.params;
+    body.requesterId = id;
+    body.accommodationId = accommodationId;
+    try {
+      if (body.like) {
+        const { likes } = req.accommodation;
+        responseObj = await accommodationService.like(likes, body);
+        reaction = 'like';
+      } else {
+        const { unlikes } = req.accommodation;
+        responseObj = await accommodationService.unlike(unlikes, body);
+        reaction = 'unlike';
+      }
+      response.setSuccess(201, `Accommodation ${reaction}`, responseObj);
+      return response.send(res);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default Accommodation;

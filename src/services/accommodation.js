@@ -1,4 +1,6 @@
-import { accommodations, ratings, Sequelize } from '../models';
+import {
+  accommodations, ratings, Sequelize, likes, unlikes
+} from '../models';
 
 
 /**
@@ -51,6 +53,40 @@ class Accommodation {
       attributes: [[Sequelize.fn('avg', Sequelize.col('rating')), 'avgRating']],
     });
     return Math.round(dataValues.avgRating * 10) / 10;
+  }
+
+  /**
+   *
+   * @param {*} noOfLikes the current number of likes an accommodation has
+   * @param {*} likeObj the object containing the parameters for a like
+   * @returns {obj} returns the created like object
+   */
+  static async like(noOfLikes, likeObj) {
+    const { dataValues } = await likes.create(likeObj);
+    const { accommodationId } = dataValues;
+    await accommodations.update({ likes: noOfLikes + 1 }, {
+      where: {
+        id: accommodationId
+      }
+    });
+    return dataValues;
+  }
+
+  /**
+   *
+   * @param {*} noOfUnlikes the current number of likes an accommodation has
+   * @param {*} unLikeObj the object containing the parameters for a like
+   * @returns {obj} returns the created like object
+   */
+  static async unlike(noOfUnlikes, unLikeObj) {
+    const { dataValues } = await unlikes.create(unLikeObj);
+    const { accommodationId } = dataValues;
+    await accommodations.update({ unlikes: noOfUnlikes + 1 }, {
+      where: {
+        id: accommodationId
+      }
+    });
+    return dataValues;
   }
 }
 

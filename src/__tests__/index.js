@@ -24,3 +24,4 @@ import './routes/requests/getRequests';
 import './routes/accommodation/createAccommodation';
 import './routes/accommodation/bookAccommodation';
 import './routes/accommodation/rateAccommodation';
+import './routes/accommodation/likeAccommodation';

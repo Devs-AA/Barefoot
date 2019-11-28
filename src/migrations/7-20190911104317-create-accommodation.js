@@ -43,6 +43,16 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
+    likes: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0
+    },
+    unlikes: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0
+    },
     addOn: {
       type: Sequelize.STRING,
       allowNull: true

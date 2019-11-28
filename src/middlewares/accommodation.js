@@ -4,7 +4,7 @@ import cloudinary from 'cloudinary';
 import Validation from '../helpers/validation';
 import { checkIfExistsInDb } from '../utils/searchDb';
 import {
-  destinations, accommodations, requests, ratings, bookings
+  destinations, accommodations, requests, ratings, bookings, likes, unlikes
 } from '../models';
 import { validateDate } from '../helpers/default';
 
@@ -106,6 +106,16 @@ export const validateBookingInput = async (req, res, next) => {
   next();
 };
 
+const findBooking = async (accommodationId, requesterId) => {
+  const foundBooking = await bookings.findOne({
+    where: {
+      accommodationId,
+      requesterId
+    }
+  });
+  return foundBooking ? foundBooking.dataValues : null;
+};
+
 export const checkBookinginfo = async (req, res, next) => {
   const { accommodationId } = req.params;
   const { id } = req.user;
@@ -165,12 +175,7 @@ export const checkAccommodationRating = async (req, res, next) => {
   const { id } = req.user;
   try {
     await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exist');
-    const noBooking = await bookings.findOne({
-      where: {
-        accommodationId,
-        requesterId: id
-      }
-    });
+    const noBooking = await findBooking(accommodationId, id);
     if (!noBooking) {
       return res.status(403).json({
         success: false,
@@ -194,6 +199,75 @@ export const checkAccommodationRating = async (req, res, next) => {
     return res.status(404).json({
       success: false,
       message: error.message
+    });
+  }
+};
+
+export const validateLikeUnlike = (req, res, next) => {
+  const { like } = req.body;
+  const { accommodationId } = req.params;
+  const errors = {};
+  isInteger(accommodationId, 'accommodation', 'accommodation', errors);
+  if (typeof like === 'undefined') {
+    errors.reaction = 'No reaction provided';
+  } else if (typeof like !== 'boolean') {
+    errors.reaction = 'Invalid reaction provided';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(400).json({
+      success: false,
+      errors
+    });
+  }
+  next();
+};
+
+export const checkIfUserCanLikeOrUnlikeAccommodation = async (req, res, next) => {
+  const { accommodationId } = req.params;
+  const { like } = req.body;
+  const { id } = req.user;
+  try {
+    const foundAccommodation = await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exist');
+    req.accommodation = foundAccommodation;
+    const userBookedAccommodation = await findBooking(accommodationId, id);
+    if (!userBookedAccommodation) {
+      return res.status(403).json({
+        success: false,
+        message: 'Accommodation not visited'
+      });
+    }
+    if (like) {
+      const alreadyLiked = await likes.findOne({
+        where: {
+          accommodationId,
+          requesterId: id
+        }
+      });
+      if (alreadyLiked) {
+        return res.status(403).json({
+          success: false,
+          message: 'You have already liked this accommodation'
+        });
+      }
+    } else {
+      const alreadyUnliked = await unlikes.findOne({
+        where: {
+          accommodationId,
+          requesterId: id
+        }
+      });
+      if (alreadyUnliked) {
+        return res.status(403).json({
+          success: false,
+          message: 'You have already unliked this accommodation'
+        });
+      }
+    }
+    next();
+  } catch ({ message }) {
+    res.status(404).json({
+      success: false,
+      message
     });
   }
 };

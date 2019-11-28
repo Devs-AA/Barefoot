@@ -5,7 +5,8 @@ import { permit } from '../../middlewares/users';
 import { roleIds } from '../../helpers/default';
 import {
   validateNewAccommodationInput, validateBookingInput, checkBookinginfo,
-  checkAccommodationRating, validateRateAccommodationInput, checkAccommodationImages
+  checkAccommodationRating, validateRateAccommodationInput, checkIfUserCanLikeOrUnlikeAccommodation,
+  validateLikeUnlike, checkAccommodationImages
 } from '../../middlewares/accommodation';
 import { uploadMultipleImages } from '../../config/multer';
 
@@ -104,6 +105,52 @@ accommodationController.create);
 router.post('/accommodations/:accommodationId', [authorization, permit([roleIds.requester]),
   validateBookingInput, checkBookinginfo], accommodationController.book);
 
+/**
+ * @swagger
+ *
+ * /accommodations/{accommodationId}:
+ *  post:
+ *    tags:
+ *      - Accommodation
+ *    summary: Likes or Unlikes an accommodation
+ *    requestBody:
+ *      required: true
+ *      content: application/json
+ *    responses:
+ *      '201':
+ *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/response'
+ *      '400':
+ *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '404':
+ *        description: Not Found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '500':
+ *        description: Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ */
+router.patch('/accommodations/:accommodationId', [authorization, permit([roleIds.requester]),
+  validateLikeUnlike, checkIfUserCanLikeOrUnlikeAccommodation],
+accommodationController.likeAndUnlike);
 /**
  * @swagger
  *
