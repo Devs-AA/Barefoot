@@ -229,7 +229,7 @@ export const checkIfUserCanLikeOrUnlikeAccommodation = async (req, res, next) =>
   try {
     const foundAccommodation = await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exist');
     req.accommodation = foundAccommodation;
-    const userBookedAccommodation = await findBooking(accommodationId);
+    const userBookedAccommodation = await findBooking(accommodationId, id);
     if (!userBookedAccommodation) {
       return res.status(403).json({
         success: false,
