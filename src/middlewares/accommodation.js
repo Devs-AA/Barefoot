@@ -167,7 +167,8 @@ export const checkAccommodationRating = async (req, res, next) => {
     await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exist');
     const noBooking = await bookings.findOne({
       where: {
-        accommodationId
+        accommodationId,
+        requesterId: id
       }
     });
     if (!noBooking) {
