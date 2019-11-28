@@ -19,6 +19,7 @@ import './routes/requests/deleteComment';
 import './routes/notification/unsubscribe';
 import './routes/notification/newRequestEmailNotification';
 import './routes/notification/createNotification';
+import './routes/notification/readAllNotification';
 import './routes/requests/getRequests';
 import './routes/accommodation/createAccommodation';
 import './routes/accommodation/bookAccommodation';

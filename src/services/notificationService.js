@@ -1,3 +1,4 @@
+import { isArray } from 'util';
 import { users, notifications } from '../models';
 import { checkIfExistsInDb } from '../utils/searchDb';
 import { newRequestNotificationMail } from './mail/notificationMail';
@@ -59,6 +60,22 @@ class Notification {
       return true;
     }
     return false;
+  }
+
+  /**
+   *
+   * @param {*} userId The id of the user
+   * @returns {array} returns an array of updated notiications
+   */
+  static async readAll(userId) {
+    const [, notification] = await notifications.update({ isRead: true }, {
+      returning: true,
+      where: {
+        recipientId: userId,
+        isRead: false
+      }
+    });
+    return isArray(notification) ? notification : [notification.dataValues];
   }
 }
 
