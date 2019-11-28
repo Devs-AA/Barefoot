@@ -257,7 +257,7 @@ describe('Accommodations', () => {
         .field('noOfRooms', 1)
         .field('address', '122, Luxury lane. GRA Ikeja, Lagos.')
         .attach('accommodation-images', fs.readFileSync('src/__mocks__/img/new.txt.txt'), 'new.txt.txt');
-      console.log(res.body)
+
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
@@ -279,7 +279,7 @@ describe('Accommodations', () => {
         .field('noOfRooms', 1)
         .field('address', '122, Luxury lane. GRA Ikeja, Lagos.')
         .attach('accommodation-images', fs.readFileSync('src/__mocks__/img/image1.png'), 'image1.png');
-        console.log(res.body)
+
       assert.equal(201, res.status);
       assert.isObject(res.body.data);
       assert.equal(res.body.success, true);

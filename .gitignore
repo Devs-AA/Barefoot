@@ -51,7 +51,7 @@ node_modules/
 jspm_packages/
 
 # Images directory
-uploads/*
+src/__mocks__/uploads/*.*
 
 # TypeScript v1 declaration files
 typings/
