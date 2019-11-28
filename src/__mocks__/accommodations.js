@@ -226,3 +226,24 @@ export const invalidBookingTripDate = {
   lodgeOutDate: '2090/11/30',
   tripDate: 'wed1223'
 };
+
+export const validRating = {
+  rating: 4,
+  message: 'Message'
+};
+
+export const noRating = {
+  message: 'Message'
+};
+export const invalidRating = {
+  rating: 'uhk',
+  message: 'Great'
+};
+export const outOfRangeRating = {
+  rating: 6,
+  message: 'Great'
+};
+export const invalidMessage = {
+  rating: 3,
+  message: 7657
+};

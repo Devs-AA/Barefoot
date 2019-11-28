@@ -22,3 +22,4 @@ import './routes/notification/createNotification';
 import './routes/requests/getRequests';
 import './routes/accommodation/createAccommodation';
 import './routes/accommodation/bookAccommodation';
+import './routes/accommodation/rateAccommodation';

@@ -1,4 +1,5 @@
-import { accommodations } from '../models';
+import { accommodations, ratings, Sequelize } from '../models';
+
 
 /**
  * @description Class for accommodation service
@@ -13,6 +14,45 @@ class Accommodation {
     const newAccommodation = await accommodations.create(body);
     return newAccommodation ? newAccommodation.dataValues : false;
   }
+
+  /**
+   *
+   * @param {obj} obj object containing rating details
+   * @returns {obj} returns new rating object
+   */
+  static async rate(obj) {
+    try {
+      const newRating = await ratings.create(obj);
+      const { accommodationId } = newRating;
+      const rating = await Accommodation.getAverageRating(accommodationId);
+      await accommodations.update({ rating }, {
+        returning: true,
+        plain: true,
+        where: {
+          id: accommodationId
+        }
+      });
+      return newRating.dataValues;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  /**
+   *
+   * @param {*} accommodationId id of the accommodation to get rating
+   * @returns {float} returns the average rating  for the accommodation with the given id
+   */
+  static async getAverageRating(accommodationId) {
+    const [{ dataValues }, ] = await ratings.findAll({
+      where: {
+        accommodationId
+      },
+      attributes: [[Sequelize.fn('avg', Sequelize.col('rating')), 'avgRating']],
+    });
+    return Math.round(dataValues.avgRating * 10) / 10;
+  }
 }
+
 
 export default Accommodation;

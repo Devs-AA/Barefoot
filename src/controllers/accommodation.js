@@ -53,6 +53,29 @@ class Accommodation {
       next(error);
     }
   }
+
+  /**
+ *
+ * @param {*} req object
+ * @param {*} res object
+ * @param {*} next method
+ * @returns {obj} response object
+ */
+  static async rate(req, res, next) {
+    const { body } = req;
+    const { firstName, id } = req.user;
+    const { accommodationId } = req.params;
+    body.requesterName = firstName;
+    body.requesterId = id;
+    body.accommodationId = accommodationId;
+    try {
+      const rating = await accommodationService.rate(body);
+      response.setSuccess(201, 'Feedback Registered', rating);
+      return response.send(res);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default Accommodation;

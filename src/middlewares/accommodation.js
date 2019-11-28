@@ -3,7 +3,9 @@ import fs from 'fs';
 import cloudinary from 'cloudinary';
 import Validation from '../helpers/validation';
 import { checkIfExistsInDb } from '../utils/searchDb';
-import { destinations, accommodations, requests } from '../models';
+import {
+  destinations, accommodations, requests, ratings, bookings
+} from '../models';
 import { validateDate } from '../helpers/default';
 
 export const isInteger = (num, key, title, errors) => {
@@ -126,6 +128,72 @@ export const checkBookinginfo = async (req, res, next) => {
     return res.status(404).json({
       success: false,
       message
+    });
+  }
+};
+
+export const validateRateAccommodationInput = (req, res, next) => {
+  const errors = {};
+  const { rating, message } = req.body;
+  const { accommodationId } = req.params;
+  if (!Validation.validateInteger(accommodationId)) {
+    errors.accommodation = 'Invalid accommodation id';
+  }
+  if (!rating) {
+    errors.rating = 'Rating is required';
+  } else if (!Validation.validateInteger(rating)) {
+    errors.rating = 'Invalid rating';
+  } else if (rating < 1 || rating > 5) {
+    errors.rating = 'Rating should be between 1 and 5';
+  }
+  if (message && typeof message !== 'string') {
+    errors.message = 'Invalid message';
+  } else {
+    req.body.message = req.body.message.trim();
+  }
+  if (Object.keys(errors).length) {
+    return res.status(400).json({
+      success: false,
+      errors
+    });
+  }
+  next();
+};
+
+export const checkAccommodationRating = async (req, res, next) => {
+  const { accommodationId } = req.params;
+  const { id } = req.user;
+  try {
+    await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exist');
+    const noBooking = await bookings.findOne({
+      where: {
+        accommodationId,
+        requesterId: id
+      }
+    });
+    if (!noBooking) {
+      return res.status(403).json({
+        success: false,
+        message: 'You cannot rate an accommodation you have not visited'
+      });
+    }
+    const rate = await ratings.findOne({
+      where: {
+        accommodationId,
+        requesterId: id
+      }
+    });
+    if (rate) {
+      return res.status(403).json({
+        success: false,
+        message: 'You have already rated this accommodation'
+      });
+    }
+    next();
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error.message
     });
   }
 };
