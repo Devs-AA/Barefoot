@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     managerId: DataTypes.INTEGER,
     departmentId: DataTypes.INTEGER,
     status: DataTypes.ENUM(['open', 'approved', 'rejected']),
+    active: DataTypes.BOOLEAN,
     deletedAt: DataTypes.DATE
   }, {
     paranoid: true,

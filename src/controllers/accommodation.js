@@ -1,4 +1,5 @@
 import accommodationService from '../services/accommodation';
+import Booking from '../services/accommodationBooking';
 import Response from '../utils/response';
 
 const response = new Response();
@@ -25,6 +26,28 @@ class Accommodation {
         throw new Error('Something went wrong');
       }
       response.setSuccess(201, 'Accommodation created successfully', acc);
+      return response.send(res);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   *
+   * @param {*} req object
+   * @param {*} res object
+   * @param {*} next method
+   * @returns {obj} response object
+   */
+  static async book(req, res, next) {
+    const { body, accommodation } = req;
+    const { accommodationId } = req.params;
+    const { id } = req.request;
+    body.requesterId = req.user.id;
+    body.accommodationId = accommodationId;
+    try {
+      const newBooking = await Booking.create(body, accommodation, id);
+      response.setSuccess(201, 'Accommodation booked successfully', newBooking);
       return response.send(res);
     } catch (error) {
       next(error);

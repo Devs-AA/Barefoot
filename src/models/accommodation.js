@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     timesVisited: DataTypes.INTEGER,
     destinationId: DataTypes.INTEGER,
+    address: DataTypes.STRING,
+    addOn: DataTypes.STRING,
+    price: DataTypes.INTEGER,
+    available: DataTypes.BOOLEAN,
+    images: DataTypes.ARRAY(DataTypes.STRING(2033)),
     deletedAt: DataTypes.DATE
   }, {
     paranoid: true,

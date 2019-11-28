@@ -11,3 +11,18 @@ export const roleIds = {
 };
 
 export const trimString = (str) => str.trim();
+
+export const validateDate = (date, name, errors) => {
+  const dateRegex = /^(\d){4}\/(\d){2}\/(\d){2}$/;
+  if (!date) {
+    errors[name] = `No ${name} date provided`;
+  } else {
+    const isValidDateFormat = dateRegex.test(date);
+    // eslint-disable-next-line no-restricted-globals
+    const isValidDate = isNaN(Date.parse(date));
+    if (!isValidDateFormat && isValidDate) {
+      errors[name] = `Invalid ${name} date. Use YYYY/MM/DD format`;
+    }
+  }
+  return errors;
+};

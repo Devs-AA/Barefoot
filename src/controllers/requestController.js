@@ -24,7 +24,7 @@ export default class Requests {
     const requesterId = req.user.id;
     const { managerId } = req;
     try {
-      const newRequest = await models.requests.create({
+      const newRequest = await Request.create({
         tripType,
         requesterId,
         departmentId,

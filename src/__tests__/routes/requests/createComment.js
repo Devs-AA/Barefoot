@@ -107,6 +107,7 @@ describe('CREATE COMMENTS', () => {
         .post(route)
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.noMessage);
+
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
@@ -116,6 +117,7 @@ describe('CREATE COMMENTS', () => {
         .post(route)
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.invalidQuote);
+
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
