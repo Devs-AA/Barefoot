@@ -70,7 +70,7 @@ router.post('/notifications/notify', async (req, res) => {
  *            schema:
  *              $ref: '#/components/schemas/errorResponse'
  */
-router.patch('/notifications', [authorization, permit([roleIds.requester])], notificationController.readAll);
+router.patch('/notifications', [authorization, permit([roleIds.requester, roleIds.manager])], notificationController.readAll);
 
 /**
  * @swagger

@@ -1,3 +1,6 @@
+import path from 'path';
+import fs from 'fs';
+import cloudinary from 'cloudinary';
 import Validation from '../helpers/validation';
 import { checkIfExistsInDb } from '../utils/searchDb';
 import {
@@ -103,10 +106,11 @@ export const validateBookingInput = async (req, res, next) => {
   next();
 };
 
-const findBooking = async (accommodationId) => {
+const findBooking = async (accommodationId, requesterId) => {
   const foundBooking = await bookings.findOne({
     where: {
-      accommodationId
+      accommodationId,
+      requesterId
     }
   });
   return foundBooking ? foundBooking.dataValues : null;
@@ -265,5 +269,46 @@ export const checkIfUserCanLikeOrUnlikeAccommodation = async (req, res, next) =>
       success: false,
       message
     });
+  }
+};
+
+export const validateImage = (imageArray) => {
+  let isValid = true;
+  imageArray.forEach((image) => {
+    if (!path.extname(image.originalname).match(/jpg|jpeg|png/)) {
+      isValid = false;
+    }
+  });
+  return isValid;
+};
+
+export const getImagesUrl = async (files) => {
+  const images = files.map(async (file) => {
+    const { url } = await cloudinary.uploader.upload(file.path);
+    fs.unlinkSync(file.path);
+    return url;
+  });
+  return Promise.all(images);
+};
+
+export const checkAccommodationImages = async (req, res, next) => {
+  const { files } = req;
+  if (files) {
+    const validImage = validateImage(files);
+    if (!validImage) {
+      return res.status(400).json({
+        success: false,
+        message: 'File is not an image'
+      });
+    }
+    try {
+      req.images = await getImagesUrl(files);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Could not upload image. Please check your internet connection'
+      });
+    }
+    next();
   }
 };

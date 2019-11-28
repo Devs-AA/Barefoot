@@ -1,4 +1,3 @@
-// define the Login model with its content
 const Logouts = (sequelize, DataTypes) => {
   const Logout = sequelize.define('logouts', {
     id: {

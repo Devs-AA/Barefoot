@@ -1,4 +1,5 @@
 import chai from 'chai';
+import fs from 'fs';
 import chaiHttp from 'chai-http';
 import server from '../../../index';
 import models from '../../../models';
@@ -241,15 +242,62 @@ describe('Accommodations', () => {
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
+
+    it('It should return a 400 error if file is not an image', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .set('content-type', 'multipart/form-data')
+        .field('name', 'WaterFalls Hotels')
+        .field('description', 'Lorem ipsum dolor sit amet consectetur adipisicing elit')
+        .field('price', 20000)
+        .field('addOn', 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit')
+        .field('destinationId', 1)
+        .field('type', 'Single room')
+        .field('noOfRooms', 1)
+        .field('address', '122, Luxury lane. GRA Ikeja, Lagos.')
+        .attach('accommodation-images', fs.readFileSync('src/__mocks__/img/new.txt.txt'), 'new.txt.txt');
+
+      assert.equal(400, res.status);
+      assert.equal(res.body.success, false);
+    });
   });
 
 
   describe('Create new Accomodation', async () => {
-    it('It should create a new accommodation', async () => {
+    it('It should create a new accommodation with image', async () => {
       const res = await chai.request(server)
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
-        .send(valid);
+        .set('content-type', 'multipart/form-data')
+        .field('name', 'WaterFalls Hotels')
+        .field('description', 'Lorem ipsum dolor sit amet consectetur adipisicing elit')
+        .field('price', 20000)
+        .field('addOn', 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit')
+        .field('destinationId', 1)
+        .field('type', 'Single room')
+        .field('noOfRooms', 1)
+        .field('address', '122, Luxury lane. GRA Ikeja, Lagos.')
+        .attach('accommodation-images', fs.readFileSync('src/__mocks__/img/image1.png'), 'image1.png');
+
+      assert.equal(201, res.status);
+      assert.isObject(res.body.data);
+      assert.equal(res.body.success, true);
+    });
+
+    it('It should create a new accommodation without image', async () => {
+      const res = await chai.request(server)
+        .post(route)
+        .set('authorization', `Bearer ${permittedToken}`)
+        .set('content-type', 'multipart/form-data')
+        .field('name', 'WaterFalls Hotels')
+        .field('description', 'Lorem ipsum dolor sit amet consectetur adipisicing elit')
+        .field('price', 20000)
+        .field('addOn', 'Lorem ipsum dolor sit amet consectetur adipisicing elitsit amet consectetur adipisicing elit')
+        .field('destinationId', 1)
+        .field('type', 'Single room')
+        .field('noOfRooms', 1)
+        .field('address', '122, Luxury lane. GRA Ikeja, Lagos.');
 
       assert.equal(201, res.status);
       assert.isObject(res.body.data);

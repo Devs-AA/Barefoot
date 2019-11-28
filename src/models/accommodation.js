@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: DataTypes.DATE,
     rating: DataTypes.FLOAT,
     likes: DataTypes.INTEGER,
-    unlikes: DataTypes.INTEGER
+    unlikes: DataTypes.INTEGER,
+    images: DataTypes.ARRAY(DataTypes.STRING(2033)),
   }, {
     paranoid: true,
     timestamps: true
