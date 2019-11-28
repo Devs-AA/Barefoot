@@ -175,7 +175,7 @@ export const checkAccommodationRating = async (req, res, next) => {
   const { id } = req.user;
   try {
     await checkIfExistsInDb(accommodations, accommodationId, 'Accommodation does not exist');
-    const noBooking = await findBooking(accommodationId);
+    const noBooking = await findBooking(accommodationId, id);
     if (!noBooking) {
       return res.status(403).json({
         success: false,
