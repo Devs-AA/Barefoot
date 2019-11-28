@@ -163,7 +163,7 @@ describe('Book accommodation', () => {
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(validAccommodationBooking);
-      console.log(res.body)
+
       assert.equal(201, res.status);
       assert.isObject(res.body.data);
       assert.equal(res.body.success, true);
@@ -173,7 +173,7 @@ describe('Book accommodation', () => {
         .post(route)
         .set('authorization', `Bearer ${permittedToken}`)
         .send(validAccommodationBooking);
-      console.log(res.body)
+
       assert.equal(404, res.status);
       assert.equal(res.body.success, false);
     });
