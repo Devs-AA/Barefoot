@@ -50,6 +50,9 @@ dist/
 node_modules/
 jspm_packages/
 
+# Images directory
+src/__mocks__/uploads/*
+
 # TypeScript v1 declaration files
 typings/
 

@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     available: DataTypes.BOOLEAN,
     deletedAt: DataTypes.DATE,
-    rating: DataTypes.FLOAT
+    rating: DataTypes.FLOAT,
+    images: DataTypes.ARRAY(DataTypes.STRING(2033)),
   }, {
     paranoid: true,
     timestamps: true

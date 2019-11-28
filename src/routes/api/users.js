@@ -1,8 +1,6 @@
 import { Router } from 'express';
-import passport from '../../config/passport';
-// import passport from 'passport';
 import { SendVerificationEmail, handleInvalidEmail, handleEmptyEmailBody } from '../../middlewares/mail';
-import { authorization, NoUserFromPassport } from '../../middlewares/auth/auth';
+import { authorization } from '../../middlewares/auth/auth';
 import {
   validationForSignUp, ValidationForEmptySignUpBody, ValidateEmptySignUpBodyProperty,
   EmptySignUpBodyPropertyValue, validateProfileData, validationForSignIn,
@@ -21,7 +19,7 @@ const { forgotPasswordCheck, resetPasswordCheck } = validate;
 
 const {
   forgotPassword, resetPassword, loginAUser, getUserProfile,
-  updateUserProfile, googleLogin, facebookLogin, logOut, updateSavedProfile, getSavedProfile
+  updateUserProfile, logOut, updateSavedProfile, getSavedProfile
 } = userController;
 
 const router = Router();
@@ -198,71 +196,6 @@ router.get('/users/email/verify', emailController.confirmEmailVerificaionToken);
  *              $ref: '#/components/schemas/errorResponse'
  */
 router.post('/users/auth/login', validationForSignIn, loginAUser);
-
-/**
- * @swagger
- *
- *    /users/auth/token/google:
- *    get:
- *     tags:
- *       - Users
- *     summary: Verfify email of a user
- *     parameters:
- *     - name: access_token
- *       in: query
- *       description: This token is generated in the frontend.
- *       schema:
- *        type: string
- *     responses:
- *       '200':
- *         description: success
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/response'
- *       '400':
- *         description: Bad Request
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/errorResponse'
- */
-router.get('/users/auth/token/google', passport.authenticate('google-token',
-
-  { scope: ['profile', 'email'], session: false }), NoUserFromPassport, googleLogin);
-
-
-/**
- * @swagger
- *
- *    /users/auth/token/facebook:
- *    get:
- *     tags:
- *       - Users
- *     summary: Verfify email of a user
- *     parameters:
- *     - name: access_token
- *       in: query
- *       description: This token is generated in the frontend.
- *       schema:
- *        type: string
- *     responses:
- *       '200':
- *         description: success
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/response'
- *       '400':
- *         description: Bad Request
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/errorResponse'
- */
-router.get('/users/auth/token/facebook', passport.authenticate('facebook-token',
-
-  { scope: ['public_profile', 'email'], session: false }), NoUserFromPassport, facebookLogin);
 
 /**
  * @swagger
