@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import cloudinary from 'cloudinary';
 import Validation from '../helpers/validation';
 import { checkIfExistsInDb } from '../utils/searchDb';
@@ -142,6 +143,7 @@ export const validateImage = (imageArray) => {
 export const getImagesUrl = async (files) => {
   const images = files.map(async (file) => {
     const { url } = await cloudinary.uploader.upload(file.path);
+    fs.unlinkSync(file.path);
     return url;
   });
   return Promise.all(images);
