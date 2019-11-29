@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     accommodationId: DataTypes.INTEGER,
     requestId: DataTypes.INTEGER,
     departureDate: DataTypes.DATE,
-    deletedAt: DataTypes.DATE
+    deletedAt: DataTypes.DATE,
+    requesterId: DataTypes.INTEGER
   }, {
     paranoid: true,
     timestamps: true
@@ -16,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     });
     trip.belongsTo(models.requests, {
       foreignKey: 'requestId'
+    });
+    trip.belongsTo(models.users, {
+      foreignKey: 'requesterId'
     });
   };
   return trip;

@@ -22,6 +22,14 @@ module.exports = {
         key: 'id'
       }
     },
+    requesterId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
     requestId: {
       type: Sequelize.INTEGER,
       allowNull: false,

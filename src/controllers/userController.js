@@ -185,7 +185,8 @@ export default class UserController {
           lastLogin: loggedUser.lastLogin,
           isVerified: user.isVerified,
           roleId: user.roleId,
-          emailNotification: user.emailNotification
+          emailNotification: user.emailNotification,
+          departmentId: user.departmentId
         });
 
         await userService.updateLogins(loginData);
