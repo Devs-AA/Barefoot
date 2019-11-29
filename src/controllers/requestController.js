@@ -37,7 +37,7 @@ export default class Requests {
         recipientId: managerId,
         requestId: newRequest.id
       };
-      await Notification.createEmailNotification(requesterId, managerId, newNotification);
+      await Notification.createEmailNotification(managerId, newNotification);
 
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       response.send(res);
@@ -123,14 +123,14 @@ export default class Requests {
       const updatedRequest = await Request.updateStatus(id, status);
       response.setSuccess(200, `Request ${updatedRequest.status} Successfully`, updatedRequest);
       response.send(res);
-      const { requesterId, managerId } = updatedRequest;
+      const { requesterId } = updatedRequest;
       const notification = {
         title: `Travel Request ${updatedRequest.status}`,
         recipientId: requesterId,
         requestId: id
       };
       message = status === 'approved' ? approvedRequestMessage : rejectedRequestMessage;
-      await Notification.createEmailNotification(requesterId, managerId, notification, message);
+      await Notification.createEmailNotification(requesterId, notification, message);
       return io.emit(`notify-${requesterId}`);
     } catch (error) {
       error.status = 500;
