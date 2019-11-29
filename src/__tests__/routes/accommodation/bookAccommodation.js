@@ -27,6 +27,7 @@ describe('Book accommodation', () => {
       await models.destinations.sync({ force: true });
       await models.requests.sync({ force: true });
       await models.accommodations.sync({ force: true });
+      await models.bookings.sync({ force: true });
       await models.users.bulkCreate(users);
       await models.destinations.bulkCreate(destinations);
       await models.departments.bulkCreate(departments);
@@ -53,6 +54,7 @@ describe('Book accommodation', () => {
   });
   after(async () => {
     try {
+      await models.bookings.destroy({ where: {} });
       await models.accommodations.destroy({ where: {} });
       await models.requests.destroy({ where: {} });
       await models.departments.destroy({ where: {} });

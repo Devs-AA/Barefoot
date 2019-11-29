@@ -62,6 +62,11 @@ module.exports = {
       allowNull: false,
       defaultValue: true
     },
+    images: {
+      type: Sequelize.ARRAY(Sequelize.STRING(2033)),
+      defaultValue: [],
+      allowNull: false
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

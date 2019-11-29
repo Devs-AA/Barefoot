@@ -1,5 +1,6 @@
 import Response from '../utils/response';
 import Service from '../services/tripService';
+import { trimObj } from '../helpers/default';
 
 
 export const response = new Response();
@@ -17,7 +18,8 @@ class Trips {
 * @returns {object} returns response object
 */
   static async getTripStats(req, res, next) {
-    const { startDate, endDate } = req.body;
+    const body = trimObj(req.body);
+    const { startDate, endDate } = body;
     let { id } = req.user;
     const { userId } = req;
     if (userId) {

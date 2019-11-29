@@ -12,6 +12,7 @@ import routes from './routes';
 import swaggerDocument from './config/swaggerDocs';
 import Chat from './services/chat';
 import { socket } from './config/socket';
+import cloudinaryConfig from './config/cloudinary';
 // Configure dotEnv
 dotEnv.config();
 
@@ -33,15 +34,12 @@ app.get('/swagger.json', (req, res) => {
 
 // swagger config middlewares
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// swagger config middlewares
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.enable('trust proxy');
 app.use(cors());
 
 // Normal express config defaults
 app.use(morgan('dev'));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // passport configuration and initialization
 app.use(passport.initialize()); // Used to initialize passport
@@ -50,7 +48,7 @@ app.use(passport.initialize()); // Used to initialize passport
 if (!isProduction) {
   app.use(errorHandler());
 }
-
+app.use(cloudinaryConfig);
 app.use(routes);
 
 // / catch 404 and forward to error handler

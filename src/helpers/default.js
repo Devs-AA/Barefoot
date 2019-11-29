@@ -26,3 +26,11 @@ export const validateDate = (date, name, errors) => {
   }
   return errors;
 };
+
+export const trimObj = (obj) => {
+  const trimmedObj = {};
+  Object.keys(obj).forEach((key) => {
+    trimmedObj[key] = obj[key].trim();
+  });
+  return trimmedObj;
+};
