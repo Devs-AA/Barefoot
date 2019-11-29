@@ -10,6 +10,14 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false
     },
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    address: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     noOfRooms: {
       type: Sequelize.INTEGER,
       allowNull: false
@@ -31,6 +39,34 @@ module.exports = {
       allowNull: false,
       defaultValue: 0
     },
+    price: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    likes: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0
+    },
+    unlikes: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: 0
+    },
+    addOn: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    available: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
+    images: {
+      type: Sequelize.ARRAY(Sequelize.STRING(2033)),
+      defaultValue: [],
+      allowNull: false
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
@@ -38,6 +74,15 @@ module.exports = {
     updatedAt: {
       allowNull: false,
       type: Sequelize.DATE
+    },
+    deletedAt: {
+      allowNull: true,
+      type: Sequelize.DATE
+    },
+    rating: {
+      allowNull: false,
+      type: Sequelize.FLOAT,
+      defaultValue: 0
     }
   }),
   down: (queryInterface) => queryInterface.dropTable('accommodations')

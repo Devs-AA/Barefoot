@@ -26,8 +26,8 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      email: 'example1@gmail.com',
-      password: '$2a$10$yvbeeJa5YVri0P9R.BLrSOXDJlo09v22tyZz0ZIuJEFEDrJggvgzm',
+      email: 'traveladmin@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
       lastLogin: new Date(),
       createdAt: new Date(),
       updatedAt: new Date()
@@ -83,6 +83,13 @@ module.exports = {
     },
     {
       email: 'barefoot@gmail.com',
+      password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
+      lastLogin: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      email: process.env.REQUESTER_EMAIL,
       password: '$2b$10$zo1cmvfnj.lSwdkGACaAMefFg2J7YuMhu9Tg.9.RXJaKzqUEKeG7a',
       lastLogin: new Date(),
       createdAt: new Date(),

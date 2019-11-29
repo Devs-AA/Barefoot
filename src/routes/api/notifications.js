@@ -40,6 +40,41 @@ router.post('/notifications/notify', async (req, res) => {
 /**
  * @swagger
  *
+ * /notifications:
+ *  post:
+ *    tags:
+ *      - Notification
+ *    summary: Reads all notifications of a user
+ *    security:
+ *       - bearerAuth: []
+ *    requestBody:
+ *      required: false
+ *      content: application/json
+ *    responses:
+ *      '200':
+ *        description: success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/response'
+ *      '401':
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ *      '500':
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/errorResponse'
+ */
+router.patch('/notifications', [authorization, permit([roleIds.requester, roleIds.manager])], notificationController.readAll);
+
+/**
+ * @swagger
+ *
  * /notifications/unsubscribe:
  *  post:
  *    tags:

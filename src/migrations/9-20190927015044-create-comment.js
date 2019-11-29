@@ -18,6 +18,10 @@ module.exports = {
         key: 'id',
       }
     },
+    firstName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     requestId: {
       type: Sequelize.INTEGER,
       allowNull: false,

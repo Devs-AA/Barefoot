@@ -6,6 +6,18 @@ import models from '../models';
 export default class Request {
   /**
    *
+   * @param {obj} body of the request to be created
+   * @description Updates the status of a request for approval or rejection
+   * @returns {obj} returns an upated request
+   * @type {obj} object
+   */
+  static async create(body) {
+    const newRequest = await models.requests.create(body);
+    return newRequest.dataValues;
+  }
+
+  /**
+   *
    * @param {id} id of the request
    * @param {status} status to be updated to
    * @description Updates the status of a request for approval or rejection

@@ -24,7 +24,7 @@ export default class Requests {
     const requesterId = req.user.id;
     const { managerId } = req;
     try {
-      const newRequest = await models.requests.create({
+      const newRequest = await Request.create({
         tripType,
         requesterId,
         departmentId,
@@ -37,7 +37,7 @@ export default class Requests {
         recipientId: managerId,
         requestId: newRequest.id
       };
-      await Notification.createEmailNotification(requesterId, managerId, newNotification);
+      await Notification.createEmailNotification(managerId, newNotification);
 
       response.setSuccess(201, 'Request Created Successfully', newRequest);
       response.send(res);
@@ -59,21 +59,26 @@ export default class Requests {
     const {
       tripType, id
     } = req.request;
+    const requesterId = req.user.id;
     try {
       if (tripType === 'oneWay') {
         const { trip } = req.body;
         trip.requestId = id;
+        trip.requesterId = requesterId;
         await models.trips.create(trip);
       } else if (tripType === 'return') {
         const { initialTrip, returnTrip } = req.body;
         initialTrip.requestId = id;
+        initialTrip.requesterId = requesterId;
         returnTrip.requestId = id;
+        returnTrip.requesterId = requesterId;
         await models.trips.create(initialTrip);
         await models.trips.create(returnTrip);
       } else {
         const { trips } = req.body;
         const createdTrips = trips.map(async (trip) => {
           trip.requestId = id;
+          trip.requesterId = requesterId;
           const createdTrip = await models.trips.create(trip);
           return createdTrip.dataValues;
         });
@@ -118,14 +123,14 @@ export default class Requests {
       const updatedRequest = await Request.updateStatus(id, status);
       response.setSuccess(200, `Request ${updatedRequest.status} Successfully`, updatedRequest);
       response.send(res);
-      const { requesterId, managerId } = updatedRequest;
+      const { requesterId } = updatedRequest;
       const notification = {
         title: `Travel Request ${updatedRequest.status}`,
         recipientId: requesterId,
         requestId: id
       };
       message = status === 'approved' ? approvedRequestMessage : rejectedRequestMessage;
-      await Notification.createEmailNotification(requesterId, managerId, notification, message);
+      await Notification.createEmailNotification(requesterId, notification, message);
       return io.emit(`notify-${requesterId}`);
     } catch (error) {
       error.status = 500;

@@ -1,9 +1,11 @@
 import models from '../../models';
-import { checkIfExistsInDb } from '../../utils/searchDb';
+import { checkIfExistsInDb, findByEmail } from '../../utils/searchDb';
 import {
   validateRequestObj, validateOnewayTrip, validateReturnTrip, validateMuticityTrip, findTripData,
   validateId
 } from '../../helpers/validation/tripValidation';
+import { validateDate, roleIds } from '../../helpers/default';
+import Validation from '../../helpers/validation';
 
 export const validateTripRequest = async (req, res, next) => {
   req.body.tripType = !req.body.tripType ? null : req.body.tripType.trim();
@@ -108,7 +110,7 @@ export const validateTripData = async (req, res, next) => {
     } else if (tripType === 'return') {
       const { initialTrip, returnTrip } = req.body;
       await findTripData(initialTrip, tripType, errors, 'The selected accommodation is not available at the choosen initial trip destination');
-      await findTripData(returnTrip, tripType, errors, 'The selected accommodation is not available at the choosenreturn trip destination');
+      await findTripData(returnTrip, tripType, errors, 'The selected accommodation is not available at the choosen return trip destination');
     } else if (tripType === 'multiCity') {
       const { trips } = req.body;
       const tripsPromise = trips.map(async (trip, index) => {
@@ -154,4 +156,48 @@ export const checkRequest = async (req, res, next) => {
       message: error.message,
     });
   }
+};
+
+export const validateTripStatsInput = (req, res, next) => {
+  const { startDate, endDate, email } = req.body;
+  const errors = {};
+  validateDate(startDate, 'Start', errors);
+  validateDate(endDate, 'End', errors);
+  const isValidEmail = Validation.isValidEmail(email);
+  const isManager = req.user.roleId === roleIds.manager;
+  if (!email && isManager) {
+    errors.email = 'Email Required';
+  } else if (!isValidEmail && isManager) {
+    errors.email = 'Invalid Email';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(400).json({
+      success: false,
+      errors
+    });
+  }
+  next();
+};
+
+export const checkManager = async (req, res, next) => {
+  if (req.user.roleId === roleIds.manager) {
+    const { email } = req.body;
+    const managerDepartmentId = req.user.departmentId;
+    try {
+      const { id, departmentId } = await findByEmail(email);
+      if (managerDepartmentId !== departmentId) {
+        return res.status(403).json({
+          success: false,
+          message: 'The user with the given email is not your direct report'
+        });
+      }
+      req.userId = id;
+    } catch ({ message }) {
+      return res.status(404).json({
+        success: false,
+        message
+      });
+    }
+  }
+  next();
 };

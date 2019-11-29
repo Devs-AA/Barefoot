@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 const { assert } = chai;
 const route = '/api/v1/requests/1/comments';
 
-describe('COMMENTS', () => {
+describe('CREATE COMMENTS', () => {
   let requesterToken, managerToken, randomToken;
   before(async () => {
     const request = {
@@ -56,8 +56,8 @@ describe('COMMENTS', () => {
     }
   });
   after(async () => {
-    await models.comments.destroy({ where: {} });
     await models.requests.destroy({ where: {} });
+    await models.comments.destroy({ where: {} });
     await models.departments.destroy({ where: {} });
     await models.logins.destroy({ where: {} });
     await models.users.destroy({ where: {} });
@@ -107,6 +107,7 @@ describe('COMMENTS', () => {
         .post(route)
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.noMessage);
+
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });
@@ -116,6 +117,7 @@ describe('COMMENTS', () => {
         .post(route)
         .set('authorization', `Bearer ${requesterToken}`)
         .send(comment.invalidQuote);
+
       assert.equal(400, res.status);
       assert.equal(res.body.success, false);
     });

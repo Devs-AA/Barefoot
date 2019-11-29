@@ -43,4 +43,24 @@ export default class Notification {
       throw new Error(error.message);
     }
   }
+
+  /**
+*
+* @param {obj} req request obj
+* @param {obj} res response obj
+* @param {func} next next method
+* @returns {obj} returns an object
+*/
+  static async readAll(req, res, next) {
+    const { id } = req.user;
+    try {
+      const readNotifications = await Service.readAll(id);
+      return res.status(200).json({
+        success: true,
+        data: readNotifications
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

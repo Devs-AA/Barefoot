@@ -4,6 +4,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
   });
   return Role;
 };

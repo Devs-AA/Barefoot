@@ -3,8 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     country: DataTypes.STRING,
     city: DataTypes.STRING,
-    address: DataTypes.STRING
-  }, {});
+    address: DataTypes.STRING,
+    deletedAt: DataTypes.DATE
+  }, {
+    paranoid: true,
+    timestamps: true
+  });
   destination.associate = (models) => {
     destination.hasMany(models.trips, {
       foreignKey: 'destinationLocationId'
