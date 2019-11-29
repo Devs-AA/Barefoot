@@ -172,7 +172,7 @@ export default class Requests {
       const request = await Request.getOneRequest(requestId);
       if (!request) {
         response.setError(404, 'Request does not exist');
-      } else if (request.requesterId !== id) {
+      } else if (request.requesterId !== id && request.managerId !== id) {
         response.setError(401, 'You are not authorised to view this request');
       } else {
         response.setSuccess(200, 'Request Retrieved Successfully', request);
