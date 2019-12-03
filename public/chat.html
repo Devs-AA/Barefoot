@@ -12,6 +12,14 @@
             overflow-y: scroll;
             padding: 1rem;
             min-height: 80vh;
+        };
+        span{
+            top: 0;
+            left: 0;
+            padding: 2px;
+        }
+        p{
+            margin: 0;
         }
     </style>
 </head>
@@ -20,8 +28,12 @@
     <div class="display">
 
     </div>
-    <form action="" id='newForm'>
-        <input type="text" name="message" id="message">
+    <form action="" id='newForm' enctype="multipart/form-data">
+        <div>
+            <p id="typing-mode"></p>
+            <input type="text" name="message" id="message">
+        </div>
+
         <button type="submit">Send</button>
     </form>
 

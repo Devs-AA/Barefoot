@@ -2,7 +2,7 @@ import models from '../models';
 import Response from '../utils/response';
 import Request from '../services/requestService';
 import Notification from '../services/notificationService';
-import { io } from '../index';
+import { io } from '../config/socket';
 
 
 export const response = new Response();

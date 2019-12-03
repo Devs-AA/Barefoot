@@ -5,5 +5,5 @@ export let io = null;
 
 export const socket = (server) => {
   io = socketIo(server);
-  return io;
+  return io.on('connection', (skt) => skt);
 };

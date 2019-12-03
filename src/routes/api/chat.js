@@ -7,7 +7,7 @@ import { roleIds } from '../../helpers/default';
 const router = Router();
 
 
-router.post('/chat', [authorization, permit([roleIds.manager, roleIds.requester,
+router.get('/chat', [authorization, permit([roleIds.manager, roleIds.requester,
   roleIds.travelAdmin, roleIds.superAdmin])],
 Controller.start);
 

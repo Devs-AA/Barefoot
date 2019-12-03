@@ -1,5 +1,6 @@
 import { chats } from '../models';
 
+
 /**
  * @description Chat Class
  */
@@ -12,18 +13,20 @@ class Chat {
   * @returns {obj} response object
   */
   static async start(req, res, next) {
-    const { message } = req.body;
-    const { username, id } = req.user;
-    const chatObj = {
-      username,
-      message,
-      userId: id
+    const { id, username } = req.user;
+    const info = {
+      userId: id,
+      username
     };
     try {
-      await chats.create(chatObj);
-      return res.status(200).json({});
+      res.setHeader('user', info);
+      const allChats = await chats.findAll();
+      return res.status(200).json({
+        success: true,
+        data: allChats,
+        info
+      });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }
