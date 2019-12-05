@@ -5,10 +5,9 @@ const chatUp = () => io.on('connection', (socket) => {
   socket.on('new-user', (info) => {
     socket.user = info;
   });
-  socket.on('disconnect', () => console.log('disconnected2: '));
   socket.on('new-message', async (data) => {
     socket.broadcast.emit('new-chat-message', data);
-    await chats.create(data)
+    await chats.create(data);
   });
   socket.on('keydown', () => {
     socket.broadcast.emit('typing', `${socket.user.username} is typing`);
